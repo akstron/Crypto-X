@@ -1,0 +1,22 @@
+.CoinList {
+  width: 90vw;
+  max-width: 1170px;
+  margin: 5rem auto;
+  display: grid;
+  padding: 1px 1px;
+  gap: 2rem;
+}
+
+@media screen and (min-width: 768px) {
+  .CoinList {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 1px 1px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .CoinList {
+    grid-template-columns: repeat(3, 1fr);
+    padding: 1px 1px;
+  }
+}
