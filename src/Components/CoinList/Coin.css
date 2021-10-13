@@ -3,6 +3,7 @@
   margin: 1px;
   background-color: blanchedalmond;
   border-radius: 1rem;
+  min-height: 250px;
 }
 
 .Coin-heading {
@@ -13,7 +14,7 @@
 
 .btn {
   display: inline-block;
-  background: hsl(205, 78%, 60%);
+  background: rgb(73, 166, 233);
   color: #fff;
   padding: 0.25rem 0.75rem;
   border-radius: 0.5rem;
@@ -42,4 +43,9 @@
 
 .btn-delete:hover {
   background: lightcoral;
+}
+
+.loaderbolt {
+  margin: 5px;
+  padding: 5px;
 }

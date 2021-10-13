@@ -5,7 +5,6 @@ import {cryptoCoins} from '../Data/data'
 
 import'./App.css'
 
-
 function App() {
   return (
     <div className='container'>

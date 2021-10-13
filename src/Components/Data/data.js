@@ -30,28 +30,68 @@ export const cryptoCoins=[{
     }
 ];
 
-export const fetchPriceData=async()=>{
-    const URL="https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=usd&from=1602599808&to=1634113153";
-    const priceDataResponse = await fetch(URL, { mode: 'cors' });
-    const priceDataJSON = await priceDataResponse.json();
-    const timeStampArr = priceDataJSON["prices"].map((price)=>{
-        return convertToDate(price[0]);
-    })
-    var priceDataArr = priceDataJSON["prices"].map((price)=>{
-        return Math.round(price[1]);
-    })
-    const data = {
-        labels: timeStampArr,
-        datasets: [{
-            label: 'Ethereum',
-            backgroundColor: 'rgb(0, 128, 0)',
-            borderColor: 'rgb(0, 128, 0)',
-            data: priceDataArr,
-        }]
-    }
-    console.log(data);
-    return data;
+//SomeTimes Breaks Unable to fetch
+export const fetchPriceData=()=>{
+    const URL="https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=usd&from=1631553575&to=1634113153";
+    const priceDataResponse = fetch(URL)
+        .then((resp)=>{
+            if(resp.status>=200 && resp.status<=299){
+                return resp.json();
+            }
+        }).then((result)=>{
+            const timeStampArr = result["prices"].map((price)=>{
+                return convertToDate(price[0]);
+            })
+            var priceDataArr = result["prices"].map((price)=>{
+                return Math.round(price[1]);
+            })
+            const data = {
+                labels: timeStampArr,
+                datasets: [{
+                    label: 'Ethereum',
+                    backgroundColor: 'rgb(0, 128, 0)',
+                    borderColor: 'rgb(0, 128, 0)',
+                    data: priceDataArr,
+                }]
+            }
+            console.log(data);
+            return data;
+        }).catch((Error)=>{
+        console.log(Error)
+        return;
+    });
+    return priceDataResponse;
 }
+
+export const updatePriceData=(setPriceData,setError)=>{
+        const URL="https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=usd&from=1631553575&to=1634113153";
+        fetch(URL)
+            .then((resp)=>{
+                if(resp.status>=200 && resp.status<=299){
+                    return resp.json();
+                }
+            }).then((result)=>{
+                const timeStampArr = result["prices"].map((price)=>{
+                    return convertToDate(price[0]);
+                })
+                var priceDataArr = result["prices"].map((price)=>{
+                    return Math.round(price[1]);
+                })
+                const data = {
+                    labels: timeStampArr,
+                    datasets: [{
+                        label: 'Ethereum',
+                        backgroundColor: 'rgb(0, 128, 0)',
+                        borderColor: 'rgb(0, 128, 0)',
+                        data: priceDataArr,
+                    }]
+                }
+                setPriceData(data);
+            }).catch((Error)=>{
+                console.log(Error);
+                setError(true);
+            });   
+    }
 
 export const options = {
     plugins: {
