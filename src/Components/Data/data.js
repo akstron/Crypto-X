@@ -30,51 +30,8 @@ export const cryptoCoins=[{
     }
 ];
 
-export const labels = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-];
-
-export const returnPriceData=()=>{
-
-    var priceData = [];
-
-    while(priceData.length < 18){
-        var r = Math.floor(Math.random() * 10000) + 1;
-        priceData.push(r);
-    }
-    
-    const data = {
-        labels: labels,
-        datasets: [{
-            label: 'Ethereum',
-            backgroundColor: 'rgb(0, 128, 0)',
-            borderColor: 'rgb(0, 128, 0)',
-            data: priceData,
-        }]
-    }
-    console.log(data);
-    return data;
-};
-
 export const fetchPriceData=async()=>{
-    const URL="https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=usd&from=1631521153&to=1634113153";
+    const URL="https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=usd&from=1602599808&to=1634113153";
     const priceDataResponse = await fetch(URL, { mode: 'cors' });
     const priceDataJSON = await priceDataResponse.json();
     const timeStampArr = priceDataJSON["prices"].map((price)=>{
