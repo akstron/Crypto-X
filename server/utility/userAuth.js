@@ -127,6 +127,12 @@ module.exports.VerifyUser = async (req, res) => {
     }
 }
 
+/**
+ * 
+ * TODO: Delete password when sending user info from database
+ * 
+ */
+
 module.exports.LogIn = (req, res, next) => {
     console.log('loginRouter')
 
@@ -172,7 +178,7 @@ module.exports.LogOut = (req, res) => {
     });
 }
 
-module.exports.isAuthenticated = (req, res, next) => {
+module.exports.IsAuthenticated = (req, res, next) => {
 
     if (req.isAuthenticated()) {
         return next();
@@ -184,7 +190,7 @@ module.exports.isAuthenticated = (req, res, next) => {
     })
 }
 
-module.exports.isVerified = (req, res, next) => {
+module.exports.IsVerified = (req, res, next) => {
     if(!req.user.isVerified){
         res.status(403).json({
             status: false, 

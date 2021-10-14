@@ -2,7 +2,7 @@ import React from "react";
 import {BrowserRouter,Route,Switch} from 'react-router-dom'
 import'./App.css'
 
-import Header  from "../Header/Header";
+import Header  from "../Header/header";
 import HomePage from "../Pages/HomePage"
 import LoginPage from "../Pages/LoginPage"
 import SignUpPage from "../Pages/SignUpPage"
