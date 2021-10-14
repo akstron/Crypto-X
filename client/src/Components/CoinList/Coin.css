@@ -1,0 +1,53 @@
+.Coin {
+  padding: 5px;
+  margin: 1px;
+  background-color: blanchedalmond;
+  border-radius: 1rem;
+  min-height: 250px;
+  align-items: center;
+  vertical-align: middle;
+}
+
+.Coin-heading {
+  display: flex;
+  background-color: rgb(199, 255, 205);
+  border-radius: 1rem;
+}
+
+.btn {
+  display: inline-block;
+  background: rgb(73, 166, 233);
+  color: #fff;
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.5rem;
+  border-color: transparent;
+  text-transform: capitalize;
+  font-size: 1rem;
+  letter-spacing: 0.1rem;
+  margin-top: 2rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s linear;
+}
+
+.btn-refresh {
+  background: hsl(205, 78%, 60%);
+}
+
+.btn-refresh:hover {
+  background: hsl(205, 86%, 17%);
+}
+
+.btn-delete {
+  background: red;
+}
+
+.btn-delete:hover {
+  background: lightcoral;
+}
+
+.loaderbolt {
+  margin: 5px;
+  padding: 5px;
+}
