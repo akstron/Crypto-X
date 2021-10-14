@@ -1,24 +1,23 @@
-nav {
-  height: 50px;
-  border: 1px solid #dfdfdf;
-  background-color: blanchedalmond;
-  border-radius: 20px;
+.navbar {
+  margin-top: 0px;
+  padding: 2px;
 }
 
-.div-header {
-  width: 80%;
-  height: 100%;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+.navbar-toggler {
+  background-color: rgb(162, 211, 252);
+  border-color: turquoise;
+  color: white;
+  font-size: 20px;
 }
-.div-svg {
-  height: 30px;
-  width: 30px;
-  padding: 0 20px;
+
+.navbar-mainbg {
+  background-color: rgb(30, 153, 253);
+  color: white;
 }
-.active {
-  border-bottom: 2px solid firebrick;
+
+.navbar-mainbg a {
+  background-color: rgb(30, 153, 253);
+  color: white;
+  text-decoration: none;
+  padding: 4px;
 }

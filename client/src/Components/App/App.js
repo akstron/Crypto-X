@@ -11,9 +11,7 @@ import NotFound from "../Pages/NotFound";
 function App() {
   return (
     <BrowserRouter basename='/'>
-      <div className='Header'>
-        <Header/>
-      </div>
+      <Header/>
       <Switch>
         <Route path="/" component={HomePage} exact/>
         <Route path="/login" component={ LoginPage}/>

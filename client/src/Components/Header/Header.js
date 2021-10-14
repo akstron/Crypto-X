@@ -1,25 +1,42 @@
-import React from 'react';
+import React from "react"
 import {NavLink} from 'react-router-dom'
-import {ReactComponent as Logo} from '../../assets/instagram.svg';
-import {ReactComponent as Home} from '../../assets/home.svg';
-import {ReactComponent as Explore} from '../../assets/explore.svg';
-import './header.css';
-const Header = () =>{
-    return(
-        <nav>
-            <div className='div-header'>
-                <div className='div-svg'>
-                    <Logo/>
-                </div>
-                <h2>Baniya Trade</h2>
-                <div style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
-                    <NavLink exact to='/' activeClassName='active'><Home className='div-svg'/></NavLink>
-                    <NavLink exact to='/explore' activeClassName='active'><Explore className='div-svg'/></NavLink>
-                    <button className='button-header'>Log out</button>
-                </div>
+import './Header.css'
+
+const Header = () => {
+    return (
+        <nav className='navbar navbar-expand-lg navbar-mainbg'>
+            <NavLink className="navbar-brand" to='/'> 
+                Baniya-Trade 
+            </NavLink>
+            <button 
+                className="navbar-toggler"
+                type="button" data-toggle="collapse" 
+                data-target="#navbarSupportedContent" 
+                aria-controls="navbarSupportedContent" 
+                aria-expanded="false" 
+                aria-label="Toggle navigation">
+                <i class="fas fa-align-justify"></i>
+            </button>
+            <div className="collapse navbar-collapse" 
+                id="navbarSupportedContent">
+                <ul className='navbar-nav ml-auto'>
+                    <div className="hori-selector">
+                        <div className="left"></div>
+                        <div className="right"></div>
+                    </div>
+                    <li className="nav-item active">
+                        <NavLink to='/'>Home</NavLink>
+                    </li>
+                    <li className="nav-item">
+                        <NavLink to='/signup'>Sign Up</NavLink>
+                    </li>
+                    <li className="nav-item">
+                        <NavLink to='/login'>Login</NavLink>
+                    </li>
+                </ul>
             </div>
         </nav>
     )
 }
 
-export default Header;
+export default Header; 
