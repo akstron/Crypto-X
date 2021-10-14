@@ -1,8 +1,10 @@
 import React,{useState} from 'react'
-import './Login.css'
+import './SignUp.css'
 
-const Login = () =>{
+const SignUp = () =>{
 
+    const [firstName,setFirstName]=useState("");
+    const [lastName,setLastName]=useState("");
     const [emailId,setEmailId]=useState("");
     const [password,setPassword]=useState("");
 
@@ -10,14 +12,32 @@ const Login = () =>{
         event.preventDefault();
         console.log(emailId);
         // Check for valid Email and Password
-        // Add Login Logic
+        // Add SignUp Logic
         // Redirect to Dashboard
     }
 
     return (
         <div>
             <form className='form' onSubmit={handleSubmit}>
-                <h1>Login</h1>
+                <h1>SignUp</h1>
+                <div className="form-control">
+                    <label htmlFor="firstName">FirstName :</label>
+                    <input 
+                        type="firstName" 
+                        id='firstName' 
+                        name='firstName'
+                        value={firstName}
+                        onChange={((event)=>{setFirstName(event.target.value)})}/>
+                </div>
+                <div className="form-control">
+                    <label htmlFor="lastName">LastName :</label>
+                    <input 
+                        type="lastName" 
+                        id='lastName' 
+                        name='lastName'
+                        value={lastName}
+                        onChange={((event)=>{setLastName(event.target.value)})}/>
+                </div>                
                 <div className="form-control">
                     <label htmlFor="email">Email :</label>
                     <input 
@@ -44,4 +64,4 @@ const Login = () =>{
 
 }
 
-export default Login;
+export default SignUp;
