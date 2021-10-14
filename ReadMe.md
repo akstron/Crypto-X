@@ -1,16 +1,16 @@
 ## Technology Stack (Proposed)
 
-React
-NodeJs and Express
-Bootstrap
-MongoDB and Mongoose
-Socket.io
-API (Like Binance,coingecko)
+- React
+- NodeJs and Express
+- Bootstrap
+- MongoDB and Mongoose
+- Socket.io
+- API (Like Binance,coingecko)
 
 ## Features (Proposed)
 
-Login/Signup and allow social logins using Google, etc
-Show different cryptocurrencies detail
+Login/Signup and allow social logins using Google, etc  
+Show different cryptocurrencies detail  
 Add different cryptocurrencies to the watchlist and track value change in real-time
 View price variation on a graph
 Ability to change the scale of the graph to a certain interval. (1 year, 1 month, 1 week, 1 day,1
