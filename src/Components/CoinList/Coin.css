@@ -4,6 +4,8 @@
   background-color: blanchedalmond;
   border-radius: 1rem;
   min-height: 250px;
+  align-items: center;
+  vertical-align: middle;
 }
 
 .Coin-heading {

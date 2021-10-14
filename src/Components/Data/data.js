@@ -69,6 +69,8 @@ export const updatePriceData=(setPriceData,setError)=>{
             .then((resp)=>{
                 if(resp.status>=200 && resp.status<=299){
                     return resp.json();
+                }else{
+                    console.log(resp.Error);
                 }
             }).then((result)=>{
                 const timeStampArr = result["prices"].map((price)=>{
@@ -86,7 +88,9 @@ export const updatePriceData=(setPriceData,setError)=>{
                         data: priceDataArr,
                     }]
                 }
+                console.log(data)
                 setPriceData(data);
+                setError(false);
             }).catch((Error)=>{
                 console.log(Error);
                 setError(true);
@@ -101,7 +105,7 @@ export const options = {
     },
     elements: {
         line: {
-            tension: 0.25
+            tension: 0.2
         }
     },
     scales: {

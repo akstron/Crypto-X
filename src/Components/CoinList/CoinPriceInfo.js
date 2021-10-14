@@ -13,5 +13,4 @@ function CoinPriceInfo({coinPrice,data,options}){
     );
 }
 
-
 export default CoinPriceInfo;

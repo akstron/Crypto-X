@@ -35,12 +35,6 @@ function Coin({Id,ImgURL,CoinTitle,coinDetails,coinPrice,removeCoin}){
                 <BeatLoader size={24} loading color='hsl(205, 78%, 60%)'/>
             </div>
         );
-    }else if(isError){
-        return(
-            <div className="Coin">
-                <h3> Something Went Wrong ! </h3>
-            </div>
-        );
     }
 
     return (
@@ -50,7 +44,15 @@ function Coin({Id,ImgURL,CoinTitle,coinDetails,coinPrice,removeCoin}){
                 <CoinName CoinTitle={CoinTitle}/> 
             </div>
             <CoinDetailInfo coinDetails={coinDetails}/>
-            <CoinPriceInfo coinPrice={coinPrice} data={priceData} options={options}/>
+            {/* setUp Seperate Error for Card fetching error */}
+            {isError ? 
+                <div className="Coin-Error">
+                    {/* convert to img link might not work */}
+                    <img src="https://cdn-icons-png.flaticon.com/512/4864/4864276.png" height='80px' alt="Error !"/>
+                    <h3> Something Went Wrong ! </h3>
+                </div>:
+                <CoinPriceInfo coinPrice={coinPrice} data={priceData} options={options}/>
+            }
             <button type="button" className='btn btn-refresh' onClick={()=>{
                 updatePriceData(setPriceData,setError);
             }}> Refresh </button>
