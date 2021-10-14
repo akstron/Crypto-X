@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const passport = require('passport');
 
 const User = require('../models/User');
 const VerificationCode = require('../models/VerificationCode');
@@ -124,4 +125,71 @@ module.exports.VerifyUser = async (req, res) => {
             error: 'Internal server error'
         })
     }
+}
+
+module.exports.LogIn = (req, res, next) => {
+    console.log('loginRouter')
+
+    passport.authenticate('local', (error, user, info) => {
+        if (error) { 
+            return res.status(500).json({
+                status: false,
+                error: info
+            })
+        }
+
+        if (!user) {
+            return res.json({
+                status: false, 
+                error: info
+            }); 
+        }
+
+        req.logIn(user, (error) => {
+          if (error) {
+               return res.status(500).json({
+                    status: false,
+                    error
+               }); 
+            }
+
+          return res.status(202).json({
+                "user": req.user,
+                status: true,
+                message: 'Logged in successfully'
+          })
+
+        });
+      })(req, res, next);
+
+};
+
+module.exports.LogOut = (req, res) => {
+    req.logOut();
+    res.json({
+        status: true,
+        message: "Successfully logged out!"
+    });
+}
+
+module.exports.isAuthenticated = (req, res, next) => {
+
+    if (req.isAuthenticated()) {
+        return next();
+    }
+
+    res.json({
+        status: false,
+        "error": "Not authorized!"
+    })
+}
+
+module.exports.isVerified = (req, res, next) => {
+    if(!req.user.isVerified){
+        res.status(403).json({
+            status: false, 
+            error: 'Not verified'
+        })
+    }
+    next();
 }
