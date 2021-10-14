@@ -1,3 +1,5 @@
+import axios from 'axios';
+import { copyFileSync } from 'fs';
 import React,{useState} from 'react'
 import './Login.css'
 
@@ -12,6 +14,16 @@ const Login = () =>{
         // Check for valid Email and Password
         // Add Login Logic
         // Redirect to Dashboard
+
+        const route = process.env.REACT_APP_BACKEND + '/login';
+        axios.post(route, {
+            email: emailId, 
+            password
+        }, {withCredentials: true}).then(res => {
+            console.log(res);
+        }).catch(error => {
+            console.log(error);
+        })
     }
 
     return (
