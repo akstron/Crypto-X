@@ -3,17 +3,21 @@ import './SignUp.css'
 
 const SignUp = () =>{
 
-    const [firstName,setFirstName]=useState("");
-    const [lastName,setLastName]=useState("");
-    const [emailId,setEmailId]=useState("");
-    const [password,setPassword]=useState("");
+    const [userDetails,setUserDetails] = useState({
+        firstName:"",lastName:"",emailId:"",password:""});
 
     const handleSubmit=(event)=>{
         event.preventDefault();
-        console.log(emailId);
+        console.log(userDetails);
         // Check for valid Email and Password
         // Add SignUp Logic
         // Redirect to Dashboard
+    }
+
+    const handleChange=(event)=>{
+        var name=event.target.name;
+        var value=event.target.value;
+        setUserDetails({...userDetails,[name]:value});
     }
 
     return (
@@ -26,8 +30,8 @@ const SignUp = () =>{
                         type="firstName" 
                         id='firstName' 
                         name='firstName'
-                        value={firstName}
-                        onChange={((event)=>{setFirstName(event.target.value)})}/>
+                        value={userDetails.firstName}
+                        onChange={handleChange}/>
                 </div>
                 <div className="form-control">
                     <label htmlFor="lastName">LastName :</label>
@@ -35,26 +39,26 @@ const SignUp = () =>{
                         type="lastName" 
                         id='lastName' 
                         name='lastName'
-                        value={lastName}
-                        onChange={((event)=>{setLastName(event.target.value)})}/>
+                        value={userDetails.lastName}
+                        onChange={handleChange}/>
                 </div>                
                 <div className="form-control">
                     <label htmlFor="email">Email :</label>
                     <input 
-                        type="email" 
+                        type="text" 
                         id='email' 
-                        name='email'
-                        value={emailId}
-                        onChange={((event)=>{setEmailId(event.target.value)})}/>
+                        name='emailId'
+                        value={userDetails.emailId}
+                        onChange={handleChange}/>
                 </div>
                 <div className="form-control">
-                    <label htmlFor="password">passsword :</label>
+                    <label htmlFor="password">Passsword :</label>
                     <input 
                         type="password" 
                         id='passsword' 
                         name='password'
-                        value={password}
-                        onChange={((event)=>{setPassword(event.target.value)})}
+                        value={userDetails.password}
+                        onChange={handleChange}
                     />
                 </div>
                 <button type='submit'> Sign up</button>

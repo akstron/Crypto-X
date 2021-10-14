@@ -1,0 +1,17 @@
+.navBar {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.nav {
+  list-style-type: none;
+  width: 80%;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.nav a {
+  text-decoration: none;
+  color: inherit;
+}

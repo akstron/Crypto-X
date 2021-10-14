@@ -1,15 +1,26 @@
 import React from "react";
-// import CoinList from '../CoinList/CoinList';
-// import {cryptoCoins} from '../Data/data'
+import {BrowserRouter,Route,Switch} from 'react-router-dom'
 import'./App.css'
-// import Login from "../Login/Login";
-import SignUp from "../SignUp/SignUp";
+
+import Header  from "../Header/Header";
+import HomePage from "../Pages/HomePage"
+import LoginPage from "../Pages/LoginPage"
+import SignUpPage from "../Pages/SignUpPage"
+import NotFound from "../Pages/NotFound";
+
 function App() {
   return (
-    <div className='container'>
-        {/* <CoinList cryptoCoinsList={cryptoCoins}/> */}
-        <SignUp/>
-    </div>
+    <BrowserRouter basename='/'>
+      <div className='Header'>
+        <Header/>
+      </div>
+      <Switch>
+        <Route path="/" component={HomePage} exact/>
+        <Route path="/login" component={ LoginPage}/>
+        <Route path="/signup" component={SignUpPage }/>
+        <Route component={NotFound }/>
+      </Switch>
+    </BrowserRouter>
   )
 }
 
