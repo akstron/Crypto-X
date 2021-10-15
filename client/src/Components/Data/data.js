@@ -128,5 +128,6 @@ export const options = {
     },
     pointRadius: 0.5,
     pointHoverRadius: 1,
+    responsive: true,
     
 };

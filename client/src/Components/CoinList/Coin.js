@@ -52,6 +52,7 @@ function Coin({Id,ImgURL,CoinTitle,coinDetails,coinPrice,removeCoin}){
                     <h3> Something Went Wrong ! </h3>
                 </div>:
                 <CoinPriceInfo coinPrice={coinPrice} data={priceData} options={options}/>
+                // <div></div>
             }
             <button type="button" className='btn btn-refresh' onClick={()=>{
                 updatePriceData(setPriceData,setError);

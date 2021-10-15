@@ -1,11 +1,11 @@
 import {cryptoCoins} from '../Data/data'
 import Coin from '../CoinList/Coin';
+import './Market.css'
 
 const Market = () => {
     return (
-        <div>
-        <Coin key={cryptoCoins[0].Id} 
-            {...cryptoCoins[0]}/>
+        <div className='market-div'>
+            <Coin {...cryptoCoins[0]}/>
         </div>
     )
 }

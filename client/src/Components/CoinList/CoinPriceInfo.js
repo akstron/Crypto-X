@@ -7,8 +7,10 @@ function CoinPriceInfo({coinPrice,data,options}){
 
     return (
         <>
-        <Chart data={data} options={options}/>
-        <h3 className='Coin-price'>$ {coinPrice} /-</h3>
+        <div>
+            <Chart data={data} options={options}/>
+            <h3 className='Coin-price'>$ {coinPrice} /-</h3>
+        </div>
         </>
     );
 }
