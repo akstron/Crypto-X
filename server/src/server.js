@@ -8,6 +8,7 @@ const app = express();
 require('./config/passport');
 require('./config/connection');
 const userAuthRouter = require('./routers/userAuthRouter');
+const userUtilityRouter = require('./routers/userUtilityRouter');
 
 const sessionStore = require('connect-mongo').create({
     mongoUrl: process.env.MONGO_DB_URI
@@ -51,6 +52,7 @@ app.use(passport.session());
 app.use(express.json());
 
 app.use(userAuthRouter);
+app.use(userUtilityRouter);
 
 const PORT = process.env.PORT || 8000;
 
