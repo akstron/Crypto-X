@@ -1,16 +1,26 @@
 import './MarketOptions.css'
+import {cryptoCoins} from '../Data/data'
 import {Form,Row,Col} from 'react-bootstrap';
 import Button from '@restart/ui/esm/Button';
 
-const MarketOptions = () => {
+const MarketOptions = ({setPlot}) => {
+
+    var cryptoCoinOption={cryptoCoin:cryptoCoins[0],range:604800}; 
 
     const handleSubmit=(event)=>{
         event.preventDefault();
         console.log(event.target.value);
     }
-
     const handleChange=(event)=>{
+        console.log(event.target.name);
         console.log(event.target.value);
+        if(event.target.name==='range'){
+            cryptoCoinOption.range=event.target.value;
+        }
+        if(event.target.name==='cryptoCoin'){
+            cryptoCoinOption.cryptoCoin=cryptoCoins[event.target.value];
+        }
+        setPlot(cryptoCoinOption);
     }
 
     return (
@@ -19,22 +29,22 @@ const MarketOptions = () => {
             <Form className='market-form' onSubmit={handleSubmit}>
                 <Row>
                     <Col>
-                        <label htmlFor='Scale' className=''>Show Data for : </label>
-                        <Form.Select name='Scale' aria-label="Default select example" onChange={handleChange}>
-                            <option value="Hour" defaultValue>Hour</option>
-                            <option value="Day">Day</option>
-                            <option value="Week">Week</option>
-                            <option value="Month">Month</option>
+                        <label htmlFor='range' className=''>Show Data for : </label>
+                        <Form.Select name='range' aria-label="Default select example" onChange={handleChange}>
+                            <option value={3600}  defaultValue>Hour</option>
+                            <option value={86400} >Day</option>
+                            <option value={604800} >Week</option>
+                            <option value={2.628e+6}  >Month</option>
                         </Form.Select>
                     </Col>
                     <Col>
                     {/* Add Multi Select Options */}
-                        <label htmlFor='currency-options' className=''>Choose Currency: </label>
-                        <Form.Select name='currency-options' aria-label="Default select example" onChange={handleChange}>
-                            <option value="BitCoin" defaultValue>BitCoin</option>
-                            <option value="Ethereum">Ethereum</option>
-                            <option value="DogeCoin">DogeCoin</option>
-                            <option value="Polkadot">Polkadot</option>
+                        <label htmlFor='cryptoCoin' className=''>Choose Currency: </label>
+                        <Form.Select name='cryptoCoin' aria-label="Default select example" onChange={handleChange}>
+                            <option value={0} defaultValue>BitCoin</option>
+                            <option value={1} >Ethereum</option>
+                            <option value={2} >DogeCoin</option>
+                            <option value={3} >Polkadot</option>
                         </Form.Select>
                     </Col>
                 </Row>
