@@ -15,7 +15,7 @@ const Header = () => {
                 aria-controls="navbarSupportedContent" 
                 aria-expanded="false" 
                 aria-label="Toggle navigation">
-                <i class="fas fa-align-justify"></i>
+                <i className="fas fa-align-justify"></i>
             </button>
             <div className="collapse navbar-collapse" 
                 id="navbarSupportedContent">
