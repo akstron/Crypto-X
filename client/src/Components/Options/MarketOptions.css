@@ -1,6 +1,6 @@
 .div-market-options {
   background-color: blanchedalmond;
-  width: 90vw;
+  max-width: 90vw;
   max-width: 1170px;
   margin: 10px auto;
   padding: 5px;

@@ -13,7 +13,7 @@ const Market = () => {
 
     return (
         <div className='market-div'>
-            <MarketOptions setPlot={setPlot}/>
+            <MarketOptions setPlot={setPlot} cryptoCoin={cryptoCoin.cryptoCoin}/>
             {/* Add remove Function otherwise will crash */}
             {console.log(cryptoCoin)}
             <Coin {...cryptoCoin.cryptoCoin} range={cryptoCoin.range}/>

@@ -129,7 +129,7 @@ export const options = {
     pointRadius: 0.5,
     pointHoverRadius: 1,
     responsive: true,
-    
+    maintainAspectRatio:true,
 };
 
 export function updatePriceAPI(cryptoCoin,range,currency,setPriceData,setError){

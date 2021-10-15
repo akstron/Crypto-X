@@ -3,9 +3,9 @@ import {cryptoCoins} from '../Data/data'
 import {Form,Row,Col} from 'react-bootstrap';
 import Button from '@restart/ui/esm/Button';
 
-const MarketOptions = ({setPlot}) => {
+const MarketOptions = ({setPlot,cryptoCoin}) => {
 
-    var cryptoCoinOption={cryptoCoin:cryptoCoins[0],range:604800}; 
+    var cryptoCoinOption={cryptoCoin:cryptoCoin,range:604800}; 
 
     const handleSubmit=(event)=>{
         event.preventDefault();
@@ -31,9 +31,9 @@ const MarketOptions = ({setPlot}) => {
                     <Col>
                         <label htmlFor='range' className=''>Show Data for : </label>
                         <Form.Select name='range' aria-label="Default select example" onChange={handleChange}>
-                            <option value={3600}  defaultValue>Hour</option>
+                            <option value={3600}  >Hour</option>
                             <option value={86400} >Day</option>
-                            <option value={604800} >Week</option>
+                            <option value={604800} defaultValue selected>Week</option>
                             <option value={2.628e+6}  >Month</option>
                         </Form.Select>
                     </Col>
@@ -47,9 +47,9 @@ const MarketOptions = ({setPlot}) => {
                             <option value={3} >Polkadot</option>
                         </Form.Select>
                     </Col>
-                </Row>
-                <Row>
-                    <Button className='btn' type='submit'>Search</Button>
+                    <Col>
+                        <Button className='btn' type='submit'>Search</Button>
+                    </Col>
                 </Row>
             </Form>
             
