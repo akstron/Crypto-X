@@ -1,8 +1,13 @@
+/**
+ * Middlewares related to authentication 
+ */
+
 const nodemailer = require('nodemailer');
 const passport = require('passport');
 
 const User = require('../models/User');
 const VerificationCode = require('../models/VerificationCode');
+const Wallet = require('../models/Wallet');
 
 /* Utility function for checking mail in database */
 const isEmailAvailable = async (email) => {
@@ -41,7 +46,7 @@ const sendVerificationCode = async (email, code) => {
  */
 
 module.exports.SignUp = async (req, res) => {
-    const {email, password} = req.body;
+    const {email, password, firstName, lastName} = req.body;
 
     console.log(req.body);
     
@@ -54,19 +59,33 @@ module.exports.SignUp = async (req, res) => {
             });
         }
 
+        /* Create wallet, user and verification code in database */
+
+        const wallet = new Wallet({
+            coins: {
+                bitcoin: 0
+            }
+        });
+
         const user = new User({
             email,
-            password
+            password,
+            firstName, 
+            lastName,
+            wallet: wallet._id,
+            watchList: []
         });
+
 
         const vc = new VerificationCode({
             accountId: user._id
         })
 
         
-        sendVerificationCode(email, vc.verificationCode);
+        await sendVerificationCode(email, vc.verificationCode);
 
         await vc.save();
+        await wallet.save();
         await user.save();
 
         return res.json({
@@ -111,6 +130,7 @@ module.exports.VerifyUser = async (req, res) => {
         vcUser.isVerified = true;
         await vcUser.save();
     
+        /* Delete verification code after verifying */
         await VerificationCode.findByIdAndDelete(vc._id);
 
         res.json({
@@ -184,7 +204,7 @@ module.exports.IsAuthenticated = (req, res, next) => {
         return next();
     }
 
-    res.json({
+    res.status(401).json({
         status: false,
         "error": "Not authorized!"
     })

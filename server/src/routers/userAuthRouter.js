@@ -1,3 +1,7 @@
+/**
+ * Router for authentication related work for user
+ */
+
 const express = require('express');
 const router = express.Router();
 const {SignUp, VerifyUser, LogIn, LogOut, IsAuthenticated, IsVerified} = require('../utility/userAuth');
