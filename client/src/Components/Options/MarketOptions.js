@@ -28,6 +28,7 @@ const MarketOptions = () => {
                         </Form.Select>
                     </Col>
                     <Col>
+                    {/* Add Multi Select Options */}
                         <label htmlFor='currency-options' className=''>Choose Currency: </label>
                         <Form.Select name='currency-options' aria-label="Default select example" onChange={handleChange}>
                             <option value="BitCoin" defaultValue>BitCoin</option>
