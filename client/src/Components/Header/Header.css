@@ -21,3 +21,8 @@
   text-decoration: none;
   padding: 4px;
 }
+
+.ml-auto {
+  left: auto !important;
+  right: 0px;
+}

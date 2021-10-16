@@ -5,6 +5,12 @@ object-assign
 */
 
 /*!
+  Copyright (c) 2018 Jed Watson.
+  Licensed under the MIT License (MIT), see
+  http://jedwatson.github.io/classnames
+*/
+
+/*!
  * Chart.js v3.5.1
  * https://www.chartjs.org
  * (c) 2021 Chart.js Contributors

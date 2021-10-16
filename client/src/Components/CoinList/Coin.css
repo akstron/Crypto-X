@@ -1,11 +1,12 @@
 .Coin {
   padding: 5px;
-  margin: 1px;
+  margin: 1px auto;
   background-color: blanchedalmond;
   border-radius: 1rem;
   min-height: 250px;
   align-items: center;
   vertical-align: middle;
+  max-width: 970px;
 }
 
 .Coin-heading {

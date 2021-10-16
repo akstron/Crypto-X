@@ -1,7 +1,12 @@
 import axios from 'axios';
 // import { copyFileSync } from 'fs';
 import React,{useState} from 'react'
+import {GoogleLogin} from 'react-google-login'
 import './Login.css'
+
+const responseGoogle=(response)=>{
+    console.log(response);
+}
 
 const Login = () =>{
 
@@ -53,7 +58,7 @@ const Login = () =>{
                         onChange={((event)=>{setPassword(event.target.value)})}
                     />
                 </div>
-                <button type='submit'> Sign up</button>
+                <button type='submit'> Login </button>
             </form>
             <button type='button' onClick={toggleGAuth}> Google</button>
             {GAuth ? (
@@ -64,6 +69,7 @@ const Login = () =>{
                 <></>
             )}
         </div>
+        //TODO :: Add Already have account ? Sign Up
     );
 
 }
