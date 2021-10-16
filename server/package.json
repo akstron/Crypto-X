@@ -23,7 +23,12 @@
     "passport": "^0.5.0",
     "passport-local": "^1.0.0",
     "uuid": "^8.3.2",
-    "validator": "^13.6.0"
+    "validator": "^13.6.0",
+    "binance": "^2.0.14",
+    "coingecko-api": "^1.0.10",
+    "node-binance-api": "^0.13.0",
+    "redstone-api": "^0.4.6",
+    "socket.io": "^4.2.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.13"
