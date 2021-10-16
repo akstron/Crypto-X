@@ -10,6 +10,21 @@ require('./config/connection');
 const userAuthRouter = require('./routers/userAuthRouter');
 const userUtilityRouter = require('./routers/userUtilityRouter');
 
+
+const path = require('path');
+const http = require('http');
+const socketio = require('socket.io');
+const server = http.createServer(app);
+const io = socketio(server);
+
+const currentData = require('./utils/currenData');
+const fetchCryptoDataRouter = require('./routers/fetchCryptoDataRouter');
+const currentPrice = require('./utils/currentPrice');
+
+const publicDirectoryPath = path.join(__dirname, './public');
+
+const PORT = process.env.PORT || 8000;
+
 const sessionStore = require('connect-mongo').create({
     mongoUrl: process.env.MONGO_DB_URI
 });
@@ -39,7 +54,6 @@ const sessionOptions = {
   }
 }
 
-
 app.use(cors(corsOptions));
 app.use(session(sessionOptions));
 
@@ -54,8 +68,33 @@ app.use(express.json());
 app.use(userAuthRouter);
 app.use(userUtilityRouter);
 
-const PORT = process.env.PORT || 8000;
+app.use(express.static(publicDirectoryPath));
 
-app.listen(PORT, () => {
-    console.log(`Server is running at port ${PORT}`);
-});
+
+// when any client gets connected with server
+io.on('connection', (socket) =>{
+  console.log('New websocket connection');
+
+  // emitting current data of all coins
+  currentData((market)=>{
+    socket.emit('currentData', market);
+  })
+
+})
+
+app.use(fetchCryptoDataRouter);
+
+/*******************
+getting current price at a particular time of a particular coin
+*******************/
+
+/*currentPrice('bitcoin', (error, response) => {
+  if(error){
+    return console.log(error);
+  }
+  return console.log(response);
+});*/
+
+server.listen(PORT, () => {
+  console.log(`Server is running at port ${PORT}`);
+})
