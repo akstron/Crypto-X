@@ -1,0 +1,30 @@
+.div-market-options {
+  background-color: blanchedalmond;
+  max-width: 90vw;
+  max-width: 1170px;
+  margin: 10px auto;
+  padding: 5px;
+  border-radius: 25px;
+  text-align: center;
+}
+
+.market-form {
+  font-size: larger;
+  padding: 2px;
+  height: fit-content;
+  width: fit-content;
+  margin: 2px auto;
+}
+
+label {
+  width: max-content;
+}
+
+.form-select {
+  height: fit-content;
+}
+
+.btn {
+  width: fit-content;
+  margin: 5px auto;
+}

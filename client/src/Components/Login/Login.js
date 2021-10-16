@@ -1,17 +1,38 @@
+import axios from 'axios';
+// import { copyFileSync } from 'fs';
 import React,{useState} from 'react'
+import {GoogleLogin} from 'react-google-login'
 import './Login.css'
+
+const responseGoogle=(response)=>{
+    console.log(response);
+}
 
 const Login = () =>{
 
     const [emailId,setEmailId]=useState("");
     const [password,setPassword]=useState("");
+    const [GAuth, setGAuth] = useState(false);
 
+    const toggleGAuth = () => {
+        setGAuth(!GAuth);
+    }
     const handleSubmit=(event)=>{
         event.preventDefault();
         console.log(emailId);
         // Check for valid Email and Password
         // Add Login Logic
         // Redirect to Dashboard
+
+        const route = process.env.REACT_APP_BACKEND + '/login';
+        axios.post(route, {
+            email: emailId, 
+            password
+        }, {withCredentials: true}).then(res => {
+            console.log(res);
+        }).catch(error => {
+            console.log(error);
+        })
     }
 
     return (
@@ -37,9 +58,18 @@ const Login = () =>{
                         onChange={((event)=>{setPassword(event.target.value)})}
                     />
                 </div>
-                <button type='submit'> Sign up</button>
+                <button type='submit'> Login </button>
             </form>
+            <button type='button' onClick={toggleGAuth}> Google</button>
+            {GAuth ? (
+                <div className="hidden">
+                {window.location.href=process.env.REACT_APP_BACKEND + '/login/google'}
+                </div>
+            ):(
+                <></>
+            )}
         </div>
+        //TODO :: Add Already have account ? Sign Up
     );
 
 }

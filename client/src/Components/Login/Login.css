@@ -86,3 +86,7 @@ Global Styles
   border-radius: var(--radius);
   cursor: pointer;
 }
+
+.hidden {
+  display: none;
+}

@@ -5,29 +5,29 @@ import CoinDetailInfo from './CoinDetailInfo';
 import CoinPriceInfo from './CoinPriceInfo';
 
 import './Coin.css'
-import {updatePriceData,options, fetchPriceData} from '../Data/data'
+import {updatePriceAPI,options, fetchPriceAPI} from '../Data/data'
 import {BeatLoader} from 'react-spinners'
 
-function Coin({Id,ImgURL,CoinTitle,coinDetails,coinPrice,removeCoin}){
+function Coin({Id,ImgURL,CoinTitle,coinDetails,coinPrice,removeCoin,range=604800}){
 
     const [isLoading,setLoading]=useState(true); 
-    const [priceData,setPriceData]=useState(fetchPriceData); 
+    const [priceData,setPriceData]=useState(fetchPriceAPI(CoinTitle,range,'usd')); 
     const [isError,setError]=useState(false); 
 
-    const getPriceData = async () => {
-        const priceData = updatePriceData(setPriceData,setError);
+    const getPriceData = async (CoinTitle,range) => {
+        const priceData = updatePriceAPI(CoinTitle,range,'usd',setPriceData,setError);
         setPriceData(priceData);
     }
 
     useEffect(()=>{
-        getPriceData()
+        getPriceData(CoinTitle,range)
             .then(()=>{
                 setLoading(false);
             }).catch((error)=>{
                 console.log(error)
                 setError(true);
             });
-    },[]);
+    },[CoinTitle,range]);
 
     if(isLoading){
         return(
@@ -52,9 +52,10 @@ function Coin({Id,ImgURL,CoinTitle,coinDetails,coinPrice,removeCoin}){
                     <h3> Something Went Wrong ! </h3>
                 </div>:
                 <CoinPriceInfo coinPrice={coinPrice} data={priceData} options={options}/>
+                // <div></div>
             }
             <button type="button" className='btn btn-refresh' onClick={()=>{
-                updatePriceData(setPriceData,setError);
+                updatePriceAPI(CoinTitle,range,'usd',setPriceData,setError);
             }}> Refresh </button>
             <button type="button" className='btn btn-delete' onClick={()=>{
                 removeCoin(Id);
