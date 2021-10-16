@@ -1,0 +1,15 @@
+.profile-container {
+  margin: 1rem auto;
+}
+
+.profile-container h2 {
+  text-align: center;
+  margin: 0rem auto;
+  text-align: center;
+  background-color: rgb(199, 255, 205);
+  border-radius: 1rem;
+}
+
+.form {
+  text-align: center;
+}

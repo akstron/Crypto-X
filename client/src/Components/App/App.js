@@ -13,6 +13,7 @@ import ValindationPage from "../Pages/ValindationPage";
 
 function App() {
   //Set/Fetch User Here ->
+  //Better to store in local Storage
   const [User,setUser]=useState({uId:21505341,uName:'Aayush',emailId:'aayushshandilya80@gmail.com'});
   console.log(User)
 
@@ -23,7 +24,7 @@ function App() {
         <Route path="/" component={HomePage} exact/>
         <Route path="/Market" component={Market}/>
         {/* Protected Route */}
-        <Route path="/Profile">{(User!==undefined)?(<ProfilePage User={User}/>):(<Redirect to='/login'/>)}</Route>
+        <Route path="/Profile">{(User!==undefined)?(<ProfilePage {...User}/>):(<Redirect to='/login'/>)}</Route>
         <Route path="/login" component={ LoginPage} setUser={setUser}/>
         <Route path="/signup" component={SignUpPage} setUser={setUser}/>
         <Route path="/validation/:emailId" component={ValindationPage}/>
