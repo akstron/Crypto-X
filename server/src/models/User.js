@@ -67,6 +67,12 @@ const userSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         require: true,
         ref: 'Wallet'
+    }, 
+
+    /* Social login ids */
+
+    googleId: {
+        type: String
     }
 }, 
 {
