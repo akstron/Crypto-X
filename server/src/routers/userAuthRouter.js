@@ -12,13 +12,13 @@ router.post('/verifyUser', VerifyUser);
 router.post('/login', LogIn);
 router.post('/logout', IsAuthenticated, LogOut);
 router.get('/login/google', passport.authenticate('google', {scope: ['profile', 'email']}));
-router.get('/loggedIn', passport.authenticate('google', {failureRedirect: '/login'}), 
-(req, res) => {
-    console.log(req.body);
-    res.json({
-        status: true, 
-        message: 'Logged in successfully'
-    });
-});
+// router.get('/loggedIn', passport.authenticate('google', {failureRedirect: '/login'}), 
+// (req, res) => {
+//     console.log(req.body);
+//     res.json({
+//         status: true, 
+//         message: 'Logged in successfully'
+//     });
+// });
 
 module.exports = router;
