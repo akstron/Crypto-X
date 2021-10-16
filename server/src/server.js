@@ -17,7 +17,7 @@ const socketio = require('socket.io');
 const server = http.createServer(app);
 const io = socketio(server);
 
-const currentData = require('./utils/CurrenData');
+const currentData = require('./utils/currenData');
 const fetchCryptoDataRouter = require('./routers/fetchCryptoDataRouter');
 const currentPrice = require('./utils/currentPrice');
 
