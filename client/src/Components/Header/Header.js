@@ -2,10 +2,10 @@ import React from "react"
 import {NavLink} from 'react-router-dom'
 import './Header.css'
 
-const Header = () => {
-    const User=null;
+const Header = ({User}) => {
+    // const User=null;
     // const User='Aayush';
-
+    console.log(User)
     return (
         <nav className='navbar navbar-expand-lg navbar-mainbg'>
             <NavLink className="navbar-brand" to='/'> 
@@ -29,7 +29,7 @@ const Header = () => {
                     <li className="nav-item">
                         <NavLink to='/Market'>Market</NavLink>
                     </li>
-                    {User?(
+                    {(User!==undefined)?(
                         <>
                             <li className="nav-item">
                                 <NavLink to='/'>Hi  {User} ! </NavLink>
