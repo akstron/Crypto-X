@@ -198,6 +198,13 @@ module.exports.LogOut = (req, res) => {
     });
 }
 
+module.exports.GetUser = (req, res) => {
+    res.json({
+        status: true,
+        user: req.user
+    });
+}
+
 module.exports.IsAuthenticated = (req, res, next) => {
 
     if (req.isAuthenticated()) {
