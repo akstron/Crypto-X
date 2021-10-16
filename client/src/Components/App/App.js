@@ -1,4 +1,4 @@
-// import React,{useState} from "react";
+import React,{useState} from "react";
 import {BrowserRouter,Route,Switch,Redirect} from 'react-router-dom'
 import'./App.css'
 
@@ -12,20 +12,20 @@ import NotFound from "../Pages/NotFound";
 import ValindationPage from "../Pages/ValindationPage";
 
 function App() {
-  const logedIn=false;
-  // const [logedIn,setIsLogedIn]=useState(false);
-  // setIsLogedIn(false);
+  //Set/Fetch User Here ->
+  const [User,setUser]=useState({uId:21505341,uName:'Aayush',emailId:'aayushshandilya80@gmail.com'});
+  console.log(User)
 
   return (
     <BrowserRouter basename='/'>
-      <Header User='aayush'/>
+      <Header {...User} setUser={setUser}/>
       <Switch>
         <Route path="/" component={HomePage} exact/>
         <Route path="/Market" component={Market}/>
         {/* Protected Route */}
-        <Route path="/Profile">{(logedIn?(<ProfilePage/>):(<Redirect to='/login'/>))}</Route>
-        <Route path="/login" component={ LoginPage}/>
-        <Route path="/signup" component={SignUpPage }/>
+        <Route path="/Profile">{(User!==undefined)?(<ProfilePage User={User}/>):(<Redirect to='/login'/>)}</Route>
+        <Route path="/login" component={ LoginPage} setUser={setUser}/>
+        <Route path="/signup" component={SignUpPage} setUser={setUser}/>
         <Route path="/validation/:emailId" component={ValindationPage}/>
         <Route component={NotFound }/>
       </Switch>

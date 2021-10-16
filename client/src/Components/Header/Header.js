@@ -2,10 +2,15 @@ import React from "react"
 import {NavLink} from 'react-router-dom'
 import './Header.css'
 
-const Header = ({User}) => {
+const Header = ({uId,uName,emailId,setUser}) => {
     // const User=null;
     // const User='Aayush';
-    console.log(User)
+
+    const logOut=()=>{
+        setUser(null);
+    }
+
+    console.log(uId)
     return (
         <nav className='navbar navbar-expand-lg navbar-mainbg'>
             <NavLink className="navbar-brand" to='/'> 
@@ -29,13 +34,13 @@ const Header = ({User}) => {
                     <li className="nav-item">
                         <NavLink to='/Market'>Market</NavLink>
                     </li>
-                    {(User!==undefined)?(
+                    {(uId!==undefined)?(
                         <>
                             <li className="nav-item">
-                                <NavLink to='/'>Hi  {User} ! </NavLink>
+                                <NavLink to='/Profile'>Hi  {uName} ! </NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink to='/'>LogOut</NavLink>
+                                <NavLink to='/' onClick={logOut}>LogOut</NavLink>
                             </li>
                         </>
                     ):(
