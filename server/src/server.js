@@ -54,7 +54,6 @@ const sessionOptions = {
   }
 }
 
-
 app.use(cors(corsOptions));
 app.use(session(sessionOptions));
 

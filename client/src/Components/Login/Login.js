@@ -1,12 +1,7 @@
 import axios from 'axios';
 // import { copyFileSync } from 'fs';
 import React,{useState} from 'react'
-import {GoogleLogin} from 'react-google-login'
 import './Login.css'
-
-const responseGoogle=(response)=>{
-    console.log(response);
-}
 
 const Login = () =>{
 
