@@ -12,7 +12,11 @@ const Login = () =>{
 
     const [emailId,setEmailId]=useState("");
     const [password,setPassword]=useState("");
+    const [GAuth, setGAuth] = useState(false);
 
+    const toggleGAuth = () => {
+        setGAuth(!GAuth);
+    }
     const handleSubmit=(event)=>{
         event.preventDefault();
         console.log(emailId);
@@ -56,11 +60,14 @@ const Login = () =>{
                 </div>
                 <button type='submit'> Login </button>
             </form>
-            <GoogleLogin 
-                clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID} 
-                onSuccess={responseGoogle}
-                onFailure={responseGoogle}/>
-            
+            <button type='button' onClick={toggleGAuth}> Google</button>
+            {GAuth ? (
+                <div className="hidden">
+                {window.location.href=process.env.REACT_APP_BACKEND + '/login/google'}
+                </div>
+            ):(
+                <></>
+            )}
         </div>
         //TODO :: Add Already have account ? Sign Up
     );
