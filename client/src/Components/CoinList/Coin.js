@@ -45,6 +45,7 @@ function Coin({Id,ImgURL,CoinTitle,coinDetails,coinPrice,removeCoin,range=604800
             </div>
             <CoinDetailInfo coinDetails={coinDetails}/>
             {/* setUp Seperate Error for Card fetching error */}
+            <div className="Coin-price">
             {isError ? 
                 <div className="Coin-Error">
                     {/* convert to img link might not work */}
@@ -54,6 +55,8 @@ function Coin({Id,ImgURL,CoinTitle,coinDetails,coinPrice,removeCoin,range=604800
                 <CoinPriceInfo coinPrice={coinPrice} data={priceData} options={options}/>
                 // <div></div>
             }
+            </div>
+
             <button type="button" className='btn btn-refresh' onClick={()=>{
                 updatePriceAPI(CoinTitle,range,'usd',setPriceData,setError);
             }}> Refresh </button>

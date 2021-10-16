@@ -1,5 +1,5 @@
 .Coin {
-  padding: 5px;
+  /* padding: 5px; */
   margin: 1px auto;
   background-color: blanchedalmond;
   border-radius: 1rem;
@@ -12,7 +12,14 @@
 .Coin-heading {
   display: flex;
   background-color: rgb(199, 255, 205);
-  border-radius: 1rem;
+  border-radius: 1rem 1rem 0rem 0rem;
+  margin: 2px 0px;
+  padding: 2px;
+}
+
+.Coin-price {
+  margin: 3px;
+  padding: 5px;
 }
 
 .btn {

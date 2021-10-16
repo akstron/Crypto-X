@@ -3,9 +3,16 @@
   max-width: 90vw;
   max-width: 1170px;
   margin: 10px auto;
-  padding: 5px;
   border-radius: 25px;
   text-align: center;
+}
+
+.div-market-options h3 {
+  text-align: center;
+  margin: 0rem auto;
+  text-align: center;
+  background-color: rgb(199, 255, 205);
+  border-radius: 1rem 1rem 0rem 0rem;
 }
 
 .market-form {
