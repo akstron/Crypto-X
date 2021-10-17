@@ -67,6 +67,7 @@ Global Styles
   border-color: transparent;
   border-radius: var(--radius);
   padding: 0.25rem 0.5rem;
+  width: inherit;
 }
 .form-control {
   margin: 0.5rem 0;
