@@ -1,8 +1,9 @@
 import React,{useState} from 'react';
 import axios from 'axios';
 import './SignUp.css'
+import { useHistory } from "react-router-dom";
 
-const SignUp = () =>{
+const SignUp = ({setUser}) =>{
 
     /*
         emailId -> email
@@ -10,9 +11,14 @@ const SignUp = () =>{
     const [userDetails,setUserDetails] = useState({
         firstName:"",lastName:"",email:"",password:""});
 
+    const history = useHistory();
+
+    const loginToHome=()=>{
+        history.push('/')
+    }
+
     const handleSubmit=(event)=>{
-        event.preventDefault();
-        console.log(userDetails);
+        event.preventDefault();        
 
         /**
          * TODO: Fill firsName and lastName in backend
@@ -21,6 +27,11 @@ const SignUp = () =>{
         const route = process.env.REACT_APP_BACKEND + '/signup';
         axios.post(route, userDetails, {withCredentials: true}).then(res => {
             console.log(res);
+            if(res['data']['status']){
+                setUser({firstName:userDetails.firstName,lastName:userDetails.lastName,emailId:userDetails.email});
+                console.log({firstName:userDetails.firstName,lastName:userDetails.lastName,emailId:userDetails.email});
+                loginToHome();
+            }
         }).catch(error => {
             console.log(error);
         })

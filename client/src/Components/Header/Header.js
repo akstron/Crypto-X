@@ -34,7 +34,7 @@ const Header = ({uId,uName,emailId,setUser}) => {
                     <li className="nav-item">
                         <NavLink to='/Market'>Market</NavLink>
                     </li>
-                    {(uId!==undefined)?(
+                    {(emailId!==undefined)?(
                         <>
                             <li className="nav-item">
                                 <NavLink to='/Profile'>Hi  {uName} ! </NavLink>

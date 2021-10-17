@@ -14,8 +14,7 @@ import AddMoney from "../Pages/AddMoney";
 function App() {
   //Set/Fetch User Here ->
   //Better to store in local Storage
-  const [User,setUser]=useState({uId:21505341,uName:'Aayush',emailId:'aayushshandilya80@gmail.com'});
-  console.log(User)
+  const [User,setUser]=useState();
 
   return (
     <BrowserRouter basename='/'>
@@ -26,8 +25,9 @@ function App() {
         {/* Protected Route */}
         <Route path="/Profile">{(User!==undefined)?(<ProfilePage {...User}/>):(<Redirect to='/login'/>)}</Route>
         <Route path="/addMoney">{(User!==undefined)?(<AddMoney {...User}/>):(<Redirect to='/login'/>)}</Route>
-        <Route path="/login" component={ LoginPage} setUser={setUser}/>
-        <Route path="/signup" component={SignUpPage} setUser={setUser}/>
+        <Route path="/login" component={()=><LoginPage setUser={setUser}/>}/>
+        {console.log(setUser)}        
+        <Route path="/signup" component={()=><SignUpPage setUser={setUser}/>} />
         <Route path="/validation/:emailId" component={ValindationPage}/>
         <Route component={NotFound }/>
       </Switch>
