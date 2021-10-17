@@ -11,7 +11,7 @@ const ProfilePage = ({uName,emailId}) => {
     return (
         <div className='profile-container'>
             <Row>
-                <Col xs={6}>
+                <Col sm={7} className='user-profile'>
                     <h2 className='form profile-heading'>User Profile</h2>
                     <Form className="profile-form form">  
                         {/* <p>{Message}</p> */}
@@ -37,7 +37,7 @@ const ProfilePage = ({uName,emailId}) => {
                         <Button variant="primary" onClick={UpdateProfileHandler}>Update Profile</Button>
                     </Form>
                 </Col>
-                <Col>
+                <Col sm={5}>
                 <   Wallet/>
                 </Col>
             </Row>
