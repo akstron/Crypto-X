@@ -63,7 +63,7 @@ module.exports.SignUp = async (req, res) => {
 
         const wallet = new Wallet({
             coins: {
-                bitcoin: 0
+                bitcoin: []
             }
         });
 
@@ -219,7 +219,7 @@ module.exports.IsAuthenticated = (req, res, next) => {
 
 module.exports.IsVerified = (req, res, next) => {
     if(!req.user.isVerified){
-        res.status(403).json({
+        return res.status(403).json({
             status: false, 
             error: 'Not verified'
         })
