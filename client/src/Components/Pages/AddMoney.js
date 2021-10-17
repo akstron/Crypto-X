@@ -48,7 +48,7 @@ const AddMoney = () => {
           <h2> Pay with Card</h2>
       </div>
       <div className="card-body card-title">
-            <input type="text" placeHolder="Enter amount"value={amount} type="text" onChange={getAmount} id="amount" />
+            <input type="text" placeHolder="Enter amount" value={amount} onChange={getAmount} id="amount" />
       
 
         <StripeCheckout
