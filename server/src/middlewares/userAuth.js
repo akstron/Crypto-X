@@ -34,13 +34,12 @@ const sendVerificationCode = async (email, code) => {
         subject: 'Email confirmation',
         html: `OTP = ${code}`
     };
-
-    /** 
-     * TODO: Make this compatible with async await
-    */
-    transport.sendMail(mailOptions, (error, response) => {
-        if(error) throw error;
-        // console.log(response);
+    
+    return new Promise((resolve, reject) => {
+        transport.sendMail(mailOptions, (error, response) => {
+            if(error) throw reject(error);
+            resolve(response);
+        });
     })
 }
 
