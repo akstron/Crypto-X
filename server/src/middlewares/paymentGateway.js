@@ -13,7 +13,6 @@ module.exports.payment = async (req, res) =>{
 
 	const {token, amount} = req.body;
 
-    console.log(req.body);
 	stripe.customers.create({ 
 		email: token.email, 
 		source: token.id, 
@@ -28,7 +27,12 @@ module.exports.payment = async (req, res) =>{
 		}); 
 	}) 
 	.then((result) => { 
-		res.status(200).json(result); // If no error occurs 
+		 // If no error occurs 
+        if(result.status === 'succeeded'){
+            res.status(200).json(result);
+        }else{
+            res.status(400).json(result);
+        }
 	}) 
 	.catch((err) => { 
 		res.status(400).json(err);	
