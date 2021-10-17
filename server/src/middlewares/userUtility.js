@@ -125,7 +125,8 @@ module.exports.Transaction = async (req, res) => {
 
     } catch(e){
 
-        session.abortTransaction();
+        await session.abortTransaction();
+        session.endSession();
         console.log(e);
         res.json({
             status: false,

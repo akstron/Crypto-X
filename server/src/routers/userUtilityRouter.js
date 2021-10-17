@@ -17,6 +17,7 @@ router.post('/edit', IsAuthenticated, IsVerified,
     .withMessage('Password should contain letter, number and special character'),
     validationHandler,
 EditUser);
+
 router.put('/transaction', IsAuthenticated, IsVerified, Transaction);
 
 

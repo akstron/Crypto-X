@@ -4,6 +4,8 @@
 
 const nodemailer = require('nodemailer');
 const passport = require('passport');
+const mongoose = require('mongoose');
+const {v4: idGenerator} = require('uuid');
 
 const User = require('../models/User');
 const VerificationCode = require('../models/VerificationCode');
@@ -33,68 +35,78 @@ const sendVerificationCode = async (email, code) => {
         html: `OTP = ${code}`
     };
 
+    /** 
+     * TODO: Make this compatible with async await
+    */
     transport.sendMail(mailOptions, (error, response) => {
         if(error) throw error;
-        console.log(response);
+        // console.log(response);
     })
 }
-
-/**
- * 
- * TODO: Make signUp process a transaction 
- * 
- */
 
 module.exports.SignUp = async (req, res) => {
     const {email, password, firstName, lastName} = req.body;
 
     console.log(req.body);
+    const session = await mongoose.startSession();
     
     try{
+        session.startTransaction();
         const emailAlreadyExist = await isEmailAvailable(email);
         if(emailAlreadyExist){
+            session.abortTransaction();
+            session.endSession();
             return res.status(409).json({
                 status: false,
                 error: 'Email already registered'
             });
         }
 
-        /* Create wallet, user and verification code in database */
+        /* When creating objects with new in session, automatic _id is not generated */        
 
-        const wallet = new Wallet({
+        const walletId = mongoose.Types.ObjectId();
+
+        await Wallet.create([{
+            _id: walletId,
             coins: {
                 bitcoin: []
             }
-        });
+        }], {session});
 
-        const user = new User({
+        const userId = mongoose.Types.ObjectId();
+
+        const user = await User.create([{
+            _id: userId,
             email,
             password,
             firstName, 
             lastName,
-            wallet: wallet._id,
+            wallet: walletId,
             watchList: []
-        });
+        }], {session});
 
+        // throw new Error('hel');
 
-        const vc = new VerificationCode({
-            accountId: user._id
-        })
-
+        const vc = await VerificationCode.create([{
+            accountId: userId
+        }], {session});
         
-        await sendVerificationCode(email, vc.verificationCode);
+        await sendVerificationCode(email, vc[0].verificationCode);
 
-        await vc.save();
-        await wallet.save();
-        await user.save();
+        await session.commitTransaction();
+        session.endSession();
 
         return res.json({
             status: true,
-        })
+        });
 
     } catch(e){
         /* Catch server errors only */
+        /* Abort transaction in case of error */
+        await session.abortTransaction();
+        session.endSession();
         console.log(e);
+
         res.status(500).json({
             status: false,
             error: 'Internal server error'
@@ -103,24 +115,32 @@ module.exports.SignUp = async (req, res) => {
     
 }
 
-/**
- * TODO: Make VerifyUser as transaction
- */
-
 module.exports.VerifyUser = async (req, res) => {
     const {email, verificationCode} = req.body;
 
+    console.log(req.body);
+
+    const session = await mongoose.startSession();
+
     try{
-        const vc = await VerificationCode.findOne({verificationCode});
+        /* Start transaction */
+        session.startTransaction();
+
+        const vc = await VerificationCode.findOne({verificationCode}).session(session);
         if(!vc) {
+            await session.abortTransaction();
+            session.endSession();
             return res.status(406).json({
                 status: false,
                 error: 'Wrong email or code'
             })
         }
 
-        const vcUser = await User.findById(vc.accountId);
+        const vcUser = await User.findById(vc.accountId).session(session);
         if((!vcUser) || vcUser.email !== email){
+
+            await session.abortTransaction();
+            session.endSession();
             return res.status(406).json({
                 status: false,
                 error: 'Wrong email or code.'
@@ -131,7 +151,10 @@ module.exports.VerifyUser = async (req, res) => {
         await vcUser.save();
     
         /* Delete verification code after verifying */
-        await VerificationCode.findByIdAndDelete(vc._id);
+        await VerificationCode.findByIdAndDelete(vc._id).session(session);
+
+        await session.commitTransaction();
+        session.endSession();
 
         res.json({
             status: true,
@@ -140,7 +163,9 @@ module.exports.VerifyUser = async (req, res) => {
     } catch(e){
 
         console.log(e);
-        res.status(500).json({
+        await session.abortTransaction();
+        session.endSession();
+        return res.status(500).json({
             status: false,
             error: 'Internal server error'
         })
