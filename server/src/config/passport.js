@@ -35,9 +35,11 @@ passport.use(
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: "http://localhost:3000"
+  callbackURL: "http://localhost:8000/login/google/callback"
 },
 function(accessToken, refreshToken, profile, done) {
+    console.log(profile);
+
     User.findOne({googleId: profile.id}).then((user) => {
       if(!user){
         const wallet = new Wallet({
