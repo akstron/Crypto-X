@@ -1,11 +1,33 @@
 import React from "react"
 import {NavLink} from 'react-router-dom'
+import axios from 'axios';
 import './Header.css'
+// import { useHistory } from "react-router-dom";
 
-const Header = ({User}) => {
+const Header = ({uId,firstName,emailId,setUser}) => {
     // const User=null;
     // const User='Aayush';
-    console.log(User)
+    // const history = useHistory();
+
+    // const loginToHome=()=>{
+    //     history.push('/')
+    // }
+    const logOut=async ()=>{
+        const userRoute = process.env.REACT_APP_BACKEND + '/logout';
+        await axios.post(userRoute, {},{withCredentials: true}).then(res => {
+            console.log(res);
+            console.log("Log Out Clicked !");
+            if(res['data']['status']){
+                    setUser(null);
+                    // console.log(user);
+                    // loginToHome();
+                }
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
+    console.log(uId)
     return (
         <nav className='navbar navbar-expand-lg navbar-mainbg'>
             <NavLink className="navbar-brand" to='/'> 
@@ -29,13 +51,13 @@ const Header = ({User}) => {
                     <li className="nav-item">
                         <NavLink to='/Market'>Market</NavLink>
                     </li>
-                    {(User!==undefined)?(
+                    {(emailId!==undefined)?(
                         <>
                             <li className="nav-item">
-                                <NavLink to='/'>Hi  {User} ! </NavLink>
+                                <NavLink to='/Profile'>Hi  {firstName} ! </NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink to='/'>LogOut</NavLink>
+                                <NavLink to='/' onClick={logOut}>LogOut</NavLink>
                             </li>
                         </>
                     ):(

@@ -52,7 +52,6 @@ const MarketOptions = ({setPlot,cryptoCoin}) => {
                     </Col>
                 </Row>
             </Form>
-            
         </div>
     )
 

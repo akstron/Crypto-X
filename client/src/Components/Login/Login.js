@@ -2,8 +2,17 @@ import axios from 'axios';
 // import { copyFileSync } from 'fs';
 import React,{useState} from 'react'
 import './Login.css'
+import { useHistory } from "react-router-dom";
+import {Button} from 'react-bootstrap'
 
-const Login = () =>{
+const Login = ({setUser}) =>{
+
+    const history = useHistory();
+
+    const loginToHome=()=>{
+        history.push('/')
+    }
+
 
     const [emailId,setEmailId]=useState("");
     const [password,setPassword]=useState("");
@@ -25,6 +34,14 @@ const Login = () =>{
             password
         }, {withCredentials: true}).then(res => {
             console.log(res);
+            if(res['data']['status']){
+                const user=({firstName:res['data']['user']['firstName'],
+                            lastName:res['data']['user']['lastName'],
+                            emailId:res['data']['user']['email']});
+                setUser(user)
+                console.log(user);
+                loginToHome();
+            }
         }).catch(error => {
             console.log(error);
         })
@@ -53,9 +70,11 @@ const Login = () =>{
                         onChange={((event)=>{setPassword(event.target.value)})}
                     />
                 </div>
-                <button type='submit'> Login </button>
+                <Button variant="primary" type='submit'> Login </Button>
+                <Button variant="dark" className='google-btn' onClick={toggleGAuth}> Sign in with <img src="https://cdn-icons-png.flaticon.com/512/300/300221.png" alt="G" height='20px'/> </Button>{' '}
+
             </form>
-            <button type='button' onClick={toggleGAuth}> Google</button>
+
             {GAuth ? (
                 <div className="hidden">
                 {window.location.href=process.env.REACT_APP_BACKEND + '/login/google'}

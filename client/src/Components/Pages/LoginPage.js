@@ -1,10 +1,10 @@
 import React from "react";
 import Login from "../Login/Login";
 
-function LoginPage() {
+function LoginPage({setUser}) {
   return (
     <div className='container'>
-        <Login/>
+        <Login setUser={setUser}/>
     </div>
   )
 }

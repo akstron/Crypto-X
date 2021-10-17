@@ -1,0 +1,34 @@
+.profile-container {
+  margin: 1rem auto;
+}
+
+.profile-form {
+  background-color: blanchedalmond !important;
+}
+
+.profile-container .profile-heading {
+  text-align: center;
+  margin: 0rem auto;
+  text-align: center;
+  background-color: rgb(199, 255, 205);
+  border-radius: 1rem 1rem 0rem 0rem;
+}
+
+.form-control input {
+  width: -webkit-fill-available;
+}
+.form {
+  text-align: center;
+}
+
+.profile-img {
+  border-radius: 25rem;
+}
+
+.col-6 {
+  width: fit-content;
+}
+
+#formCategory4 {
+  width: -webkit-fill-available;
+}
