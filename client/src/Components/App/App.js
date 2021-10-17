@@ -13,6 +13,8 @@ import AddMoney from "../Pages/AddMoney";
 import axios from 'axios';
 
 function App() {
+
+  //TODO ::: Handle Error Cases
   //Set/Fetch User Here ->
   //Better to store in local Storage
   const [User,setUser]=useState();
