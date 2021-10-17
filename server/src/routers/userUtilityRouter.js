@@ -4,23 +4,20 @@
 
 const express = require('express');
 const router = express.Router();
-const { EditUser, Transaction } = require('../utility/userUtility'); 
-const { IsAuthenticated, IsVerified } = require('../utility/userAuth');
+const {body} = require('express-validator');
+const { EditUser, Transaction } = require('../middlewares/userUtility'); 
+const { IsAuthenticated, IsVerified } = require('../middlewares/userAuth');
+const { validationHandler } = require('../middlewares/validationHandler');
 
-router.post('/edit', IsAuthenticated, IsVerified, EditUser);
+router.post('/edit', IsAuthenticated, IsVerified, 
+    body('password').optional()
+    .isLength({min: 7}).withMessage('Provide password of atleast length 7')
+    /* Regex for checking password*/
+    .matches( /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{7,}$/)
+    .withMessage('Password should contain letter, number and special character'),
+    validationHandler,
+EditUser);
 router.put('/transaction', IsAuthenticated, IsVerified, Transaction);
-// router.put('/transaction', Transaction);
 
-const func = (cb) => {
-    cb();
-}
-
-router.post('/check', (req, res) => {
-    func(() => {
-        res.json({
-            success: true
-        })
-    });
-});
 
 module.exports = router;

@@ -147,15 +147,7 @@ module.exports.VerifyUser = async (req, res) => {
     }
 }
 
-/**
- * 
- * TODO: Delete password when sending user info from database
- * 
- */
-
 module.exports.LogIn = (req, res, next) => {
-    console.log('loginRouter')
-
     passport.authenticate('local', (error, user, info) => {
         if (error) { 
             return res.status(500).json({

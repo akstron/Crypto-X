@@ -15,7 +15,8 @@ const checkEditPossible = (changes) => {
     'isEligible' in changes || 
     'wallet' in changes || 
     'email' in changes || 
-    '_id' in changes));
+    '_id' in changes || 
+    'googleId' in changes));
 }
 
 module.exports.EditUser = async (req, res) => {
@@ -51,17 +52,6 @@ module.exports.EditUser = async (req, res) => {
         });
     }
 };
-
-// const updateCoins = (coins, updates, mul) => {
-//     for(const [key, value] of Object.entries(updates)){
-//         if(key in coins){
-//             coins[key] += value * mul;
-//         } 
-//         else {
-//             coins[key] = value * mul;
-//         }
-//     }
-// }
 
 const updateBank = (coins, updates) => {
     for(const [key, value] of Object.entries(updates)){

@@ -10,11 +10,9 @@ passport.use(
   /* Default fields are 'username' and 'password' */
   new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
     
-    User.findOne({
-      email: email
-    }).then(user => {
+    User.findByEmail(email).then(user => {
       if (!user) {
-        return done(null, false, { message: 'Wrong email or password.' });
+        return done(null, false, { message: 'Wrong email or password.fsdf' });
       }
 
       bcrypt.compare(password, user.password, (error, isMatch) => {
