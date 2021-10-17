@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useEffect, useState} from "react";
 import {BrowserRouter,Route,Switch,Redirect} from 'react-router-dom'
 import'./App.css'
 import Header  from "../Header/Header";
@@ -10,14 +10,29 @@ import SignUpPage from "../Pages/SignUpPage"
 import NotFound from "../Pages/NotFound";
 import ValindationPage from "../Pages/ValindationPage";
 import AddMoney from "../Pages/AddMoney";
+import axios from 'axios';
+
 function App() {
   //Set/Fetch User Here ->
   //Better to store in local Storage
   const [User,setUser]=useState();
-  const userRoute = process.env.REACT_APP_BACKEND + '/getUser';
-  fetch(userRoute,{
-    credentials: 'include'
-  }).then(res => {console.log(res)});
+  const getUser=()=>{
+    const userRoute = process.env.REACT_APP_BACKEND + '/getUser';
+    axios.get(userRoute, {withCredentials: true}).then(res => {
+      console.log(res);
+      if(res['data']['status']){
+            const user=({firstName:res['data']['user']['firstName'],
+                        lastName:res['data']['user']['lastName'],
+                        emailId:res['data']['user']['email']});
+            setUser(user)
+            console.log(user);
+        }
+    }).catch(error => {
+        console.log(error);
+    })
+  }
+  useEffect(()=>{getUser()},[])
+
   return (
     <BrowserRouter basename='/'>
       <Header {...User} setUser={setUser}/>
