@@ -2,8 +2,16 @@ import axios from 'axios';
 // import { copyFileSync } from 'fs';
 import React,{useState} from 'react'
 import './Login.css'
+import { useHistory } from "react-router-dom";
 
-const Login = () =>{
+const Login = ({setUser}) =>{
+
+    const history = useHistory();
+
+    const loginToHome=()=>{
+        history.push('/')
+    }
+
 
     const [emailId,setEmailId]=useState("");
     const [password,setPassword]=useState("");
@@ -25,6 +33,14 @@ const Login = () =>{
             password
         }, {withCredentials: true}).then(res => {
             console.log(res);
+            if(res['data']['status']){
+                const user=({firstName:res['data']['user']['firstName'],
+                            lastName:res['data']['user']['lastName'],
+                            emailId:res['data']['user']['email']});
+                setUser(user)
+                console.log(user);
+                loginToHome();
+            }
         }).catch(error => {
             console.log(error);
         })
