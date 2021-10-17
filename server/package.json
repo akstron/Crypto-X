@@ -11,6 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "binance": "^2.0.14",
+    "coingecko-api": "^1.0.10",
     "connect-mongo": "^4.6.0",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
@@ -19,17 +21,16 @@
     "express-validator": "^6.13.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.10",
+    "node-binance-api": "^0.13.0",
     "nodemailer": "^6.7.0",
     "passport": "^0.5.0",
     "passport-google-oauth": "^2.0.0",
     "passport-local": "^1.0.0",
-    "uuid": "^8.3.2",
-    "validator": "^13.6.0",
-    "binance": "^2.0.14",
-    "coingecko-api": "^1.0.10",
-    "node-binance-api": "^0.13.0",
     "redstone-api": "^0.4.6",
-    "socket.io": "^4.2.0"
+    "socket.io": "^4.2.0",
+    "stripe": "^8.183.0",
+    "uuid": "^8.3.2",
+    "validator": "^13.6.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.13"
