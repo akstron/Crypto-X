@@ -21,6 +21,8 @@ const currentData = require('./utils/currenData');
 const fetchCryptoDataRouter = require('./routers/fetchCryptoDataRouter');
 const currentPrice = require('./utils/currentPrice');
 
+const paymentGatewayRouter = require('./routers/paymentGateWayRouter');
+
 const publicDirectoryPath = path.join(__dirname, './public');
 
 const PORT = process.env.PORT || 8000;
@@ -83,6 +85,8 @@ io.on('connection', (socket) =>{
 })
 
 app.use(fetchCryptoDataRouter);
+
+app.use(paymentGatewayRouter);
 
 /*******************
 getting current price at a particular time of a particular coin

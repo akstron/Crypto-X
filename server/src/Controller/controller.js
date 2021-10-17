@@ -34,3 +34,5 @@ exports.fetchMarketchartRange = (req, res) => {
       })
     });
   }
+
+  
