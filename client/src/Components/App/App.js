@@ -10,7 +10,7 @@ import LoginPage from "../Pages/LoginPage"
 import SignUpPage from "../Pages/SignUpPage"
 import NotFound from "../Pages/NotFound";
 import ValindationPage from "../Pages/ValindationPage";
-
+import AddMoney from "../Pages/AddMoney";
 function App() {
   //Set/Fetch User Here ->
   //Better to store in local Storage
@@ -25,6 +25,7 @@ function App() {
         <Route path="/Market" component={Market}/>
         {/* Protected Route */}
         <Route path="/Profile">{(User!==undefined)?(<ProfilePage {...User}/>):(<Redirect to='/login'/>)}</Route>
+        <Route path="/addMoney">{(User!==undefined)?(<AddMoney {...User}/>):(<Redirect to='/login'/>)}</Route>
         <Route path="/login" component={ LoginPage} setUser={setUser}/>
         <Route path="/signup" component={SignUpPage} setUser={setUser}/>
         <Route path="/validation/:emailId" component={ValindationPage}/>

@@ -6,7 +6,7 @@
   background-color: blanchedalmond !important;
 }
 
-.profile-container h2 {
+.profile-container .profile-heading {
   text-align: center;
   margin: 0rem auto;
   text-align: center;
@@ -14,6 +14,9 @@
   border-radius: 1rem 1rem 0rem 0rem;
 }
 
+.form-control input {
+  width: -webkit-fill-available;
+}
 .form {
   text-align: center;
 }

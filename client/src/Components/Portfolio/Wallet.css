@@ -1,4 +1,32 @@
 .wallet-div {
   margin: auto;
   margin-right: 7px;
+  margin: 1px auto;
+  background-color: blanchedalmond;
+  border-radius: 1rem;
+  min-height: 250px;
+  align-items: center;
+  vertical-align: middle;
+  width: fit-content;
+}
+
+.wallet-heading {
+  display: flex;
+  gap: 2rem;
+  background-color: rgb(199, 255, 205);
+  border-radius: 1rem 1rem 0rem 0rem;
+  margin: 0px auto;
+  padding: 5px;
+}
+
+.wallet-details {
+  display: flex;
+  gap: 2rem;
+  padding: 3px 5px;
+  align-items: baseline;
+}
+
+.wallet-balance {
+  display: flex;
+  gap: 0rem;
 }
