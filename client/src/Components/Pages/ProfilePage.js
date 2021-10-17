@@ -11,7 +11,7 @@ const ProfilePage = ({uName,emailId}) => {
     return (
         <div className='profile-container'>
             <Row>
-                <Col xs={9}>
+                <Col xs={6}>
                     <h2 className='form profile-heading'>User Profile</h2>
                     <Form className="profile-form form">  
                         {/* <p>{Message}</p> */}
