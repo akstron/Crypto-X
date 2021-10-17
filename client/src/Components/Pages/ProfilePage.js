@@ -1,7 +1,7 @@
 import { FloatingLabel, Form ,Button,Row,Col} from 'react-bootstrap';
 import Wallet from '../Portfolio/Wallet';
 import './ProfilePage.css'
-//TODO:
+//TODO: Add if(user==null) wallet:invisible
 const profilePic='https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg';
 // const Message="Profile Page";
 
