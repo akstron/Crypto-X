@@ -2,7 +2,7 @@ import React from "react"
 import {NavLink} from 'react-router-dom'
 import './Header.css'
 
-const Header = ({uId,uName,emailId,setUser}) => {
+const Header = ({uId,firstName,emailId,setUser}) => {
     // const User=null;
     // const User='Aayush';
 
@@ -37,7 +37,7 @@ const Header = ({uId,uName,emailId,setUser}) => {
                     {(emailId!==undefined)?(
                         <>
                             <li className="nav-item">
-                                <NavLink to='/Profile'>Hi  {uName} ! </NavLink>
+                                <NavLink to='/Profile'>Hi  {firstName} ! </NavLink>
                             </li>
                             <li className="nav-item">
                                 <NavLink to='/' onClick={logOut}>LogOut</NavLink>

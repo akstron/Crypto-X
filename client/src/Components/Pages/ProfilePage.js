@@ -5,7 +5,7 @@ import './ProfilePage.css'
 const profilePic='https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg';
 // const Message="Profile Page";
 
-const ProfilePage = ({uName,emailId}) => {
+const ProfilePage = ({firstName,emailId}) => {
     const changeProfileImage=()=>{}
     const UpdateProfileHandler=()=>{}
     return (
@@ -23,7 +23,7 @@ const ProfilePage = ({uName,emailId}) => {
                         {/* <p>{Message}</p> */}
                         <Form.Group controlId="formCategory1">
                             <Form.Label>Username</Form.Label>
-                            <Form.Control type="text" defaultValue={uName} readOnly/>
+                            <Form.Control type="text" defaultValue={firstName} readOnly/>
                         </Form.Group>
                         <Form.Group controlId="formCategory2">
                             <Form.Label>Email</Form.Label>

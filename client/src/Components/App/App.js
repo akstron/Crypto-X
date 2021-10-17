@@ -1,7 +1,6 @@
 import React,{useState} from "react";
 import {BrowserRouter,Route,Switch,Redirect} from 'react-router-dom'
 import'./App.css'
-
 import Header  from "../Header/Header";
 import HomePage from "../Pages/HomePage"
 import Market from "../Pages/Market";
@@ -15,7 +14,10 @@ function App() {
   //Set/Fetch User Here ->
   //Better to store in local Storage
   const [User,setUser]=useState();
-
+  const userRoute = process.env.REACT_APP_BACKEND + '/getUser';
+  fetch(userRoute,{
+    credentials: 'include'
+  }).then(res => {console.log(res)});
   return (
     <BrowserRouter basename='/'>
       <Header {...User} setUser={setUser}/>
