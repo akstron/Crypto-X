@@ -3,6 +3,7 @@ import axios from 'axios';
 import React,{useState} from 'react'
 import './Login.css'
 import { useHistory } from "react-router-dom";
+import {Button} from 'react-bootstrap'
 
 const Login = ({setUser}) =>{
 
@@ -69,9 +70,11 @@ const Login = ({setUser}) =>{
                         onChange={((event)=>{setPassword(event.target.value)})}
                     />
                 </div>
-                <button type='submit'> Login </button>
+                <Button variant="primary" type='submit'> Login </Button>
+                <Button variant="dark" className='google-btn' onClick={toggleGAuth}> Sign in with <img src="https://cdn-icons-png.flaticon.com/512/300/300221.png" alt="G" height='20px'/> </Button>{' '}
+
             </form>
-            <button type='button' onClick={toggleGAuth}> Google</button>
+
             {GAuth ? (
                 <div className="hidden">
                 {window.location.href=process.env.REACT_APP_BACKEND + '/login/google'}

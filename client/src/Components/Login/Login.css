@@ -90,3 +90,12 @@ Global Styles
 .hidden {
   display: none;
 }
+
+.google-btn {
+  background-color: white !important;
+  color: black !important;
+  border-color: black !important;
+}
+
+.google-btn:hover {
+}
