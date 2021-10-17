@@ -1,20 +1,24 @@
 .Coin {
-  /* padding: 5px; */
   margin: 1px auto;
   background-color: blanchedalmond;
   border-radius: 1rem;
   min-height: 250px;
   align-items: center;
   vertical-align: middle;
-  max-width: 970px;
+  max-width: 90vw;
 }
 
 .Coin-heading {
   display: flex;
   background-color: rgb(199, 255, 205);
   border-radius: 1rem 1rem 0rem 0rem;
-  margin: 2px 0px;
+  margin: 0px auto;
   padding: 2px;
+}
+
+.coin-details {
+  margin: 1px auto;
+  padding: 2px 2px;
 }
 
 .Coin-price {
