@@ -37,7 +37,7 @@ const sendVerificationCode = async (email, code) => {
     
     return new Promise((resolve, reject) => {
         transport.sendMail(mailOptions, (error, response) => {
-            if(error) throw reject(error);
+            if(error) return reject(error);
             resolve(response);
         });
     })

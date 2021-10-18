@@ -50,6 +50,8 @@ function(accessToken, refreshToken, profile, done) {
 
         const curUser = new User({
           googleId: profile.id,
+          firstName: profile._json.given_name,
+          lastName: profile._json.family_name,
           email: profile._json.email,
           isVerified: true,
           wallet: wallet._id

@@ -6,7 +6,7 @@ const Chart =({data,options})=>{
     return (
         <>
             <div className='header'>
-            <h1 className='title'>Price</h1>
+            <h3 className='title'>Price</h3>
             </div>
             <Line data={data} options={options} />
         </>
