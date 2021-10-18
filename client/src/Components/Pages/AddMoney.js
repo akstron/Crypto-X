@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
+import axios from 'axios';
 import StripeCheckout from "react-stripe-checkout";
 import './AddMoney.css'
 const AddMoney = () => {
@@ -11,6 +12,7 @@ const AddMoney = () => {
   }
   
   const makePayment = token => {
+
     const body = {
       token,
       amount
@@ -22,6 +24,7 @@ const AddMoney = () => {
     return fetch(process.env.REACT_APP_BACKEND+'/payment', {
       method: "POST",
       headers,
+      credentials: "include",
       body: JSON.stringify(body)
     })
       .then(response => {
@@ -53,7 +56,7 @@ const AddMoney = () => {
       
 
         <StripeCheckout
-          stripeKey={process.env.PUBLISHABLE_KEY}
+          stripeKey={'pk_test_51Jldb2SHFt3ssNH8jX41bFxefq3pBk4Mv1rG9Y98wn9Pj4SFeNKlNaWp0clLq3tt7nTIK3Yr25y1MuympJXBm3Lj00TTjERArm'}
           token={makePayment}
           name="Add money in wallet"
           currency="INR"
