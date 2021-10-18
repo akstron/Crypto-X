@@ -1,9 +1,9 @@
 import React,{useState,useEffect} from 'react'
 import CoinImage from './CoinImage'
 import CoinName from './CoinName'
-import CoinDetailInfo from './CoinDetailInfo';
+// import CoinDetailInfo from './CoinDetailInfo';
 import CoinPriceInfo from './CoinPriceInfo';
-
+import CoinBalance from '../Portfolio/CoinBalance'
 import './Coin.css'
 import {updatePriceAPI,options, fetchPriceAPI} from '../Data/data'
 import {BeatLoader} from 'react-spinners'
@@ -44,7 +44,9 @@ function Coin({Id,ImgURL,CoinTitle,coinDetails,coinPrice,removeCoin,range=604800
                 <CoinName CoinTitle={CoinTitle}/> 
             </div>
             <div className='coin-details'>
-                <CoinDetailInfo coinDetails={coinDetails}/>
+                <CoinBalance CoinName={'INR'} Balance={'2,233'} Growth={0.1}/>
+                
+                {/* <CoinDetailInfo coinDetails={coinDetails}/> */}
                 {/* setUp Seperate Error for Card fetching error */}
                 <div className="Coin-price">
                 {isError ? 

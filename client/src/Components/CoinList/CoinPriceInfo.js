@@ -7,7 +7,7 @@ function CoinPriceInfo({coinPrice,data,options}){
 
     return (
         <>
-        <div>
+        <div className='coin-price-graph'>
             <Chart data={data} options={options}/>
             <h3 className='Coin-price'>$ {coinPrice} /-</h3>
         </div>
