@@ -1,16 +1,10 @@
 require('dotenv').config();
-const cors = require("cors");
-const express = require("express");
-
 const stripe = require("stripe")(process.env.SECRET_KEY);
-
-const app = express();
-
-app.use(express.json());
-app.use(cors());
+const Wallet = require('../models/Wallet');
 
 module.exports.payment = async (req, res) =>{ 
 
+	const user = req.user;
 	const {token, amount} = req.body;
 
 	stripe.customers.create({ 
@@ -29,13 +23,34 @@ module.exports.payment = async (req, res) =>{
 	.then((result) => { 
 		 // If no error occurs 
         if(result.status === 'succeeded'){
-            res.status(200).json(result);
+			// On success put the amount in database
+
+			Wallet.findById(user.wallet).then((wallet) => {
+
+				wallet.balance = wallet.balance + parseInt(amount);
+				return wallet.save();
+			})
+			.then(wallet => {
+				return res.json({
+					status: true,
+					wallet
+				});
+
+			}).catch(error => {
+			 return res.status(500).json({
+					status: false,
+					error
+				});
+				
+			})
+
         }else{
-            res.status(400).json(result);
+            return res.status(400).json(result);
         }
 	}) 
-	.catch((err) => { 
-		res.status(400).json(err);	
+	.catch((error) => { 
+			
 		console.log(error); // If some error occurs 
+		return res.status(400).json(error);
 	}); 
 }
