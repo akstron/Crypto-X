@@ -11,6 +11,11 @@ import NotFound from "../Pages/NotFound";
 import ValindationPage from "../Pages/ValindationPage";
 import AddMoney from "../Pages/AddMoney";
 import axios from 'axios';
+// import io from 'socket.io-client'
+
+// const socket=io(process.env.REACT_APP_BACKEND,{
+//   transports:['websocket','polling']
+// });
 
 function App() {
 
@@ -19,6 +24,8 @@ function App() {
   //Better to store in local Storage
   const [User,setUser]=useState(undefined);
   const [isLoading,setIsLoading]=useState(true);
+  // const [data,setData]=useState(undefined);
+
   const getUser=()=>{
     const userRoute = process.env.REACT_APP_BACKEND + '/getUser';
     axios.get(userRoute, {withCredentials: true}).then(res => {
@@ -38,12 +45,17 @@ function App() {
 
     })
   }
-  useEffect(()=>{getUser()},[])
+  useEffect(()=>{
+    getUser()
+    // socket.on('currentData',market=>{
+    //   setData(market);//Change Fetch calls !!! -> LOGIC <-
+    // })
+  },[])
 
   return (
     <>
     { isLoading===true?(<></>):(<>
-        {console.log(User)}
+        {/* {console.log(data)} */}
         <BrowserRouter basename='/'>
           <Header {...User} setUser={setUser}/>
           <Switch>
