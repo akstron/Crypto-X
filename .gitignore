@@ -5,3 +5,5 @@
 /client/package-lock.json
 /server/package-lock.json
 package-lock.json
+package.json
+node_modules/

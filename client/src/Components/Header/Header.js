@@ -18,7 +18,7 @@ const Header = ({uId,firstName,emailId,setUser}) => {
             console.log(res);
             console.log("Log Out Clicked !");
             if(res['data']['status']){
-                    setUser(null);
+                    setUser(undefined);
                     // console.log(user);
                     // loginToHome();
                 }
