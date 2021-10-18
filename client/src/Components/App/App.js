@@ -17,7 +17,7 @@ function App() {
   //TODO ::: Handle Error Cases
   //Set/Fetch User Here ->
   //Better to store in local Storage
-  const [User,setUser]=useState();
+  const [User,setUser]=useState(undefined);
   const [isLoading,setIsLoading]=useState(true);
   const getUser=()=>{
     const userRoute = process.env.REACT_APP_BACKEND + '/getUser';
