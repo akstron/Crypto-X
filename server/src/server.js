@@ -22,6 +22,8 @@ const fetchCryptoDataRouter = require('./routers/fetchCryptoDataRouter');
 const currentPrice = require('./utils/currentPrice');
 
 const paymentGatewayRouter = require('./routers/paymentGateWayRouter');
+const prevDayData = require('./utils/prevDayData');
+const { response } = require('express');
 
 const publicDirectoryPath = path.join(__dirname, './public');
 
@@ -82,22 +84,15 @@ io.on('connection', (socket) =>{
     socket.emit('currentData', market);
   })
 
+  prevDayData((response) => {
+    socket.emit('prevDayData', response);
+  })
 })
 
 app.use(fetchCryptoDataRouter);
 
 app.use(paymentGatewayRouter);
 
-/*******************
-getting current price at a particular time of a particular coin
-*******************/
-
-/*currentPrice('bitcoin', (error, response) => {
-  if(error){
-    return console.log(error);
-  }
-  return console.log(response);
-});*/
 
 server.listen(PORT, () => {
   console.log(`Server is running at port ${PORT}`);
