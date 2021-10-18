@@ -34,6 +34,8 @@ function App() {
 
     }).catch(error => {
         console.log(error);
+        setIsLoading(false);
+
     })
   }
   useEffect(()=>{getUser()},[])
@@ -41,6 +43,7 @@ function App() {
   return (
     <>
     { isLoading===true?(<></>):(<>
+        {console.log(User)}
         <BrowserRouter basename='/'>
           <Header {...User} setUser={setUser}/>
           <Switch>
@@ -51,8 +54,8 @@ function App() {
             {console.log(User)}        
             <Route path="/Profile">{!(User===undefined)?(<ProfilePage {...User}/>):(<Redirect to='/login'/>)}</Route>
             <Route path="/addMoney">{!(User===undefined)?(<AddMoney {...User}/>):(<Redirect to='/login'/>)}</Route>
-            <Route path="/login" component={()=><LoginPage setUser={setUser}/>}/>
-            <Route path="/signup" component={()=><SignUpPage setUser={setUser}/>} />
+            <Route path="/login"> {(User===undefined)?(<LoginPage setUser={setUser}/>):(<Redirect to='/'/>)} </Route>
+            <Route path="/signup" > {(User===undefined)?(<SignUpPage setUser={setUser}/>):(<Redirect to='/'/>)} </Route> 
             <Route path="/validation/:emailId" component={ValindationPage}/>
             <Route component={NotFound }/>
           </Switch>

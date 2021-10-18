@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { Form } from "react-bootstrap";
 import StripeCheckout from "react-stripe-checkout";
-
+import './AddMoney.css'
 const AddMoney = () => {
     const [amount, setAmount] = useState(null);
   const [msg, setMsg] = useState();
@@ -18,7 +19,7 @@ const AddMoney = () => {
       "Content-Type": "application/json"
     };
 
-    return fetch(`http://localhost:8000/payment`, {
+    return fetch(process.env.REACT_APP_BACKEND+'/payment', {
       method: "POST",
       headers,
       body: JSON.stringify(body)
@@ -48,7 +49,7 @@ const AddMoney = () => {
           <h2> Pay with Card</h2>
       </div>
       <div className="card-body card-title">
-            <input type="text" placeHolder="Enter amount" value={amount} onChange={getAmount} id="amount" />
+            <Form.Control type="text" placeHolder="Enter amount" value={amount} onChange={getAmount} id="amount" />
       
 
         <StripeCheckout
@@ -64,7 +65,7 @@ const AddMoney = () => {
         </StripeCheckout>
         </div>
       <div className="card-footer text-muted">
-        <h2>{msg}</h2>
+        {msg || 'You will redirected to payment gateway' }
       </div>
     </div>
   );
