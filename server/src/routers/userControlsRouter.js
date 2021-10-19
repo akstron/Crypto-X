@@ -5,7 +5,7 @@
 const express = require('express');
 const router = express.Router();
 const {body} = require('express-validator');
-const { EditUser, Transaction } = require('../middlewares/userUtility'); 
+const { EditUser } = require('../middlewares/userControls'); 
 const { IsAuthenticated, IsVerified } = require('../middlewares/userAuth');
 const { validationHandler } = require('../middlewares/validationHandler');
 
@@ -18,7 +18,9 @@ router.post('/edit', IsAuthenticated, IsVerified,
     validationHandler,
 EditUser);
 
-router.put('/transaction', IsAuthenticated, IsVerified, Transaction);
+/**
+ * FOR: testing
+ */
 
 router.get('/check', (req, res) => {
     res.json({

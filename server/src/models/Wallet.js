@@ -3,10 +3,16 @@ const mongoose = require('mongoose');
 const walletSchema = mongoose.Schema({
     coins: {
         type: Object
+        /*
+            symbol: no. of coins
+        */
     }, 
 
     transaction: {
         type: Object
+        /*
+            symbol: transaction array
+        */
     },
 
     costPrice: {
