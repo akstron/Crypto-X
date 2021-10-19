@@ -6,9 +6,10 @@ const cors = require('cors');
 const app = express();
 
 require('./config/passport');
-require('./config/connection');
+require('./config/dbConnection');
 const userAuthRouter = require('./routers/userAuthRouter');
-const userUtilityRouter = require('./routers/userUtilityRouter');
+const userUtilityRouter = require('./routers/userControlsRouter');
+const userTradeRouter = require('./routers/userTradeRouter');
 
 
 const path = require('path');
@@ -19,15 +20,13 @@ const io = socketio(server);
 
 const currentData = require('./utils/currenData');
 const fetchCryptoDataRouter = require('./routers/fetchCryptoDataRouter');
-const currentPrice = require('./utils/currentPrice');
+const currentPrice = require('./utils/priceStats');
 
 const paymentGatewayRouter = require('./routers/paymentGateWayRouter');
 const prevDayData = require('./utils/prevDayData');
 const { response } = require('express');
 
 const publicDirectoryPath = path.join(__dirname, './public');
-
-const PORT = process.env.PORT || 8000;
 
 const sessionStore = require('connect-mongo').create({
     mongoUrl: process.env.MONGO_DB_URI
@@ -71,6 +70,7 @@ app.use(express.json());
 
 app.use(userAuthRouter);
 app.use(userUtilityRouter);
+app.use(userTradeRouter);
 
 app.use(express.static(publicDirectoryPath));
 
@@ -90,9 +90,9 @@ io.on('connection', (socket) =>{
 })
 
 app.use(fetchCryptoDataRouter);
-
 app.use(paymentGatewayRouter);
 
+const PORT = process.env.PORT || 8000;
 
 server.listen(PORT, () => {
   console.log(`Server is running at port ${PORT}`);
