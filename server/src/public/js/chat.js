@@ -5,5 +5,9 @@ socket.on('currentData', (currentData) => {
 })
 
 socket.on('prevDayData', (prevDayData) => {
-  console.log(prevDayData);
+  //console.log(prevDayData);
 })
+
+document.querySelector('button').addEventListener('click', () => {
+  socket.emit('disconnection');
+});

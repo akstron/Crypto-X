@@ -15,7 +15,7 @@ const currentData = (callback) => {
             symbol,
             price
         }     
-        console.log(response);  
+        //console.log(response);  
         callback(response); 
       });
 }
