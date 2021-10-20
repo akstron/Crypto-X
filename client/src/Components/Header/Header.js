@@ -2,16 +2,9 @@ import React from "react"
 import {NavLink} from 'react-router-dom'
 import axios from 'axios';
 import './Header.css'
-// import { useHistory } from "react-router-dom";
 
 const Header = ({uId,firstName,emailId,setUser}) => {
-    // const User=null;
-    // const User='Aayush';
-    // const history = useHistory();
 
-    // const loginToHome=()=>{
-    //     history.push('/')
-    // }
     const logOut=async ()=>{
         const userRoute = process.env.REACT_APP_BACKEND + '/logout';
         await axios.post(userRoute, {},{withCredentials: true}).then(res => {
@@ -19,8 +12,6 @@ const Header = ({uId,firstName,emailId,setUser}) => {
             console.log("Log Out Clicked !");
             if(res['data']['status']){
                     setUser(undefined);
-                    // console.log(user);
-                    // loginToHome();
                 }
         }).catch(error => {
             console.log(error);

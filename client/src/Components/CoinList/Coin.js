@@ -5,11 +5,9 @@ import CoinPriceInfo from './CoinPriceInfo';
 import CoinBalance from '../Portfolio/CoinBalance'
 import './Coin.css'
 import { Row,Col } from 'react-bootstrap';
-import {options} from '../Data/data'
+import {options} from '../Utils/data'
 
-function Coin({Id,ImgURL,CoinTitle,CoinDetails,Currency,CoinPrices,CurrentPriceClose,CurrentPriceOpen,CurrentPriceHigh,CurrentPriceLow,CoinGrowth_24,removeCoin}){
-    // console.log(CoinTitle)
-    // console.log(CoinPrices)
+function Coin({Id,ImgURL,CoinTitle,Currency,CoinPrices,CurrentPriceClose,CurrentPriceOpen,CurrentPriceHigh,CurrentPriceLow,CoinGrowth_24,removeCoin}){
     return (
         <div className="Coin">
             <div className="Coin-heading">
@@ -27,9 +25,6 @@ function Coin({Id,ImgURL,CoinTitle,CoinDetails,Currency,CoinPrices,CurrentPriceC
                         <CoinBalance CoinName={Currency} Balance={CurrentPriceLow} Growth={CoinGrowth_24}/>
                     </Col>
                 </Row>                
-                {/* <CoinDetailInfo coinDetails={coinDetails}/> */}
-                {/* setUp Seperate Error for Card fetching error */}
-                {console.log(CoinPrices)}
                 <div className="Coin-price">
                     <CoinPriceInfo coinPrice={CurrentPriceClose} priceData={CoinPrices} options={options}/>
                 </div>

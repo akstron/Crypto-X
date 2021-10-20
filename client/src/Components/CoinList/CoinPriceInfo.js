@@ -1,6 +1,5 @@
 import React from 'react'
 import Chart from '../Graphs/chart';
-
 import './CoinPriceInfo.css'
 
 function CoinPriceInfo({coinPrice,priceData,options}){

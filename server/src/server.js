@@ -87,6 +87,11 @@ io.on('connection', (socket) =>{
   prevDayData((response) => {
     socket.emit('prevDayData', response);
   })
+
+  socket.on('disconnection', ()=> {
+    socket.disconnect();
+    console.log('Disconnected...');
+  })
 })
 
 app.use(fetchCryptoDataRouter);

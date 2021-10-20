@@ -17,22 +17,14 @@ const CoinList=({cryptoCoinsList})=>{
         let isComponentMounted = true;    
         
         socket.on('currentData',market=>{
-            console.log(isComponentMounted)
-            console.log("market :: -- :: ")
-
-            console.log(market)
+            // console.log(market)
             setData(market)
-            // if(isComponentMounted) console.log(market.BTCUSDT.close)
-            // if(isComponentMounted) setCryptoCoinsPrices(market.BTCUSDT.close);
             if(isComponentMounted && market.symbol!==undefined) setCryptoCoins((cryptoCoins)=>{
                 if(cryptoCoins.length<1)return cryptoCoins;
-                // console.log("Enter in Loop")
                 let newCryptoCoins=cryptoCoins;
                 let currentDate=new Date();
                 let dateStr=currentDate.getHours().toString()+':'+currentDate.getMinutes().toString();
                 for(let i=0;i<newCryptoCoins.length;i++){
-                    // console.log(newCryptoCoins[i].CoinSymbol);
-                    // console.log(market[newCryptoCoins[i].CoinSymbol]);
                     if(market.symbol===newCryptoCoins[i].CoinSymbol){
                         newCryptoCoins[i].CurrentPriceClose=Math.ceil(market['price']);
                     
@@ -50,7 +42,7 @@ const CoinList=({cryptoCoinsList})=>{
         });
         return (()=>{
           isComponentMounted = false;
-          console.log("Socket Disconnected !")
+          socket.emit('disconnection');
           socket.disconnect();
         });
     }, [])
