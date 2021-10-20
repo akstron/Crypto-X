@@ -5,12 +5,19 @@ const binance = new Binance().options({
     APISECRET: '<secret>'
   });
 
+const coins = ['BTCUSDT', 'ETHUSDT', 'DOGEUSDT', 'DOTUSDT', 'BNBUSDT',
+'SOLUSDT', 'XRPUSDT', 'AXSUSDT', 'LTCUSDT', 'FILUSDT'];
+
 const currentData = (callback) => {
-    binance.websockets.miniTicker(markets => {
-        //console.log(markets)
-        callback(markets);
-    });
+    binance.websockets.trades(coins, (trades) => { 
+        let {s:symbol, p:price} = trades;
+        const response = {
+            symbol,
+            price
+        }     
+        // console.log(response);  
+        callback(response); 
+      });
 }
 
 module.exports = currentData
-  

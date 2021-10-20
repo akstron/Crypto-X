@@ -1,11 +1,59 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import Coin from './Coin';
-
 import './CoinList.css'
+import io from 'socket.io-client'
+
+const socket=io(process.env.REACT_APP_BACKEND,{
+    transports:['websocket','polling']
+});
+
 
 const CoinList=({cryptoCoinsList})=>{
 
+    const [data,setData]=useState(undefined);
     const [cryptoCoins,setCryptoCoins] = useState(cryptoCoinsList);
+
+    useEffect(() => {
+        let isComponentMounted = true;    
+        
+        socket.on('currentData',market=>{
+            console.log(isComponentMounted)
+            console.log("market :: -- :: ")
+
+            console.log(market)
+            setData(market)
+            // if(isComponentMounted) console.log(market.BTCUSDT.close)
+            // if(isComponentMounted) setCryptoCoinsPrices(market.BTCUSDT.close);
+            if(isComponentMounted && market.symbol!==undefined) setCryptoCoins((cryptoCoins)=>{
+                if(cryptoCoins.length<1)return cryptoCoins;
+                // console.log("Enter in Loop")
+                let newCryptoCoins=cryptoCoins;
+                let currentDate=new Date();
+                let dateStr=currentDate.getHours().toString()+':'+currentDate.getMinutes().toString();
+                for(let i=0;i<newCryptoCoins.length;i++){
+                    // console.log(newCryptoCoins[i].CoinSymbol);
+                    // console.log(market[newCryptoCoins[i].CoinSymbol]);
+                    if(market.symbol===newCryptoCoins[i].CoinSymbol){
+                        newCryptoCoins[i].CurrentPriceClose=Math.ceil(market['price']);
+                    
+                        if(newCryptoCoins[i].CoinPrices.priceData.length>100){
+                            newCryptoCoins[i].CoinPrices.priceData.shift();
+                            newCryptoCoins[i].CoinPrices.timeStamps.shift();
+                        }
+                        newCryptoCoins[i].CoinPrices.priceData.push(market['price']);
+                        newCryptoCoins[i].CoinPrices.timeStamps.push(dateStr);
+                    }
+                }
+                // console.log(newCryptoCoins)
+                return newCryptoCoins;
+            });
+        });
+        return (()=>{
+          isComponentMounted = false;
+          console.log("Socket Disconnected !")
+          socket.disconnect();
+        });
+    }, [])
 
     // Always gets latest List
     const removeCoin=(id)=>{

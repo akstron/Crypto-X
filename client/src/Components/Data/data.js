@@ -30,6 +30,36 @@ export const cryptoCoins=[{
     }
 ];
 
+export const favouriteCoin=[
+    {
+        Id:1,
+        ImgURL :"https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/BTC_Logo.svg/1200px-BTC_Logo.svg.png",
+        CoinTitle:'bitcoin',
+        CoinName:'Bitcoin',
+        CoinDetails:'A cryptocurrency, crypto-currency, or crypto is a collection of binary data which is designed to work as a medium of exchange wherein individual coin ownership records are stored in a ledger which is a computerized database using strong cryptography to secure transaction records.',
+        CurrentPrice:25701.50,
+        CoinGrowth_24:0.51,
+    },
+    {
+        Id:2,
+        ImgURL :"https://assets.gadgets360cdn.com/img/crypto/ethereum-og-logo.png",
+        CoinTitle:'Ethereum',
+        CoinName:'ethereum',
+        coinDetails:'Ethereum is a decentralized, open-source blockchain with smart contract functionality. Ether is the native cryptocurrency of the platform. Amongst cryptocurrencies, Ether is second only to Bitcoin in market capitalization. Ethereum was conceived in 2013 by programmer Vitalik Buterin.',
+        CurrentPrice:25701.50,
+        CoinGrowth_24:-0.21,
+    },
+    {
+        Id:3,
+        ImgURL :"https://assets.gadgets360cdn.com/img/crypto/dogecoin-og-logo.png",
+        CoinTitle:'Dogecoin',
+        CoinName:'digecoin',
+        CoinDetails:'Dogecoin is a cryptocurrency created by software engineers Billy Markus and Jackson Palmer, who decided to create a payment system as a "joke", making fun of the wild speculation in cryptocurrencies at the time. Despite its satirical nature, some consider it a legitimate investment prospect.',
+        CurrentPrice:25701.50,
+        CoinGrowth_24:0.1,
+    },
+]
+
 //SomeTimes Breaks Unable to fetch
 export const fetchPriceData=()=>{
     const URL="https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=usd&from=1631553575&to=1634113153";
@@ -98,6 +128,7 @@ export const updatePriceData=(setPriceData,setError)=>{
     }
 
 export const options = {
+    animation:false,
     plugins: {
         legend: {
         display: false
@@ -111,6 +142,7 @@ export const options = {
     },
     scales: {
     x: {
+        // type:'time',
         legend: {
             display: false
         },
@@ -133,15 +165,15 @@ export const options = {
     maintainAspectRatio:true,
 };
 
-export function updatePriceAPI(cryptoCoin,range,currency,setPriceData,setError){
+export const updatePriceAPI=async(cryptoCoin,range,currency,setPriceData,setLoading,setError)=>{
     var end=parseInt((new Date().getTime() / 1000).toFixed(0))
     var start=end-range;
     var URL='https://api.coingecko.com/api/v3/coins/'+cryptoCoin+'/market_chart/range?vs_currency='+currency+'&from='+start+'&to='+end;
-    console.log(URL);
-    fetch(URL)
+    console.log(URL); //Don't Comment Out
+    await fetch(URL)
         .then((resp)=>{
             if(resp.status>=200 && resp.status<=299){
-                console.log("Response is Ok");
+                // console.log("Response is Ok");
                 return resp.json();
             }else{
                 console.log(resp.Error);
@@ -153,17 +185,10 @@ export function updatePriceAPI(cryptoCoin,range,currency,setPriceData,setError){
             var priceDataArr = result["prices"].map((price)=>{
                 return Math.round(price[1]);
             })
-            const data = {
-                labels: timeStampArr,
-                datasets: [{
-                    label: cryptoCoin,
-                    backgroundColor: 'rgb(0, 128, 0)',
-                    borderColor: 'rgb(0, 128, 0)',
-                    data: priceDataArr,
-                }]
-            }
-            console.log(data)
-            setPriceData(data);
+            let CoinPrices={timeStamps:timeStampArr,priceData:priceDataArr};
+            // console.log(CoinPrices);
+            setPriceData(CoinPrices);
+            setLoading(false)
             setError(false);
         }).catch((Error)=>{
             console.log(Error);
@@ -180,7 +205,7 @@ export const fetchPriceAPI=(cryptoCoin,range,currency)=>{
     const priceDataResponse = fetch(URL)
         .then((resp)=>{
             if(resp.status>=200 && resp.status<=299){
-                console.log("Response is Ok");
+                console.log("Response is Ok :: fetchAPI");
                 return resp.json();
             }
         }).then((result)=>{
@@ -190,20 +215,51 @@ export const fetchPriceAPI=(cryptoCoin,range,currency)=>{
             var priceDataArr = result["prices"].map((price)=>{
                 return Math.round(price[1]);
             })
-            const data = {
-                labels: timeStampArr,
-                datasets: [{
-                    label: cryptoCoin,
-                    backgroundColor: 'rgb(0, 128, 0)',
-                    borderColor: 'rgb(0, 128, 0)',
-                    data: priceDataArr,
-                }]
-            }
-            console.log(data);
-            return data;
+            const CoinPrices={timeStamps:timeStampArr,priceData:priceDataArr};
+            console.log("CoinPrices-Fetch");
+            console.log(CoinPrices);
+            return CoinPrices;
         }).catch((Error)=>{
         console.log(Error)
         return;
     });
     return priceDataResponse;
+}
+
+export const fetchData=(cryptoCoin,setCryptoCoin)=>{
+    function convertToDate(unix_timestamp){
+        let dateObj = new Date(unix_timestamp);
+        let months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        let year = dateObj.getFullYear();
+        let month = months[dateObj.getMonth()];
+        let date = dateObj.getDate();
+        let time = date +' '+ month + ' ' + year ;
+        return time;
+    }
+    let end=parseInt((new Date().getTime() / 1000).toFixed(0))
+    let start=end-cryptoCoin.Range;
+    let URL='https://api.coingecko.com/api/v3/coins/'+cryptoCoin.CoinName+'/market_chart/range?vs_currency='+cryptoCoin.Currency+'&from='+start+'&to='+end;
+    console.log(URL)
+    fetch(URL)
+        .then((resp)=>{
+            if(resp.status>=200 && resp.status<=299){
+                return resp.json();
+            }
+        }).then((result)=>{
+            console.log(result);
+            let timeStampArr = result["prices"].map((price)=>{
+                return convertToDate(price[0]);
+            })
+            let priceDataArr = result["prices"].map((price)=>{
+                return Math.round(price[1]);
+            })
+            const newCryptoCoin=cryptoCoin;
+            // const CoinPrices={timeStamps:timeStampArr,priceData:priceDataArr};
+            const CoinPrices={timeStamps:timeStampArr,priceData:priceDataArr};
+            newCryptoCoin.CoinPrices=CoinPrices;
+            setCryptoCoin(newCryptoCoin)
+            console.log(newCryptoCoin); 
+        }).catch((Error)=>{
+            console.log("Err::"+Error)
+    });
 }
