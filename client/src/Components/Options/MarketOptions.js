@@ -1,12 +1,12 @@
 import './MarketOptions.css'
-import {cryptoCoins} from '../Data/data'
 import {Form,Row,Col} from 'react-bootstrap';
 import Button from '@restart/ui/esm/Button';
 
-const MarketOptions = ({setPlot,cryptoCoin}) => {
+const MarketOptions = ({setPlot,cryptoCoinList,Coin}) => {
 
-    var cryptoCoinOption={cryptoCoin:cryptoCoin,range:604800}; 
-
+    var cryptoCoinSelected=Coin; 
+    var coinList=cryptoCoinList;
+    
     const handleSubmit=(event)=>{
         event.preventDefault();
         console.log(event.target.value);
@@ -15,15 +15,20 @@ const MarketOptions = ({setPlot,cryptoCoin}) => {
         console.log(event.target.name);
         console.log(event.target.value);
         if(event.target.name==='range'){
-            cryptoCoinOption.range=event.target.value;
+            cryptoCoinSelected.Range=parseInt(event.target.value);
         }
         if(event.target.name==='cryptoCoin'){
-            cryptoCoinOption.cryptoCoin=cryptoCoins[event.target.value];
+            let range=cryptoCoinSelected.Range;
+            cryptoCoinSelected=coinList[event.target.value];
+            cryptoCoinSelected.Range=parseInt(range);
         }
-        setPlot(cryptoCoinOption);
+        console.log(cryptoCoinSelected.CoinName + " -- " + cryptoCoinSelected.Range);
+        setPlot({Coin:cryptoCoinSelected,Range:cryptoCoinSelected.Range});
     }
 
     return (
+        <>
+        {/* {console.log(cryptoCoinSelected)} */}
         <div className='div-market-options'>
             <h3>View Current Market </h3>
             <Form className='market-form' onSubmit={handleSubmit}>
@@ -53,6 +58,7 @@ const MarketOptions = ({setPlot,cryptoCoin}) => {
                 </Row>
             </Form>
         </div>
+        </>
     )
 
 

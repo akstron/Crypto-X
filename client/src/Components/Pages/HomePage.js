@@ -1,8 +1,7 @@
 import React from "react";
 import CoinList from '../CoinList/CoinList';
-import {cryptoCoins} from '../Data/data'
 
-function HomePage() {
+function HomePage({cryptoCoins} ) {
   return (
     <div className='container'>
         <CoinList cryptoCoinsList={cryptoCoins}/>
