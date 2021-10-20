@@ -68,7 +68,8 @@ module.exports.SignUp = async (req, res) => {
         await Wallet.create([{
             _id: walletId,
             coins: {
-                bitcoin: []
+                BTC: 2,
+                DOGE: 100,
             }
         }], {session});
 
