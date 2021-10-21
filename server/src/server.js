@@ -76,7 +76,7 @@ app.use(express.static(publicDirectoryPath));
 
 
 // when any client gets connected with server
-io.on('connection', (socket) =>{
+/* io.on('connection', (socket) =>{
   console.log('New websocket connection');
 
   // emitting current data of all coins
@@ -92,7 +92,7 @@ io.on('connection', (socket) =>{
     socket.disconnect();
     console.log('Disconnected...');
   })
-})
+}) */
 
 app.use(fetchCryptoDataRouter);
 app.use(paymentGatewayRouter);
