@@ -5,7 +5,7 @@ function HomePage({cryptoCoins} ) {
   return (
     
     <div className='container'>
-        {/* <CoinList cryptoCoinsList={cryptoCoins}/> */}
+        <CoinList cryptoCoinsList={cryptoCoins}/>
     </div>
   )
 }

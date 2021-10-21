@@ -11,7 +11,8 @@ const Notification=({NoOfNotifications})=>{
             <NavDropdown title={"🔔"+((newNotifications>0)?newNotifications:"")} id="basic-nav-dropdown" className='nav-item'>
                 
                 <NavDropdown.Item href="#action/3.2"><DropDown/></NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.2"><DropDown/></NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.2"><DropDown/></NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="#action/3.4">Clear All</NavDropdown.Item>
             </NavDropdown>

@@ -45,8 +45,7 @@ const Header = ({uId,firstName,emailId,setUser}) => {
                     {(emailId!==undefined)?(
                         <>
                             <NavItem path='/Profile' title={'Profile'}/>
-                            <Notification/>
-
+                            <Notification NoOfNotifications={3}/>
                             <li className="nav-item">
                                 <NavLink to='/' onClick={logOut}>LogOut</NavLink>
                             </li>
