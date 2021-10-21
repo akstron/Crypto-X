@@ -1,11 +1,51 @@
+<img align="left" width="80" height="80" src="https://img.icons8.com/external-wanicon-lineal-color-wanicon/344/external-trade-nft-wanicon-lineal-color-wanicon.png" alt="Resume application project app icon">
+
+# Cryto-X :
+
+Web Application that enables users to track/trade different Crpto-Currencies.
+
+
+<img align="left" width="40" height="40" src="https://img.icons8.com/doodle/344/console--v2.png" alt="Resume application project app icon">
+
+## Install and Run
+
+1. Clone Git repository.
+
+```bash
+git clone https://github.com/akstron/Crypto-X.git
+```
+
+2. Open repository.
+
+```bash
+cd CRYPTO-X/
+```
+
+3. Install required node modules.
+
+```bash
+npm install
+```
+
+4. run with npm
+
+```bash
+npm start
+```
+
+<img align="left" width="40" height="40" src="https://img.icons8.com/external-becris-lineal-color-becris/344/external-technology-literary-genres-becris-lineal-color-becris.png" alt="Resume application project app icon">
+
 ## Technology Stack (Proposed)
 
-- React
+- ReactJS
 - NodeJs and Express
-- Bootstrap
+- React-bootstrap
 - MongoDB and Mongoose
-- Socket.io
+- Socket
 - API (Like Binance,coingecko)
+
+
+<img align="left" width="40" height="40" src="https://img.icons8.com/fluency/344/features-list.png" alt="Resume application project app icon">
 
 ## Features (Proposed)
 
@@ -29,8 +69,11 @@
 - Create your own token which users can use to transact Cryptocurrency.
 - Rating System for Users.
 
+
+<img align="left" width="40" height="40" src="https://img.icons8.com/dusk/64/000000/community-grants.png" alt="Resume application project app icon">
+
 ## Contributers
 
-- Aayush Kumar Shandilya
-- Alok Kumar Singh
-- Saurabh Kumar Kaushal
+- [Aayush Kumar Shandilya](https://github.com/hey-aayush)
+- [Alok Kumar Singh](https://github.com/akstron)
+- [Saurabh Kumar Kaushal](https://github.com/saurabh-bot)
