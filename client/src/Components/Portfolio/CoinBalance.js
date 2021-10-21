@@ -3,9 +3,9 @@ const CoinBalance = ({CoinName,Balance,Growth}) => {
     return (
         <div>
             <div className="wallet-details">
-                    <h4>{CoinName} :</h4>
+                    {CoinName} :
                 <div className="wallet-balance">
-                    <h2>{Balance}</h2> 
+                    {Balance} 
                     {(Growth<=0)?
                         (<span className="neg-growth">  ({Growth} %)</span>)
                         :

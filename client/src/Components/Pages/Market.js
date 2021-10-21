@@ -1,33 +1,37 @@
 import { useState } from 'react';
-import {cryptoCoins} from '../Data/data'
-import Coin from '../CoinList/Coin';
 import './Market.css'
 import MarketOptions from '../Options/MarketOptions'
 import TradeOptions from '../Options/TradeOptions';
 import {Row,Col} from 'react-bootstrap';
+import CoinHistory from '../CoinList/CoinHistory';
 
-const Market = () => {
-    const [cryptoCoin,setcrptoCoin]=useState({cryptoCoin:cryptoCoins[0],range:604800}); 
+//Now Data will be fetched here ....
+const Market = ({cryptoCoinList}) => {
 
-    const setPlot=(cryptoCoin)=>{
-        setcrptoCoin(cryptoCoin);
+    const [cryptoCoinOptions,setCryptoCoinOption]=useState({Coin:cryptoCoinList[0],Range:604800});     
+
+    const setPlot=(cryptoCoinSelected)=>{
+        setCryptoCoinOption(cryptoCoinSelected);
     }
 
     return (
-        <div className='market-div'>
-            <MarketOptions setPlot={setPlot} cryptoCoin={cryptoCoin.cryptoCoin}/>
-            {/* Add remove Function otherwise will crash */}
-            {console.log(cryptoCoin)}
-                <Row>
-                    <Col>
-                        <Coin {...cryptoCoin.cryptoCoin} range={cryptoCoin.range}/>
-                    </Col>
-                    <Col>
-                        <TradeOptions/>
-                    </Col>
-                </Row>
-        </div>
-    )
+        <>
+            <div className='market-div'>
+                {console.log("cryptoCoin :: ")}
+                <MarketOptions setPlot={setPlot} cryptoCoinList={cryptoCoinList} Coin={cryptoCoinOptions.Coin}/>
+                {/* Add remove Function otherwise will crash */}
+                    <Row>
+                        <Col>
+                            {console.log(cryptoCoinOptions)}
+                            <CoinHistory {...cryptoCoinOptions.Coin}/>
+                        </Col>
+                        <Col>
+                            <TradeOptions/>
+                        </Col>
+                    </Row>
+            </div>
+        </>
+    ) 
 }
 
 export default Market;
