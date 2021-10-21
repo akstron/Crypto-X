@@ -49,11 +49,13 @@ function App() {
 
   return (
     <>
-    { isLoading===true?(<></>):(<>
+    { isLoading===true?(<>
+        {/*TODO :: Add Spinner */}
+      </>):(<>
         <BrowserRouter basename='/'>
           <Header {...User} setUser={setUser}/>
           <Switch>
-            <Route path="/" exact><HomePage cryptoCoins={favCryptoCoins}/></Route>
+            <Route path="/" exact ><HomePage cryptoCoins={favCryptoCoins}/></Route>
             <Route path="/Market"><Market cryptoCoinList={favCryptoCoins}/></Route> 
             {/* Protected Route */}       
             <Route path="/Profile">{!(User===undefined)?(<ProfilePage {...User}/>):(<Redirect to='/login'/>)}</Route>
