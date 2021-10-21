@@ -1,4 +1,4 @@
-# Cryto-X
+# Cryto-X :
 
 ### Web Application that enables users to track/trade different Crpto-Currencies.
 
