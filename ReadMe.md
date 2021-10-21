@@ -1,6 +1,6 @@
 # Cryto-X :
 
-### Web Application that enables users to track/trade different Crpto-Currencies.
+Web Application that enables users SignUp/SignIn , track/trade different Crpto-Currencies and have notifications.
 
 ---
 

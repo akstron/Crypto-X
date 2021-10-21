@@ -3,6 +3,7 @@ import CoinList from '../CoinList/CoinList';
 
 function HomePage({cryptoCoins} ) {
   return (
+    
     <div className='container'>
         <CoinList cryptoCoinsList={cryptoCoins}/>
     </div>

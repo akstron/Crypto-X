@@ -13,13 +13,11 @@ const CoinList=({cryptoCoinsList})=>{
     const [data,setData]=useState(undefined);
     const [cryptoCoins,setCryptoCoins] = useState(cryptoCoinsList);
 
-    useEffect(() => {
-        let isComponentMounted = true;    
-        
+    const socketConnect=()=>{
         socket.on('currentData',market=>{
             // console.log(market)
             setData(market)
-            if(isComponentMounted && market.symbol!==undefined) setCryptoCoins((cryptoCoins)=>{
+            if(market.symbol!==undefined) setCryptoCoins((cryptoCoins)=>{
                 if(cryptoCoins.length<1)return cryptoCoins;
                 let newCryptoCoins=cryptoCoins;
                 let currentDate=new Date();
@@ -40,6 +38,11 @@ const CoinList=({cryptoCoinsList})=>{
                 return newCryptoCoins;
             });
         });
+    }
+
+    useEffect(() => {
+        let isComponentMounted = true;    
+        if(isComponentMounted) socketConnect();        
         return (()=>{
           isComponentMounted = false;
           socket.emit('disconnection');
