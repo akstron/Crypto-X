@@ -33,7 +33,7 @@ npm install
 npm start
 ```
 
-<img align="left" width="40" height="40" src="https://img.icons8.com/glyph-neue/344/code.png" alt="Resume application project app icon">
+<img align="left" width="40" height="40" src="https://img.icons8.com/external-becris-lineal-color-becris/344/external-technology-literary-genres-becris-lineal-color-becris.png" alt="Resume application project app icon">
 
 ## Technology Stack (Proposed)
 
@@ -45,7 +45,7 @@ npm start
 - API (Like Binance,coingecko)
 
 
-<img align="left" width="40" height="40" src="https://img.icons8.com/dotty/344/features-list.png" alt="Resume application project app icon">
+<img align="left" width="40" height="40" src="https://img.icons8.com/fluency/344/features-list.png" alt="Resume application project app icon">
 
 ## Features (Proposed)
 
@@ -70,7 +70,7 @@ npm start
 - Rating System for Users.
 
 
-<img align="left" width="40" height="40" src="https://img.icons8.com/wired/344/community-grants.png" alt="Resume application project app icon">
+<img align="left" width="40" height="40" src="https://img.icons8.com/dusk/64/000000/community-grants.png" alt="Resume application project app icon">
 
 ## Contributers
 
