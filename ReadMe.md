@@ -1,7 +1,10 @@
-<div style="float: left;margin-right:25px"><img src='https://img.icons8.com/external-wanicon-lineal-color-wanicon/344/external-trade-nft-wanicon-lineal-color-wanicon.png' height='20px'/></div>
 
-# Cryto-X
+<div style="float: left;margin-right:25px"><img src='https://img.icons8.com/external-wanicon-lineal-color-wanicon/344/external-trade-nft-wanicon-lineal-color-wanicon.png' 
+height='40px'/>
+<h1>Crypto-X</h1>
+</div>
 
+---
 ### Web Application that enables users to track/trade different Crpto-Currencies.
 
 ---
