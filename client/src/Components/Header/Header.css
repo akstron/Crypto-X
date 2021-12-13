@@ -26,3 +26,17 @@
   left: auto !important;
   right: 0px;
 }
+
+.link {
+  background: none;
+  border: none;
+  text-decoration: none;
+  color: white;
+  font-family: inherit;
+  cursor: pointer;
+  padding: auto;
+}
+
+.link:hover {
+  color: black !important;
+}

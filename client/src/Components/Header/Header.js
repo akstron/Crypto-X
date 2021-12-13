@@ -39,7 +39,7 @@ const Header = ({uId,firstName,emailId,setUser}) => {
             </button>
             <div className="collapse navbar-collapse" 
                 id="navbarSupportedContent">
-                <ul className='navbar-nav ms-auto'>
+                <ul className='navbar-nav ms-auto link'>
                     <NavItem path='/' title='Home'/>
                     <NavItem path='/Market' title='Market'/>
                     {(emailId!==undefined)?(

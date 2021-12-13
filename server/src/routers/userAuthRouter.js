@@ -26,8 +26,8 @@ router.post('/login', LogIn);
 router.post('/logout', IsAuthenticated, LogOut);
 router.get('/login/google', passport.authenticate('google', {scope: ['profile', 'email']}));
 router.get('/getUser', IsAuthenticated, GetUser);
-router.get('/login/google/callback', passport.authenticate('google', {failureRedirect: 'http://localhost:3000/login'}), (req, res) => {
-    res.redirect('http://localhost:3000/');
+router.get('/login/google/callback', passport.authenticate('google', {failureRedirect: process.env.REACT_APP_FRONTEND+'/login'}), (req, res) => {
+    res.redirect(process.env.REACT_APP_FRONTEND);
 });
 
 module.exports = router;

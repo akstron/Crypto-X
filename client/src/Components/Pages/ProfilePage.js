@@ -1,4 +1,5 @@
 import { FloatingLabel, Form ,Button,Row,Col} from 'react-bootstrap';
+import Orders from '../Portfolio/Orders';
 import Wallet from '../Portfolio/Wallet';
 import './ProfilePage.css'
 //TODO: Add if(user==null) wallet:invisible
@@ -38,7 +39,14 @@ const ProfilePage = ({firstName,emailId}) => {
                     </Form>
                 </Col>
                 <Col sm={5}>
-                <   Wallet/>
+                    <Row>
+                        <Col>
+                            <Orders/>
+                        </Col>
+                        <Col>
+                            <Wallet/>
+                        </Col>
+                    </Row>
                 </Col>
             </Row>
         </div>

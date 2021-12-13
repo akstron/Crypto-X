@@ -21,9 +21,11 @@ function App() {
   const [isLoading,setIsLoading]=useState(true);
 
   const getUser=()=>{
-    const userRoute = process.env.REACT_APP_BACKEND + '/getUser';
+    const userRoute = process.env.REACT_APP_BACKEND + '/getuser';
+
     axios.get(userRoute, {withCredentials: true}).then(res => {
-      // console.log(res);
+      console.log("Response--");
+      console.log(res);
       if(res['data']['status']){
             const user=({firstName:res['data']['user']['firstName'],
                         lastName:res['data']['user']['lastName'],

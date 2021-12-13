@@ -1,21 +1,28 @@
 import React , {useState} from "react";
-import { NavDropdown } from "react-bootstrap";
 import './Notification.css'
-import DropDown from './DropDown'
-import { ReactComponent as BellIcon } from "../../assets/notificationIcon.svg";
 
 const Notification=({NoOfNotifications})=>{
+    var isOpen =false;
+
+    const handleClick=()=>{
+        isOpen=!isOpen;
+        if(!isOpen){
+            document.activeElement.blur();
+        }
+    }
+
     const [newNotifications,setNotifications] =useState(NoOfNotifications);
     return (
         <>
-            <NavDropdown title={"🔔"+((newNotifications>0)?newNotifications:"")} id="basic-nav-dropdown" className='nav-item'>
-                
-                <NavDropdown.Item href="#action/3.2"><DropDown/></NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2"><DropDown/></NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2"><DropDown/></NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">Clear All</NavDropdown.Item>
-            </NavDropdown>
+            <div className="dropdown" onClick={handleClick}>
+                <button className="link">
+                    <i class="fas fa-bell"></i>
+                    <span className="noOfNotification">3</span>
+                </button>
+                <div className="dropdownmenu">
+                    Content
+                </div>
+            </div>
         </>
     );
 }

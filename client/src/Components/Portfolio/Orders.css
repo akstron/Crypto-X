@@ -1,4 +1,4 @@
-.wallet-div {
+.orders-div {
   margin: 10px auto !important;
   margin-right: 7px;
   margin: 1px auto;
@@ -10,7 +10,7 @@
   width: fit-content;
 }
 
-.wallet-heading {
+.orders-heading {
   display: flex;
   gap: 2rem;
   background-color: rgb(199, 255, 205);
@@ -19,14 +19,14 @@
   padding: 5px;
 }
 
-.wallet-details {
+.orders-details {
   display: flex;
   gap: 2rem;
   padding: 3px 5px;
   align-items: baseline;
 }
 
-.wallet-balance {
+.orders-balance {
   display: flex;
   gap: 0rem;
 }
