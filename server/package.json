@@ -1,14 +1,20 @@
 {
-  "name": "server",
+  "name": "crypto-server",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "server for baniya-trade.netify.com",
+  "main": "src/server.js",
   "scripts": {
-    "dev": "nodemon src/server.js"
+    "test": "node src/server.js",
+    "start": "node src/server.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akstron/Crypto-X.git"
+  },
+  "keywords": [
+    "trading",
+    "website"
+  ],
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "binance": "^2.0.14",
@@ -34,5 +40,11 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.13"
-  }
+  },
+  "author": "Aayush",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/akstron/Crypto-X/issues"
+  },
+  "homepage": "https://github.com/akstron/Crypto-X#readme"
 }

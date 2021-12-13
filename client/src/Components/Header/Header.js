@@ -1,11 +1,14 @@
 import React from "react"
 import {NavLink} from 'react-router-dom'
+import Notification from "./Notification";
 import axios from 'axios';
 import './Header.css'
+import NavItem from "./NavItem";
 
 const Header = ({uId,firstName,emailId,setUser}) => {
 
     const logOut=async ()=>{
+        console.log("Loging Out")
         const userRoute = process.env.REACT_APP_BACKEND + '/logout';
         await axios.post(userRoute, {},{withCredentials: true}).then(res => {
             console.log(res);
@@ -24,6 +27,7 @@ const Header = ({uId,firstName,emailId,setUser}) => {
             <NavLink className="navbar-brand" to='/'> 
                 Baniya-Trade 
             </NavLink>
+
             <button 
                 className="navbar-toggler"
                 type="button" data-toggle="collapse" 
@@ -35,33 +39,25 @@ const Header = ({uId,firstName,emailId,setUser}) => {
             </button>
             <div className="collapse navbar-collapse" 
                 id="navbarSupportedContent">
-                <ul className='navbar-nav ms-auto'>
-                    <li className="nav-item active">
-                        <NavLink to='/'>Home</NavLink>
-                    </li>
-                    <li className="nav-item">
-                        <NavLink to='/Market'>Market</NavLink>
-                    </li>
+                <ul className='navbar-nav ms-auto link'>
+                    <NavItem path='/' title='Home'/>
+                    <NavItem path='/Market' title='Market'/>
                     {(emailId!==undefined)?(
                         <>
-                            <li className="nav-item">
-                                <NavLink to='/Profile'>Hi  {firstName} ! </NavLink>
-                            </li>
+                            <NavItem path='/Profile' title={'Profile'}/>
+                            <Notification NoOfNotifications={3}/>
                             <li className="nav-item">
                                 <NavLink to='/' onClick={logOut}>LogOut</NavLink>
                             </li>
+
                         </>
                     ):(
                         <>
-                        <li className="nav-item">
-                            <NavLink to='/signup'>Sign Up</NavLink>
-                        </li>
-                        <li className="nav-item">
-                            <NavLink to='/login'>Login</NavLink>
-                        </li>
+                        <NavItem path='/signup' title='SignUp'/>
+                        <NavItem path='/login' title='Login'/>
                         </>
                     )}
-                    
+
                 </ul>
             </div>
         </nav>

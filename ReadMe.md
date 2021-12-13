@@ -4,7 +4,6 @@
 
 Web Application that enables users to track/trade different Crpto-Currencies.
 
-
 <img align="left" width="40" height="40" src="https://img.icons8.com/doodle/344/console--v2.png" alt="Resume application project app icon">
 
 ## Install and Run
@@ -44,7 +43,6 @@ npm start
 - Socket
 - API (Like Binance,coingecko)
 
-
 <img align="left" width="40" height="40" src="https://img.icons8.com/fluency/344/features-list.png" alt="Resume application project app icon">
 
 ## Features (Proposed)
@@ -68,7 +66,6 @@ npm start
 - Feature to transfer cryptocurrency to a wallet using Public Address.
 - Create your own token which users can use to transact Cryptocurrency.
 - Rating System for Users.
-
 
 <img align="left" width="40" height="40" src="https://img.icons8.com/dusk/64/000000/community-grants.png" alt="Resume application project app icon">
 
