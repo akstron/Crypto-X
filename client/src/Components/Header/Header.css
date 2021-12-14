@@ -11,12 +11,12 @@
 }
 
 .navbar-mainbg {
-  background-color: rgb(30, 153, 253);
+  background-color: rgb(0, 100, 150);
   color: white;
 }
 
 .navbar-mainbg a {
-  background-color: rgb(30, 153, 253);
+  background-color: rgb(0, 100, 150);
   color: white;
   text-decoration: none;
   padding: 4px;

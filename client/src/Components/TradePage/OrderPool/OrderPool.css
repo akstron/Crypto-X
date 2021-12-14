@@ -1,4 +1,4 @@
-.wallet-div {
+.order-pool-div {
   margin: 2rem auto !important;
   margin-right: 7px;
   margin: 1px auto;
@@ -11,7 +11,7 @@
   padding: 0 !important;
 }
 
-.wallet-heading {
+.order-pool-heading {
   display: flex;
   gap: 2rem;
   background-color: rgb(199, 255, 205);
@@ -20,16 +20,19 @@
   padding: 5px;
   width: max-content;
   border: 2px solid black;
+  width: initial;
 }
 
-.wallet-details {
-  display: flex;
-  gap: 2rem;
-  padding: 3px 5px;
+.order-pool-details {
   align-items: baseline;
+  background-color: aqua;
+  padding: 0.5rem;
+  text-align: center;
 }
 
-.wallet-balance {
-  display: flex;
-  gap: 0rem;
+.order-details {
+  max-height: 35vh;
+  overflow-y: scroll;
+  margin: 0.5rem;
+  padding: 0.5rem;
 }

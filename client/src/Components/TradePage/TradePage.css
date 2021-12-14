@@ -1,3 +1,18 @@
 .Trade-page {
-  margin: 0.5rem;
+  margin: 0.5rem auto;
+}
+
+.coin-list {
+  background-color: rgb(30, 153, 253);
+  margin: 0.5rem 2rem;
+  border-radius: 2rem;
+}
+
+.trade-card {
+  background-color: rgb(30, 153, 253);
+  margin: auto;
+  height: fit-content;
+  align-items: center;
+  margin: 2rem;
+  border-radius: 2rem;
 }

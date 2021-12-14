@@ -9,7 +9,7 @@ const handleRowClick=(event,row)=>{
 
 export const CoinsTable = ({allCoinsList}) => {
     const columns = useMemo(()=>COLUMNS,[])
-    const data = useMemo(()=>allCoinsList,[allCoinsList])
+    const data = useMemo(()=>allCoinsList.slice(0,15),[allCoinsList])
     const tableinstance = useTable(
         {
             columns,
@@ -27,38 +27,38 @@ export const CoinsTable = ({allCoinsList}) => {
 
     return (
         <div className='div-coinsList'>
-        <div className="CoinList-Heading">
-                <h4>Coins</h4>
-                <h7>( Select the coin you want to Sell/Buy )</h7>
-        </div>
-        <div className='coinsTable'>
-            
-            <table {...getTableProps()}>
-                <thead>
-                {headerGroups.map(headerGroup => (
-                    <tr {...headerGroup.getHeaderGroupProps()}>
-                    {
-                        headerGroup.headers.map(column => (
-                            <th {...column.getHeaderProps()}>{column.render('Header')}</th>
-                        ))}
-                    </tr>
-                ))}
-                </thead>
-                <tbody {...getTableBodyProps()}>
-                    {rows.map(row => {
-                        prepareRow(row)
-                        return (
-                        <tr {...row.getRowProps()}>
-                            {row.cells.map(cell => {
-                            return <td {...cell.getCellProps()} >{cell.render('Cell')}</td>
-                            // return <td {...cell.getCellProps()} {...row.getRowProps({onClick:(event)=>{handleRowClick(event,row)}})} >{cell.render('Cell')}</td>
-                            })}
+            <div className="CoinList-Heading">
+                    <h4>Coins</h4>
+                    <h7>( Select the coin you want to Sell/Buy )</h7>
+            </div>
+            <div className='coinsTable'>
+                
+                <table responsive="md" {...getTableProps()}>
+                    <thead>
+                    {headerGroups.map(headerGroup => (
+                        <tr {...headerGroup.getHeaderGroupProps()}>
+                        {
+                            headerGroup.headers.map(column => (
+                                <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+                            ))}
                         </tr>
-                        )
-                    })}
-                </tbody>
-            </table>
-        </div>
+                    ))}
+                    </thead>
+                    <tbody {...getTableBodyProps()}>
+                        {rows.map(row => {
+                            prepareRow(row)
+                            return (
+                            <tr {...row.getRowProps()}>
+                                {row.cells.map(cell => {
+                                return <td {...cell.getCellProps()} >{cell.render('Cell')}</td>
+                                // return <td {...cell.getCellProps()} {...row.getRowProps({onClick:(event)=>{handleRowClick(event,row)}})} >{cell.render('Cell')}</td>
+                                })}
+                            </tr>
+                            )
+                        })}
+                    </tbody>
+                </table>
+            </div>
         </div>
 
     )

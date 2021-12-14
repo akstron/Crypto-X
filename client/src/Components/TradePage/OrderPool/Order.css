@@ -1,0 +1,18 @@
+.order-div {
+  margin: 0.5rem;
+  background-color: rgb(131, 250, 143);
+  border-radius: 1rem;
+  padding: 0.5rem;
+  border: 1px dotted black;
+  text-align: center;
+}
+
+.coin-details {
+  display: inline;
+  margin: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.progress-div {
+  margin-top: 0.5rem;
+}
