@@ -1,5 +1,5 @@
 import React from "react";
-import CoinList from '../CoinList/CoinList';
+// import CoinList from '../CoinList/CoinList';
 
 function HomePage({cryptoCoins} ) {
   return (

@@ -16,7 +16,7 @@ const Notification=({NoOfNotifications})=>{
         <>
             <div className="dropdown" onClick={handleClick}>
                 <button className="link">
-                    <i class="fas fa-bell"></i>
+                    <i className="fas fa-bell"></i>
                     <span className="noOfNotification">3</span>
                 </button>
                 <div className="dropdownmenu">

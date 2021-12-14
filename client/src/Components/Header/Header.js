@@ -45,6 +45,7 @@ const Header = ({uId,firstName,emailId,setUser}) => {
                     {(emailId!==undefined)?(
                         <>
                             <NavItem path='/Profile' title={'Profile'}/>
+                            <NavItem path='/TradePage' title={'Buy/Sell'}/>
                             <Notification NoOfNotifications={3}/>
                             <li className="nav-item">
                                 <NavLink to='/' onClick={logOut}>LogOut</NavLink>

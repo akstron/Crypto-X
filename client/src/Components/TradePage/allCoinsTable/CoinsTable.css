@@ -1,0 +1,53 @@
+.div-coinsList {
+  width: min-content;
+  margin: auto;
+}
+
+.coinsTable {
+  border: 5px solid red;
+  border-radius: 2rem;
+  overflow-y: scroll;
+  max-height: 60vh;
+  background-color: blanchedalmond;
+  width: min-content;
+  margin: auto;
+}
+
+.CoinList-Heading {
+  margin: auto;
+  text-align: center;
+  background-color: rgb(199, 255, 205);
+  border: 2px solid black;
+  border-radius: 2rem;
+}
+
+table {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  border-radius: 2rem;
+  padding: 0.2rem;
+  margin: 0.1rem auto;
+}
+
+table td,
+table th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+table tr:hover {
+  background-color: #ddd;
+}
+
+table th,
+tfoot td {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: rgb(199, 255, 205);
+  color: black;
+}

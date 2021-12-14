@@ -8,11 +8,12 @@ import SignUpPage from "../Pages/SignUpPage"
 import NotFound from "../Pages/NotFound";
 import ValindationPage from "../Pages/ValindationPage";
 import AddMoney from "../Pages/AddMoney";
-import { favCryptoCoins } from '../Utils/data';
+import { allCoinsList, favCryptoCoins } from '../Utils/data';
 import'./App.css'
 
 import React,{useEffect, useState} from "react";
 import {BrowserRouter,Route,Switch,Redirect} from 'react-router-dom'
+import { TradePage } from '../TradePage/TradePage';
 
 function App() {
 
@@ -61,6 +62,7 @@ function App() {
             <Route path="/Market"><Market cryptoCoinList={favCryptoCoins}/></Route> 
             {/* Protected Route */}       
             <Route path="/Profile">{!(User===undefined)?(<ProfilePage {...User}/>):(<Redirect to='/login'/>)}</Route>
+            <Route path="/TradePage">{!(User===undefined)?(<TradePage {...User} allCoinsList={allCoinsList}/>):(<Redirect to='/login'/>)}</Route>
             <Route path="/addMoney">{!(User===undefined)?(<AddMoney {...User}/>):(<Redirect to='/login'/>)}</Route>
             <Route path="/login"> {(User===undefined)?(<LoginPage setUser={setUser}/>):(<Redirect to='/'/>)} </Route>
             <Route path="/signup" > {(User===undefined)?(<SignUpPage setUser={setUser}/>):(<Redirect to='/'/>)} </Route> 
