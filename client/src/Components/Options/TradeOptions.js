@@ -1,5 +1,6 @@
 import './TradeOptions.css'
 import {Form,Row,Col,Button} from 'react-bootstrap';
+import ToggleSwitch from '../TradePage/BuyCoin/ToggleSwitch';
 
 const TradeOptions = () => {
 
@@ -39,7 +40,9 @@ const TradeOptions = () => {
                     </Col>
                 </Form.Group>
 
-                <Button className='trade-btn' variant="outline-primary"> Buy </Button>{' '}
+                <ToggleSwitch/>
+
+                <Button className='trade-btn' variant="danger" size="lg"> Deal </Button>{' '}
             </Form>
         </div>
     )

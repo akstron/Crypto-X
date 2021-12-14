@@ -8,6 +8,7 @@
   align-items: center;
   vertical-align: middle;
   width: fit-content;
+  padding: 0 !important;
 }
 
 .wallet-heading {
@@ -17,6 +18,8 @@
   border-radius: 1rem 1rem 0rem 0rem;
   margin: 0px auto;
   padding: 5px;
+  width: max-content;
+  border: 2px solid black;
 }
 
 .wallet-details {

@@ -3,8 +3,11 @@ import './CoinsTable.css'
 import {useTable} from 'react-table'
 import {COLUMNS} from './columns'
 
+const handleRowClick=(event,row)=>{
+    console.log(row.original);
+}
+
 export const CoinsTable = ({allCoinsList}) => {
-    console.log(allCoinsList)
     const columns = useMemo(()=>COLUMNS,[])
     const data = useMemo(()=>allCoinsList,[allCoinsList])
     const tableinstance = useTable(
@@ -25,7 +28,8 @@ export const CoinsTable = ({allCoinsList}) => {
     return (
         <div className='div-coinsList'>
         <div className="CoinList-Heading">
-                <h3>Coins</h3>
+                <h4>Coins</h4>
+                <h7>( Select the coin you want to Sell/Buy )</h7>
         </div>
         <div className='coinsTable'>
             
@@ -46,7 +50,8 @@ export const CoinsTable = ({allCoinsList}) => {
                         return (
                         <tr {...row.getRowProps()}>
                             {row.cells.map(cell => {
-                            return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                            return <td {...cell.getCellProps()} >{cell.render('Cell')}</td>
+                            // return <td {...cell.getCellProps()} {...row.getRowProps({onClick:(event)=>{handleRowClick(event,row)}})} >{cell.render('Cell')}</td>
                             })}
                         </tr>
                         )

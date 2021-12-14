@@ -1,11 +1,12 @@
 .div-coinsList {
   width: min-content;
-  margin: auto;
+  margin: 2rem auto;
+  box-shadow: 0 2px 5px 0 rgba(255, 0, 0, 0.1);
 }
 
 .coinsTable {
-  border: 5px solid red;
-  border-radius: 2rem;
+  border: 0px solid black;
+  border-radius: 0rem;
   overflow-y: scroll;
   max-height: 60vh;
   background-color: blanchedalmond;
@@ -18,7 +19,14 @@
   text-align: center;
   background-color: rgb(199, 255, 205);
   border: 2px solid black;
-  border-radius: 2rem;
+  border-radius: 2rem 2rem 0 0;
+  padding: 1rem;
+}
+
+.CoinList-Heading h4,
+.CoinList-Heading span {
+  display: inline;
+  margin: 1rem;
 }
 
 table {

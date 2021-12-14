@@ -1,9 +1,9 @@
 .div-trade-options {
   background-color: blanchedalmond;
-  border-radius: 25px;
+  border-radius: 1rem;
   font-size: small;
   margin: 2px auto;
-  padding: 1px;
+  padding: 0px;
 }
 
 .div-trade-options h3 {
@@ -12,6 +12,7 @@
   text-align: center;
   background-color: rgb(199, 255, 205);
   border-radius: 1rem 1rem 0rem 0rem;
+  border: 2px solid black;
 }
 
 .market-form {
@@ -20,6 +21,9 @@
 }
 
 .trade-btn {
-  margin: 1rem auto !important;
-  margin-bottom: 0px;
+  margin: 2rem;
+  height: 50px;
+  width: 80px;
+  font-weight: bold;
+  font-size: larger;
 }
