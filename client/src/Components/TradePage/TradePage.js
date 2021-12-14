@@ -8,6 +8,10 @@ import "./TradePage.css"
 export const TradePage = ({allCoinsList}) => {
     return (
         <div className='Trade-page'>
+            <div className="trade-page-heading">
+                <h3>Buy/Sell Coins</h3>
+                <h7>[ Select coins from list and chose options from given form ]</h7>
+            </div>
             <Row>
                 <Col className='coin-list'>
                     <CoinsTable allCoinsList={allCoinsList}></CoinsTable>

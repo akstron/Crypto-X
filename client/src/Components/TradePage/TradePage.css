@@ -2,6 +2,21 @@
   margin: 0.5rem auto;
 }
 
+.trade-page-heading {
+  color: black;
+  margin: 0.5rem auto;
+  text-align: center;
+  border-radius: 2rem;
+  width: fit-content;
+}
+
+.trade-page-heading h3 {
+  background-color: rgb(199, 255, 205);
+  border: 1px solid black;
+  margin-top: 0;
+  border-radius: 2rem 2rem 0 0;
+}
+
 .coin-list {
   background-color: rgb(30, 153, 253);
   margin: 0.5rem 2rem;

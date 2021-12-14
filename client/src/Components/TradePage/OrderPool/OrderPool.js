@@ -11,15 +11,17 @@ const OrderPool = () => {
                 <h3>Order-pool</h3>
 
             </div>
-            <div className="order-pool-details">
-                    <h4>No of Orders : 5</h4>
-            </div>
+
             <div className="order-details">
                 <Order CoinName={'INR'} Balance={'2,233'} Growth={0.1}/>
                 <Order CoinName={'BTC'} Balance={0.0023} Growth={-0.51}/>
                 <Order CoinName={'DGC'} Balance={0.0034} Growth={0.32}/>
                 <Order CoinName={'DGC'} Balance={0.0034} Growth={0.32}/>
                 <Order CoinName={'DGC'} Balance={0.0034} Growth={0.32}/>
+            </div>
+
+            <div className="order-pool-details">
+                <h4>No of Orders : 5</h4>
             </div>
         </div>
     )
