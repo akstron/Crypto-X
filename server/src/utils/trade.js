@@ -29,33 +29,47 @@ const createOrder = (usedId, coinType, price, quantity, orderType) => {
     return currentOrder;
 }
 
+/* While placing an order remove required amount of money or coins from wallet beforehand */
 const addOrderInDatabase = async (order) => {
     const dbOrder = new Order(order);
 
+    const user = await User.findById(order.usedId);
+    if(!user){
+        throw new Error('No user found!!');
+    }
+
+    const wallet = await Wallet.findById(user.wallet);
+    if(!wallet){
+        throw new Error('No wallet found!');
+    }
+
     if(order.orderType === 'buy'){
-        const user = await User.findById(order.usedId);
-        if(!user){
-            throw new Error('No user found!!');
-        }
-
-        const wallet = await Wallet.findById(user.wallet);
-        if(!wallet){
-            throw new Error('No wallet found!');
-        }
-
+    
         const totalMoneySpent = order.price * order.quantity;
-        if(totalMoneySpent > wallet.amount){
-            throw new Error('No amount in wallet for purchase');
+        if(totalMoneySpent > wallet.balance){
+            throw new Error('Insufficient amount in wallet');
         }
 
-        wallet.amount -= totalMoneySpent;
-
-        await wallet.save();
-        await dbOrder.save();    
+        wallet.balance -= totalMoneySpent;
+ 
     }
     else {
-        await dbOrder.save();
+        if(!(order.coinType in wallet.coins)){
+            throw new Error('Insufficient coins in wallet');
+        }
+
+        if(wallet.coins[order.coinType] < order.quantity){
+            throw new Error('Insufficient coins in wallet');
+        }
+
+        wallet.coins[order.coinType] -= order.quantity;
+        wallet.markModified('coins');
+
+        console.log(wallet.coins);
     }
+
+    await wallet.save();
+    await dbOrder.save();   
 }
 
 /* Add order to linked list */
@@ -81,23 +95,55 @@ const getMinimum = (first, second) => {
     return (first < second ? first : second);
 }
 
-const updateOrderInDatabase = async (order) => {
+const updateWallet = async (order, exchange) => {
+    const user = await User.findById(order.usedId);
+    if(!user){
+        throw new Error('No user found!!');
+    }
+
+    const wallet = await Wallet.findById(user.wallet);
+    if(!wallet){
+        throw new Error('No wallet found!');
+    }
+
+    if(order.orderType === 'buy'){
+        if(!(order.coinType in wallet.coins)){
+            wallet.coins[order.coinType] = 0;
+        }
+
+        wallet.coins[order.coinType] += order.exchange;
+        wallet.markModified('coins');
+    }
+    else {
+        wallet.balance += exchange * order.price;
+    }
+
+    await wallet.save();
+}
+
+/**
+ * TODO: Don't use this update function frequently
+ * Make a bulk update
+ */
+const updateOrderInDatabase = async (order, exchange) => {
     const { _id } = order;
 
     await Order.findByIdAndUpdate(_id, order);
+
+    if(order.orderType === 'sell'){
+        await updateWallet(order, exchange);
+    }
 }
 
 /**
  * TODO: 
  * 1. Add socket, for updating
- * 2. Update balance and coins for sell
  */
 
-const orderUpdate = async (order) => {
+const orderUpdate = async (order, exchange) => {
 
-    await updateOrderInDatabase(order);
+    await updateOrderInDatabase(order, exchange);
 
-    console.log(order);
 }
 
 /* To perform match and commit orders */
@@ -127,8 +173,8 @@ const performMatch = async (buyList, sellList) => {
         remainingBuyOrder = buyOrder.quantity - buyOrder.completed;
         remainingSellOrder = sellOrder.quantity - sellOrder.completed;
 
-        await orderUpdate(sellOrder);
-        await orderUpdate(buyOrder);
+        await orderUpdate(sellOrder, minimumExchange);
+        await orderUpdate(buyOrder, minimumExchange);
 
         /**
          * TODO: Put commited deal in database

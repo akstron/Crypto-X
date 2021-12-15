@@ -25,9 +25,10 @@ module.exports.Sell = async (req, res) => {
     }
     catch(e){
         console.log('error:', e);
+
         return res.status(500).json({
             status: false,
-            error: 'Interval server error'
+            error: e.message
         });
     }
 }
@@ -48,7 +49,7 @@ module.exports.Buy = async (req, res) => {
         console.log('error:', e);
         return res.status(500).json({
             status: false,
-            error: 'Interval server error'
+            error: e.message
         });
     }
 }
