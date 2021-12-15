@@ -1,5 +1,7 @@
 /**
  * Middlewares related to Trading 
+ * 
+ * Author: Alok Kumar Singh
  */
 
 const {v4: idGererator} = require('uuid');
@@ -8,7 +10,48 @@ const Wallet = require('../models/Wallet');
 const Bank = require('../models/Bank');
 const {getCurrentPrice} = require('../utils/priceStats');
 const {getPercentChange} = require('../utils/priceStats');
+const {addSellOrder, addBuyOrder} = require('../utils/trade');
 
+module.exports.Sell = async (req, res) => {
+    const user = req.user;
+    const {price, quantity, coinType} = req.body;
+
+    try{
+        await addSellOrder(user._id, coinType, price, quantity);
+        
+        return res.json({
+            status: true
+        });
+    }
+    catch(e){
+        console.log('error:', e);
+        return res.status(500).json({
+            status: false,
+            error: 'Interval server error'
+        });
+    }
+}
+
+module.exports.Buy = async (req, res) => {
+    const user = req.user;
+    const {price, quantity, coinType} = req.body;
+    
+    try{
+        await addBuyOrder(user._id, coinType, price, quantity);
+
+        return res.json({
+            status: true
+        });
+    }
+    catch(e){
+
+        console.log('error:', e);
+        return res.status(500).json({
+            status: false,
+            error: 'Interval server error'
+        });
+    }
+}
 
 const updateBank = (coins, updates) => {
     for(const [key, value] of Object.entries(updates)){
@@ -40,19 +83,10 @@ const addTransaction = (coins, updates, rate) => {
     }
 }
 
-module.exports.Sell = async (req, res) => {
-    const user = req.user;
-    const {price, quantity, coinType} = req.body;
-
-}
-
 /**
  * TODO: Remove transaction
  */
 
-/**
- * TODO: Add checks whether account reaches below zero
- */
 
 module.exports.Transaction = async (req, res) => {
     const user = req.user;

@@ -84,7 +84,6 @@ module.exports.SignUp = async (req, res) => {
             watchList: []
         }], {session});
 
-        // throw new Error('hel');
 
         const vc = await VerificationCode.create([{
             accountId: userId

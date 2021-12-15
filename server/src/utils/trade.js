@@ -1,30 +1,34 @@
 /**
  * Trade related methods
+ * 
  * Author: Alok Kumar Singh
  */
 
-const sellOrders = new Map();
-const buyOrders = new Map();
-const {v4: idGenerator} = require('uuid');
+const {sellOrders, buyOrders} = require('../store/OrderMap');
 const LinkedList = require('../store/LInkedList');
+const mongoose = require('mongoose');
+const Order = require('../models/Order');
 
-const createOrder = (coinType, price, quantity) => {
+const createOrder = (usedId, coinType, price, quantity, orderType) => {
 
     /* Creating order*/
-    const orderId = idGenerator();
     const currentOrder = {
-        orderId, 
+        usedId,
+        _id: mongoose.Types.ObjectId(), 
         coinType,
         price,
         quantity,
-        completed: 0
+        completed: 0,
+        orderType
     };
+
+    console.log(currentOrder);
 
     return currentOrder;
 }
 
 /* Add order to linked list */
-const addOrder = (order, orderMap) => {
+const addOrder = async (order, orderMap) => {
 
     const {coinType, price} = order;
 
@@ -36,6 +40,9 @@ const addOrder = (order, orderMap) => {
     const orderList = coinMap.get(price);
     orderList.pushBack(order);
 
+    const dbOrder = new Order(order);
+    await dbOrder.save();
+
     return orderList;
 }
 
@@ -44,15 +51,38 @@ const getMinimum = (first, second) => {
     return (first < second ? first : second);
 }
 
+const updateOrderInDatabase = async (order, orderType) => {
+    const { _id } = order;
+
+    /* Update this somewhere else */
+    order.orderType = orderType;
+
+    await Order.findByIdAndUpdate(_id, order);
+}
+
+/**
+ * TODO: 
+ * 1. Add socket, for updating
+ * 2. Update balance and coins
+ */
+
+const orderUpdate = async (order, orderType) => {
+
+    await updateOrderInDatabase(order, orderType);
+
+    console.log(orderType);
+    console.log(order);
+}
+
 /* To perform match and commit orders */
-const performMatch = (buyList, sellList) => {
+const performMatch = async (buyList, sellList) => {
     if(buyList.isEmpty() || sellList.isEmpty()) 
     {
         console.log('Empty');
         return;
     }
 
-    console.log('Matching...\n');
+    // console.log('Matching...\n');
 
     var currentBuyer = buyList.head;
     var currentSeller = sellList.head;
@@ -73,8 +103,15 @@ const performMatch = (buyList, sellList) => {
         remainingBuyOrder = buyOrder.quantity - buyOrder.completed;
         remainingSellOrder = sellOrder.quantity - sellOrder.completed;
 
-        console.log('remainingSellOrder: ' + remainingSellOrder);
-        console.log('remainingBuyOrder: ' + remainingBuyOrder);
+        await orderUpdate(sellOrder, 'sell');
+        await orderUpdate(buyOrder, 'buy');
+
+        /**
+         * TODO: Put commited deal in database
+         * 
+         * First put commited deal in a linked list and then at intervals put
+         * bulk of these commits in db
+         */
 
         if(remainingSellOrder === 0){
             sellList.popFront();
@@ -88,16 +125,18 @@ const performMatch = (buyList, sellList) => {
     }
 }
 
+/* Method for finding match for buy and sell orders and committing deals */
+
 /**
- * Method for finding match for buy and sell orders and committing deals 
+ * TODO: Make this asynchronours (MAYBE)
  */
 
-const findMatchAndUpdate = (coinType, price) => {
+const findMatchAndUpdate = async (coinType, price) => {
     if(!coinType || !price){
         throw new Error("Can't find match for null type");
     }
 
-    console.log('Matching started\n');
+    // console.log('Matching started\n');
 
     if(!buyOrders.has(coinType)) return;
     if(!sellOrders.has(coinType)) return;
@@ -111,52 +150,40 @@ const findMatchAndUpdate = (coinType, price) => {
     const buyList = buyMap.get(price);
     const sellList = sellMap.get(price);
 
-    performMatch(buyList, sellList);
+    await performMatch(buyList, sellList);
 }
 
-const addSellOrder = (coinType, price, quantity) => {
-    if(!coinType || !price || !quantity){
+const addSellOrder = async (userId, coinType, price, quantity) => {
+    if(!userId || !coinType || !price || !quantity){
         throw new Error('Null values not accepted!');
     }
 
+    price = parseInt(price);
+    quantity = parseInt(quantity);
+
     /* Create order */
-    const order = createOrder(coinType, price, quantity);   
-    const orderList = addOrder(order, sellOrders);
+    const order = createOrder(userId, coinType, price, quantity, 'sell');   
+    const orderList = await addOrder(order, sellOrders);
 
-    console.log('current\n');
-
-    orderList.inorder();
-    findMatchAndUpdate(coinType, price);
-
-
-    // For debugging only
-    orderList.inorder();
+    await findMatchAndUpdate(coinType, price);
 }
 
-const addBuyOrder = (coinType, price, quantity) => {
-    if(!coinType || !price || !quantity){
+const addBuyOrder = async (userId, coinType, price, quantity) => {
+    if(!userId || !coinType || !price || !quantity){
         throw new Error('Null values not accepted!');
     }
 
+    price = parseInt(price);
+    quantity = parseInt(quantity);
+
     /* Create order */
-    const order = createOrder(coinType, price, quantity);   
+    const order = createOrder(userId, coinType, price, quantity, 'buy');   
     const orderList = addOrder(order, buyOrders);
 
-    console.log('current\n');
-    orderList.inorder();
-
-    findMatchAndUpdate(coinType, price);
-
-    // For debugging only
-    orderList.inorder();
+    await findMatchAndUpdate(coinType, price);
 }
 
-addSellOrder('BTC', 100, 2);
-addBuyOrder('BTC', 100, 3);
-addBuyOrder('BTC', 100, 5);
-addSellOrder('BTC', 100, 10);
-addBuyOrder('BTC', 20, 3);
-addBuyOrder('BTC', 20, 100);
-addSellOrder('BTC', 20, 5);
-// addSellOrder('BTC', 100, 2);
-// addSellOrder('ETH', 50, 3);
+module.exports = {
+    addSellOrder, 
+    addBuyOrder
+};
