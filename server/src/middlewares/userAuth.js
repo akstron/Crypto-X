@@ -5,7 +5,6 @@
 const nodemailer = require('nodemailer');
 const passport = require('passport');
 const mongoose = require('mongoose');
-const {v4: idGenerator} = require('uuid');
 
 const User = require('../models/User');
 const VerificationCode = require('../models/VerificationCode');

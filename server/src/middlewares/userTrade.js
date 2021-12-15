@@ -40,10 +40,6 @@ const addTransaction = (coins, updates, rate) => {
     }
 }
 
-const addSellOrder = async () => {
-    
-}
-
 module.exports.Sell = async (req, res) => {
     const user = req.user;
     const {price, quantity, coinType} = req.body;
