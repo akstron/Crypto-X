@@ -8,6 +8,8 @@ const {sellOrders, buyOrders} = require('../store/OrderMap');
 const LinkedList = require('../store/LInkedList');
 const mongoose = require('mongoose');
 const Order = require('../models/Order');
+const User = require('../models/User');
+const Wallet = require('../models/Wallet');
 
 const createOrder = (usedId, coinType, price, quantity, orderType) => {
 
@@ -27,6 +29,35 @@ const createOrder = (usedId, coinType, price, quantity, orderType) => {
     return currentOrder;
 }
 
+const addOrderInDatabase = async (order) => {
+    const dbOrder = new Order(order);
+
+    if(order.orderType === 'buy'){
+        const user = await User.findById(order.usedId);
+        if(!user){
+            throw new Error('No user found!!');
+        }
+
+        const wallet = await Wallet.findById(user.wallet);
+        if(!wallet){
+            throw new Error('No wallet found!');
+        }
+
+        const totalMoneySpent = order.price * order.quantity;
+        if(totalMoneySpent > wallet.amount){
+            throw new Error('No amount in wallet for purchase');
+        }
+
+        wallet.amount -= totalMoneySpent;
+
+        await wallet.save();
+        await dbOrder.save();    
+    }
+    else {
+        await dbOrder.save();
+    }
+}
+
 /* Add order to linked list */
 const addOrder = async (order, orderMap) => {
 
@@ -40,8 +71,7 @@ const addOrder = async (order, orderMap) => {
     const orderList = coinMap.get(price);
     orderList.pushBack(order);
 
-    const dbOrder = new Order(order);
-    await dbOrder.save();
+    await addOrderInDatabase(order);
 
     return orderList;
 }
@@ -51,11 +81,8 @@ const getMinimum = (first, second) => {
     return (first < second ? first : second);
 }
 
-const updateOrderInDatabase = async (order, orderType) => {
+const updateOrderInDatabase = async (order) => {
     const { _id } = order;
-
-    /* Update this somewhere else */
-    order.orderType = orderType;
 
     await Order.findByIdAndUpdate(_id, order);
 }
@@ -63,14 +90,13 @@ const updateOrderInDatabase = async (order, orderType) => {
 /**
  * TODO: 
  * 1. Add socket, for updating
- * 2. Update balance and coins
+ * 2. Update balance and coins for sell
  */
 
-const orderUpdate = async (order, orderType) => {
+const orderUpdate = async (order) => {
 
-    await updateOrderInDatabase(order, orderType);
+    await updateOrderInDatabase(order);
 
-    console.log(orderType);
     console.log(order);
 }
 
@@ -81,8 +107,6 @@ const performMatch = async (buyList, sellList) => {
         console.log('Empty');
         return;
     }
-
-    // console.log('Matching...\n');
 
     var currentBuyer = buyList.head;
     var currentSeller = sellList.head;
@@ -103,8 +127,8 @@ const performMatch = async (buyList, sellList) => {
         remainingBuyOrder = buyOrder.quantity - buyOrder.completed;
         remainingSellOrder = sellOrder.quantity - sellOrder.completed;
 
-        await orderUpdate(sellOrder, 'sell');
-        await orderUpdate(buyOrder, 'buy');
+        await orderUpdate(sellOrder);
+        await orderUpdate(buyOrder);
 
         /**
          * TODO: Put commited deal in database
@@ -178,7 +202,7 @@ const addBuyOrder = async (userId, coinType, price, quantity) => {
 
     /* Create order */
     const order = createOrder(userId, coinType, price, quantity, 'buy');   
-    const orderList = addOrder(order, buyOrders);
+    const orderList = await addOrder(order, buyOrders);
 
     await findMatchAndUpdate(coinType, price);
 }
