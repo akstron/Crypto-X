@@ -142,8 +142,9 @@ const updateOrderInDatabase = async (order, exchange) => {
 
 const orderUpdate = async (order, exchange) => {
 
-    await updateOrderInDatabase(order, exchange);
+    
 
+    await updateOrderInDatabase(order, exchange);
 }
 
 /* To perform match and commit orders */

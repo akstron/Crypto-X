@@ -7,16 +7,40 @@ const app = express();
 
 require('./config/passport');
 require('./config/dbConnection');
-const userAuthRouter = require('./routers/userAuthRouter');
-const userUtilityRouter = require('./routers/userControlsRouter');
-const userTradeRouter = require('./routers/userTradeRouter');
-
 
 const path = require('path');
 const http = require('http');
 const socketio = require('socket.io');
 const server = http.createServer(app);
 const io = socketio(server);
+
+// when any client gets connected with server
+io.on('connection', (socket) =>{
+  console.log('New websocket connection');
+
+  // emitting current data of all coins
+  currentData((market)=>{
+    socket.emit('currentData', market);
+  })
+
+  prevDayData((response) => {
+    socket.emit('prevDayData', response);
+  })
+
+  socket.on('disconnection', ()=> {
+    socket.disconnect();
+    console.log('Disconnected...');
+  })
+
+  //storing socket with email
+  socket.on('userId', (userId) => {
+    addSocket(userId, socket);
+  })
+})
+
+const userAuthRouter = require('./routers/userAuthRouter');
+const userUtilityRouter = require('./routers/userControlsRouter');
+const userTradeRouter = require('./routers/userTradeRouter');
 
 const currentData = require('./utils/currenData');
 const fetchCryptoDataRouter = require('./routers/fetchCryptoDataRouter');
@@ -25,6 +49,7 @@ const currentPrice = require('./utils/priceStats');
 const paymentGatewayRouter = require('./routers/paymentGateWayRouter');
 const prevDayData = require('./utils/prevDayData');
 const { response } = require('express');
+const { addSocket} = require('./utils/clientSockets');
 
 const publicDirectoryPath = path.join(__dirname, './public');
 
@@ -74,29 +99,6 @@ app.use(userTradeRouter);
 
 app.use(express.static(publicDirectoryPath));
 
-
-// when any client gets connected with server
-io.on('connection', (socket) =>{
-
-  console.log(socket.id);
-
-  console.log('New websocket connection');
-
-  // emitting current data of all coins
-  currentData((market)=>{
-    socket.emit('currentData', market);
-  });
-
-  prevDayData((response) => {
-    socket.emit('prevDayData', response);
-  });
-
-  socket.on('disconnect', ()=> {
-    socket.disconnect();
-    console.log('Disconnected...');
-  });
-})
-
 app.use(fetchCryptoDataRouter);
 app.use(paymentGatewayRouter);
 
@@ -105,3 +107,5 @@ const PORT = process.env.PORT || 8000;
 server.listen(PORT, () => {
   console.log(`Server is running at port ${PORT}`);
 })
+
+module.exports = io
