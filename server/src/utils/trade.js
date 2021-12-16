@@ -10,12 +10,14 @@ const mongoose = require('mongoose');
 const Order = require('../models/Order');
 const User = require('../models/User');
 const Wallet = require('../models/Wallet');
+const io = require('../server');
+const { socketList } = require('./clientSockets');
 
-const createOrder = (usedId, coinType, price, quantity, orderType) => {
+const createOrder = (userId, coinType, price, quantity, orderType) => {
 
     /* Creating order*/
     const currentOrder = {
-        usedId,
+        userId,
         _id: mongoose.Types.ObjectId(), 
         coinType,
         price,
@@ -96,6 +98,8 @@ const updateOrderInDatabase = async (order) => {
 const orderUpdate = async (order) => {
 
     await updateOrderInDatabase(order);
+
+    await sendOrderStatus(order);
 
     console.log(order);
 }
@@ -205,6 +209,15 @@ const addBuyOrder = async (userId, coinType, price, quantity) => {
     const orderList = await addOrder(order, buyOrders);
 
     await findMatchAndUpdate(coinType, price);
+}
+
+const sendOrderStatus = async (order) => {
+    if(socketList.has(order.userId)){
+        const socketId = socketList.get(userId).id;
+        io.to(socketId).emit('orderStatus', order);
+    }else{
+        console.log(order.userId + " " + 'does not exist');
+    }
 }
 
 module.exports = {
