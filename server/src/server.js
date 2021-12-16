@@ -35,7 +35,7 @@ const sessionStore = require('connect-mongo').create({
 const corsOptions = {
   /*origin can't be wildcard ('*') when sending credentials*/
   origin: "http://localhost:3000",
-  optionsSuccessStatus: 200, // some legacy borwsers choke on 204 (IE11 & various SmartTVs)
+  optionsSuccessStatus: 200, 
   /* 
       Below sets Access-Control-Allow-Credentials to true for cross origin credentials sharing.
       In this case it is used to get cookies, for express-session.
@@ -77,21 +77,24 @@ app.use(express.static(publicDirectoryPath));
 
 // when any client gets connected with server
 io.on('connection', (socket) =>{
+
+  console.log(socket.id);
+
   console.log('New websocket connection');
 
   // emitting current data of all coins
   currentData((market)=>{
     socket.emit('currentData', market);
-  })
+  });
 
   prevDayData((response) => {
     socket.emit('prevDayData', response);
-  })
+  });
 
-  socket.on('disconnection', ()=> {
+  socket.on('disconnect', ()=> {
     socket.disconnect();
     console.log('Disconnected...');
-  })
+  });
 })
 
 app.use(fetchCryptoDataRouter);

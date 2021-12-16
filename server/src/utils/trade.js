@@ -11,11 +11,11 @@ const Order = require('../models/Order');
 const User = require('../models/User');
 const Wallet = require('../models/Wallet');
 
-const createOrder = (usedId, coinType, price, quantity, orderType) => {
+const createOrder = (userId, coinType, price, quantity, orderType) => {
 
     /* Creating order*/
     const currentOrder = {
-        usedId,
+        userId,
         _id: mongoose.Types.ObjectId(), 
         coinType,
         price,
