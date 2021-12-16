@@ -10,14 +10,22 @@ const Wallet = require('../models/Wallet');
 const Bank = require('../models/Bank');
 const {getCurrentPrice} = require('../utils/priceStats');
 const {getPercentChange} = require('../utils/priceStats');
-const {addSellOrder, addBuyOrder} = require('../utils/trade');
+const {createAndAddOrder} = require('../utils/trade');
+const {addSocketId, getSocketId} = require('../store/SocketMap');
+
+/**
+ * TODO: Remove socket Id
+ * TODO: Test socket update functionality
+ */
 
 module.exports.Sell = async (req, res) => {
     const user = req.user;
     const {price, quantity, coinType} = req.body;
+    const { socketId } = req.session;
+    addSocketId(user._id, socketId);
 
     try{
-        await addSellOrder(user._id, coinType, price, quantity);
+        await createAndAddOrder(user._id, coinType, price, quantity, 'sell');
         
         return res.json({
             status: true
@@ -36,9 +44,11 @@ module.exports.Sell = async (req, res) => {
 module.exports.Buy = async (req, res) => {
     const user = req.user;
     const {price, quantity, coinType} = req.body;
+    const { socketId } = req.session;
+    addSocketId(user._id, socketId);
     
     try{
-        await addBuyOrder(user._id, coinType, price, quantity);
+        await createAndAddOrder(user._id, coinType, price, quantity, 'buy');
 
         return res.json({
             status: true

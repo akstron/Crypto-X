@@ -33,7 +33,7 @@ const createOrder = (userId, coinType, price, quantity, orderType) => {
 const addOrderInDatabase = async (order) => {
     const dbOrder = new Order(order);
 
-    const user = await User.findById(order.usedId);
+    const user = await User.findById(order.userId);
     if(!user){
         throw new Error('No user found!!');
     }
@@ -96,7 +96,7 @@ const getMinimum = (first, second) => {
 }
 
 const updateWallet = async (order, exchange) => {
-    const user = await User.findById(order.usedId);
+    const user = await User.findById(order.userId);
     if(!user){
         throw new Error('No user found!!');
     }
@@ -111,7 +111,9 @@ const updateWallet = async (order, exchange) => {
             wallet.coins[order.coinType] = 0;
         }
 
-        wallet.coins[order.coinType] += order.exchange;
+        console.log('Coins update');
+
+        wallet.coins[order.coinType] += exchange;
         wallet.markModified('coins');
     }
     else {
@@ -129,22 +131,24 @@ const updateOrderInDatabase = async (order, exchange) => {
     const { _id } = order;
 
     await Order.findByIdAndUpdate(_id, order);
+    await updateWallet(order, exchange);
 
-    if(order.orderType === 'sell'){
-        await updateWallet(order, exchange);
-    }
 }
 
 /**
  * TODO: 
- * 1. Add socket, for updating
+ * Send order completions updates from here to client using socket
  */
+
+const sendOrderNotification = async (order) => {
+
+}
 
 const orderUpdate = async (order, exchange) => {
 
-    
-
+    console.log('Updating order...');
     await updateOrderInDatabase(order, exchange);
+    await sendOrderNotification(order);
 }
 
 /* To perform match and commit orders */
@@ -154,6 +158,8 @@ const performMatch = async (buyList, sellList) => {
         console.log('Empty');
         return;
     }
+
+    console.log('Matching...');
 
     var currentBuyer = buyList.head;
     var currentSeller = sellList.head;
@@ -207,7 +213,7 @@ const findMatchAndUpdate = async (coinType, price) => {
         throw new Error("Can't find match for null type");
     }
 
-    // console.log('Matching started\n');
+    console.log('Matching started\n');
 
     if(!buyOrders.has(coinType)) return;
     if(!sellOrders.has(coinType)) return;
@@ -224,7 +230,7 @@ const findMatchAndUpdate = async (coinType, price) => {
     await performMatch(buyList, sellList);
 }
 
-const addSellOrder = async (userId, coinType, price, quantity) => {
+const createAndAddOrder = async (userId, coinType, price, quantity, orderType) => {
     if(!userId || !coinType || !price || !quantity){
         throw new Error('Null values not accepted!');
     }
@@ -233,28 +239,13 @@ const addSellOrder = async (userId, coinType, price, quantity) => {
     quantity = parseInt(quantity);
 
     /* Create order */
-    const order = createOrder(userId, coinType, price, quantity, 'sell');   
-    const orderList = await addOrder(order, sellOrders);
+    const order = createOrder(userId, coinType, price, quantity, orderType);   
+    const orderList = await addOrder(order, (orderType === 'sell' ? sellOrders : buyOrders));
 
     await findMatchAndUpdate(coinType, price);
 }
 
-const addBuyOrder = async (userId, coinType, price, quantity) => {
-    if(!userId || !coinType || !price || !quantity){
-        throw new Error('Null values not accepted!');
-    }
-
-    price = parseInt(price);
-    quantity = parseInt(quantity);
-
-    /* Create order */
-    const order = createOrder(userId, coinType, price, quantity, 'buy');   
-    const orderList = await addOrder(order, buyOrders);
-
-    await findMatchAndUpdate(coinType, price);
-}
 
 module.exports = {
-    addSellOrder, 
-    addBuyOrder
+    createAndAddOrder
 };

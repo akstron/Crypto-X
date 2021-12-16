@@ -14,30 +14,6 @@ const socketio = require('socket.io');
 const server = http.createServer(app);
 const io = socketio(server);
 
-// when any client gets connected with server
-io.on('connection', (socket) =>{
-  console.log('New websocket connection');
-
-  // emitting current data of all coins
-  currentData((market)=>{
-    socket.emit('currentData', market);
-  })
-
-  prevDayData((response) => {
-    socket.emit('prevDayData', response);
-  })
-
-  socket.on('disconnection', ()=> {
-    socket.disconnect();
-    console.log('Disconnected...');
-  })
-
-  //storing socket with email
-  socket.on('userId', (userId) => {
-    addSocket(userId, socket);
-  })
-})
-
 const userAuthRouter = require('./routers/userAuthRouter');
 const userUtilityRouter = require('./routers/userControlsRouter');
 const userTradeRouter = require('./routers/userTradeRouter');
@@ -48,14 +24,8 @@ const currentPrice = require('./utils/priceStats');
 
 const paymentGatewayRouter = require('./routers/paymentGateWayRouter');
 const prevDayData = require('./utils/prevDayData');
-const { response } = require('express');
-const { addSocket} = require('./utils/clientSockets');
 
 const publicDirectoryPath = path.join(__dirname, './public');
-
-const sessionStore = require('connect-mongo').create({
-    mongoUrl: process.env.MONGO_DB_URI
-});
 
 const corsOptions = {
   /*origin can't be wildcard ('*') when sending credentials*/
@@ -67,6 +37,13 @@ const corsOptions = {
   */
   credentials: true
 };
+
+app.use(cors(corsOptions));
+
+/* Session store config */
+const sessionStore = require('connect-mongo').create({
+  mongoUrl: process.env.MONGO_DB_URI
+});
 
 /* Session configuration */
 const sessionOptions = {
@@ -82,8 +59,13 @@ const sessionOptions = {
   }
 }
 
-app.use(cors(corsOptions));
-app.use(session(sessionOptions));
+const sessionMiddleware = session(sessionOptions); 
+
+io.use((socket, next) => {
+  sessionMiddleware(socket.request, socket.request.res || {}, next);
+});
+
+app.use(sessionMiddleware);
 
 /**
  * TODO: Setting up cors for Socket
@@ -101,6 +83,36 @@ app.use(express.static(publicDirectoryPath));
 
 app.use(fetchCryptoDataRouter);
 app.use(paymentGatewayRouter);
+
+// when any client gets connected with server
+io.on('connection', (socket) =>{
+  console.log('New websocket connection');
+  console.log(socket.id);
+
+  /* Add socketId to session store */
+  socket.request.session.socketId = socket.id;
+  socket.request.session.save();
+
+  // emitting current data of all coins
+  currentData((market)=>{
+    socket.emit('currentData', market);
+  })
+
+  prevDayData((response) => {
+    socket.emit('prevDayData', response);
+  })
+
+  socket.on('disconnect', ()=> {
+
+    /* Remove socket id from session store on disconnect */
+    socket.request.session.sockedId = null;
+    socket.request.session.save();
+
+    socket.disconnect();
+    console.log('Disconnected...');
+  })
+
+})
 
 const PORT = process.env.PORT || 8000;
 
