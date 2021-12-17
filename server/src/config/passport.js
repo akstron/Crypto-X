@@ -18,7 +18,9 @@ passport.use(
 				}
 
 				bcrypt.compare(password, user.password, (error, isMatch) => {
-					if (error) throw error;
+					if (error) {
+						return done(error, false, null);
+					}
 					if (isMatch) {
 						return done(null, user);
 					} else {

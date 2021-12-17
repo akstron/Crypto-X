@@ -30,7 +30,8 @@ const publicDirectoryPath = path.join(__dirname, './public');
 const corsOptions = {
   /*origin can't be wildcard ('*') when sending credentials*/
 
-  origin: [process.env.REACT_APP_FRONTEND,process.env.REACT_APP_BACKEND,"http://localhost:3000/","http://localhost:8000/"],
+  // origin: [process.env.REACT_APP_FRONTEND,process.env.REACT_APP_BACKEND,"http://localhost:3000/","http://localhost:8000/"],
+  origin: "http://localhost:3000",
   optionsSuccessStatus: 200, // some legacy borwsers choke on 204 (IE11 & various SmartTVs)
 
   /* 
@@ -39,8 +40,6 @@ const corsOptions = {
   */
   credentials: true,
 };
-
-app.use(cors(corsOptions));
 
 /* Session store config */
 const sessionStore = require('connect-mongo').create({
@@ -57,7 +56,6 @@ const sessionOptions = {
     maxAge: 1000 * 60 * 60 * 24,
     /* Set to false, to allow cookies from http */
     secure: false,
-    sameSite: 'none'
   }
 }
 
@@ -67,7 +65,11 @@ io.use((socket, next) => {
   sessionMiddleware(socket.request, socket.request.res || {}, next);
 });
 
+
+app.use(cors(corsOptions));
 app.use(sessionMiddleware);
+
+
 
 /**
  * TODO: Setting up cors for Socket

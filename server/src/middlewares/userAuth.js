@@ -89,7 +89,10 @@ module.exports.SignUp = async (req, res) => {
             accountId: userId
         }], {session});
         
+        console.log('Before verification code');
         await sendVerificationCode(email, vc[0].verificationCode);
+
+        console.log('After verification code');
 
         await session.commitTransaction();
         session.endSession();
@@ -173,9 +176,9 @@ module.exports.VerifyUser = async (req, res) => {
 module.exports.LogIn = (req, res, next) => {
     passport.authenticate('local', (error, user, info) => {
 
-        console.log(user);
-        console.log(error);
-        console.log(info);
+        console.log('session below');
+        console.log(req.session);
+   
 
         if (error) { 
             return res.status(500).json({
