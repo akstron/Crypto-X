@@ -9,11 +9,11 @@ const OrderCard = () => {
                 style={{margin:"1rem auto",width:"fit-content",padding:"1rem"}}>
                 <Result
                     status="success"
-                    title="Successfully Purchased Cloud Server ECS!"
-                    subTitle="Order number: 2017182818828182881 Cloud server configuration takes 1-5 minutes, please wait."
+                    title="Successfully Purchased"
+                    subTitle="Order number: 2017182818828182881 it may take 1-5 minutes, please wait."
                     extra={[
                     <Button type="primary" key="console">
-                        Go Console
+                        Go Orders
                     </Button>,
                     <Button key="buy">Buy Again</Button>,
                     ]}
