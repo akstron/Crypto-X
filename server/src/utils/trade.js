@@ -141,11 +141,9 @@ const io = require('../server');
   
  const sendOrderNotification = async (order) => {
     const socketId = getSocketId(order.userId);
-    if(!socketId){
-        console.log('socketId does not exist for ' + order.userId);
-    }else{
-        io.to(socketId).emit('sendOrderNotification', order);
-    }
+
+    /* If no socket is found, function would throw error */
+    io.to(socketId).emit('sendOrderNotification', order);
  }
  
  const orderUpdate = async (order, exchange) => {

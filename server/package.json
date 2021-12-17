@@ -4,6 +4,7 @@
   "description": "server for baniya-trade.netify.com",
   "main": "src/server.js",
   "scripts": {
+    "dev": "nodemon src/server.js",
     "test": "node src/server.js",
     "start": "node src/server.js"
   },

@@ -37,6 +37,8 @@ passport.use(
  * GoogleStrategy: Login using google account
  */
 
+ console.log(process.env.REACT_APP_BACKEND);
+
 passport.use(
 	new GoogleStrategy(
 		{

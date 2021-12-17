@@ -21,8 +21,8 @@ const getSocketId = (userId) => {
     return socketMap.get(userId);
 }
 
-module.exports({
+module.exports = {
     addSocketId,
     removeSocketId,
     getSocketId
-})
+};

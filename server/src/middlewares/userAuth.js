@@ -172,6 +172,11 @@ module.exports.VerifyUser = async (req, res) => {
 
 module.exports.LogIn = (req, res, next) => {
     passport.authenticate('local', (error, user, info) => {
+
+        console.log(user);
+        console.log(error);
+        console.log(info);
+
         if (error) { 
             return res.status(500).json({
                 status: false,
