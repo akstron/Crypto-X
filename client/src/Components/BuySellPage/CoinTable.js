@@ -95,7 +95,7 @@ class CoinTable extends React.Component {
   handleCoinSelect=(event)=>{
     // eslint-disable-next-line eqeqeq
     const coin=this.props.data.data.filter((coin)=>(coin.id==event.target.value));
-    this.props.setCoin(coin);
+    this.props.setCoin(coin[0]);
   }
 
 

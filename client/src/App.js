@@ -1,8 +1,8 @@
 import React,{useState,useEffect,createContext } from 'react'
-import {Route,Switch,Redirect} from 'react-router-dom'
+import {BrowserRouter,Route,Switch,Redirect} from 'react-router-dom'
 import {Layout} from 'antd';
 import axios from 'axios';
-import {Navbar,HomePage,MarketPage,NewsPage,SignupPage,LoginPage,CryptoDetails,BuySellPage, Loader} from './Components';
+import {Navbar,HomePage,MarketPage,NewsPage,SignupPage,LoginPage,CryptoDetails,BuySellPage, Loader,NotFound} from './Components';
 import './App.css';
 
 
@@ -46,6 +46,7 @@ const App = () => {
 
   return (
         <UserContext.Provider value={User}>
+            <BrowserRouter basename='/'>
             {(User.isFetching)?(
                 <Loader/>
             ):(
@@ -60,23 +61,26 @@ const App = () => {
                                         <Route exact path="/">
                                             <HomePage/>
                                         </Route>
-                                        <Route exact path="/Market">
+                                        <Route path="/Market">
                                             <MarketPage/>
                                         </Route>
-                                        <Route exact path="/crypto/:coinId">
+                                        <Route path="/crypto/:coinId">
                                             <CryptoDetails />
                                         </Route>                                
-                                        <Route exact path="/News">
+                                        <Route path="/News">
                                             <NewsPage/>
                                         </Route>
-                                        <Route exact path="/Signup">
+                                        <Route path="/Signup">
                                             {(!User.data)?(<SignupPage/>):(<Redirect to='/'/>)}
                                         </Route>
-                                        <Route exact path="/Login">
+                                        <Route path="/Login">
                                             {(!User.data)?(<LoginPage/>):(<Redirect to='/'/>)}
                                         </Route>
-                                        <Route exact path="/BuySell">
+                                        <Route path="/BuySell">
                                             {(User.data)?(<BuySellPage/>):(<Redirect to='/Login'/>)}
+                                        </Route>
+                                        <Route>
+                                            <NotFound/>
                                         </Route>
                                     </Switch>
                             </div>
@@ -84,7 +88,7 @@ const App = () => {
                     </div>
                 </div>
             )}
-            
+            </BrowserRouter>
         </UserContext.Provider>
 
     )
