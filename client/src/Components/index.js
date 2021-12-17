@@ -1,0 +1,10 @@
+export { default as HomePage } from './HomePage/HomePage';
+export { default as Navbar } from './Navbar/Navbar';
+export { default as NewsPage } from './NewsPage/NewsPage';
+export { default as MarketPage } from './MarketPage/MarketPage';
+export { default as SignupPage } from './SignupPage/SignupPage';
+export { default as LoginPage } from './LoginPage/LoginPage';
+export { default as CryptoDetails } from './MarketPage/CryptoDetails';
+export { default as Loader } from './Utils/Loader';
+export { default as CoinsStat } from './HomePage/CoinsStat';
+export { default as BuySellPage } from './BuySellPage/BuySellPage';

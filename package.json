@@ -1,0 +1,23 @@
+{
+  "name": "crypto-x",
+  "version": "1.0.0",
+  "description": "App allows to track and trade in cryptocurrencies.",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "npm run start:server;npm run start:client",
+    "start:client": "ttab -t 'Client' npm run tab:client",
+    "tab:client": "cd client;npm start",
+    "start:server": "ttab -t 'Server' npm run tab:server",
+    "tab:server": "cd server;nodemon src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Aayush",
+  "license": "ISC",
+  "devDependencies": {
+    "ttab": "^0.7.1"
+  },
+  "dependencies": {
+    "react-highlight-words": "^0.17.0",
+    "react-switch": "^6.0.0"
+  }
+}
