@@ -5,6 +5,7 @@ import moment from 'moment'
 const CoinSummary = ({coin}) => {
     return (
         <div>
+            {console.log(coin)}
             <Card
                 title={"Selected Coin : "+ (coin.name)}
                 extra={<img className='crypto-image' alt='img' src={coin.iconUrl} height={'35px'}/>}

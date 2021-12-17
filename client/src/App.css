@@ -389,3 +389,8 @@ a:hover {
   margin-left: auto;
   margin-right: 0.5rem;
 }
+
+.ant-form-item-label {
+  margin-left: 0.8rem;
+  margin-right: 0.8rem;
+}
