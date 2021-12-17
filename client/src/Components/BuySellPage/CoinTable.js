@@ -13,6 +13,7 @@ class CoinTable extends React.Component {
     searchedColumn: '',
   };
 
+
   getColumnSearchProps = dataIndex => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
       <div style={{ padding: 8 }}>
@@ -91,16 +92,28 @@ class CoinTable extends React.Component {
     this.setState({ searchText: '' });
   };
 
+  handleCoinSelect=(event)=>{
+    // eslint-disable-next-line eqeqeq
+    const coin=this.props.data.data.filter((coin)=>(coin.id==event.target.value));
+    this.props.setCoin(coin);
+  }
+
 
   render() {
     const data=(this.props.data);
-    
 
     const columns=[
       {
+        title:'Select',
+        key:'id',
+        render:payload=>{
+          return <input type="radio" value={payload.id} name="coins" onClick={this.handleCoinSelect}></input>
+        }
+      },
+      {
         title:'Image',
         dataIndex:'iconUrl',
-        key:'id',
+        key:'iconUrl',
         width:'12%',
         render:iconUrl=>{
           return (
@@ -111,21 +124,21 @@ class CoinTable extends React.Component {
       {
         title:'Coin',
         dataIndex:'name',
-        key:'id',        
+        key:'iconUrl',        
         sorter: (a, b) => a.name.length - b.name.length,
          ...this.getColumnSearchProps('name'),
       },
       {
         title:'Price',
         dataIndex:'price',
-        key:'id',
+        key:'price',
         sorter: (a, b) => {
           return a.price - b.price;
         },
         render:price=>{
           return (
             <>
-              {'$ '+millify(price).toString()}
+              {'$'+millify(price).toString()}
             </>
           )
         }
@@ -133,7 +146,7 @@ class CoinTable extends React.Component {
       {
         title:'Change',
         dataIndex:'change',
-        key:'id',
+        key:'change',
         sorter: (a, b) => {
           return a.change - b.change;
         },
@@ -148,7 +161,7 @@ class CoinTable extends React.Component {
       {
         title:'Market Cap',
         dataIndex:'marketCap',
-        key:'id',
+        key:'marketCap',
         sorter: (a, b) => {
           return a.markerCap - b.markerCap;
         },
@@ -163,7 +176,7 @@ class CoinTable extends React.Component {
       {
         title:'Market Volume',
         dataIndex:'volume',
-        key:'id',
+        key:'volume',
         sorter: (a, b) => {
           return a.volume - b.volume;
         },
@@ -190,7 +203,11 @@ class CoinTable extends React.Component {
                 extra={<img className='crypto-image' alt='img' src={mainLogo} height={'25px'}/>}
                 style={{margin:"1rem auto",width:"fit-content"}}
                 hoverable>
-              <Table columns={columns} dataSource={data?.data} />
+              <Table 
+                columns={columns} 
+                dataSource={data?.data} 
+                pagination={{ pageSize: 6}}
+              />
             </Card>
           </>
         )}

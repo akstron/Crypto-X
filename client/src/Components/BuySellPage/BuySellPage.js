@@ -1,15 +1,14 @@
-import { Steps, Button, message} from 'antd';
+import { Steps, Button, message,Popover} from 'antd';
 import React,{useState,useEffect}from 'react'
 import Login from '../LoginPage/LoginPage.jsx'
 import CoinTable from './CoinTable';
 import axios from 'axios';
 
-
-
 const BuySellPage = () => {
 
   const [current, setCurrent] = useState(0);
   const [coinsData,setCoinsData] = useState({data:undefined,isFetching:true});
+  const [selectedCoin,setSelectedCoin]=useState(undefined);
 
   const next = () => {
     setCurrent(current + 1);
@@ -24,7 +23,7 @@ const BuySellPage = () => {
   const steps = [
     {
       title: 'Select Coin',
-      content: <CoinTable style={{margin:".5rem"}} data={coinsData}/>,
+      content: <CoinTable style={{margin:".5rem"}} data={coinsData} setCoin={setSelectedCoin}/>,
     },
     {
       title: 'Choose Sell/Buy',
@@ -76,9 +75,17 @@ const BuySellPage = () => {
       <div className="steps-content">{steps[current].content}</div>
       <div className="steps-action">
         {current < steps.length - 1 && (
-          <Button type="primary" onClick={() => next()}>
-            Next
-          </Button>
+          (current==0 && !selectedCoin)?(
+            <>
+                <Button type="danger" onClick={() => {
+                  message.error('Select a coin first !',1);
+                }}>Next</Button>
+            </>
+          ):(
+            <Button type="primary" onClick={() => next()}>
+              Next
+            </Button>
+          )
         )}
         {current === steps.length - 1 && (
           <Button type="primary" onClick={() => message.success('Processing complete!')}>

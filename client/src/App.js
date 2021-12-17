@@ -60,22 +60,22 @@ const App = () => {
                                         <Route exact path="/">
                                             <HomePage/>
                                         </Route>
-                                        <Route path="/Market">
+                                        <Route exact path="/Market">
                                             <MarketPage/>
                                         </Route>
                                         <Route exact path="/crypto/:coinId">
                                             <CryptoDetails />
                                         </Route>                                
-                                        <Route path="/News">
+                                        <Route exact path="/News">
                                             <NewsPage/>
                                         </Route>
-                                        <Route path="/Signup">
+                                        <Route exact path="/Signup">
                                             {(!User.data)?(<SignupPage/>):(<Redirect to='/'/>)}
                                         </Route>
-                                        <Route path="/Login">
+                                        <Route exact path="/Login">
                                             {(!User.data)?(<LoginPage/>):(<Redirect to='/'/>)}
                                         </Route>
-                                        <Route path="/BuySell">
+                                        <Route exact path="/BuySell">
                                             {(User.data)?(<BuySellPage/>):(<Redirect to='/Login'/>)}
                                         </Route>
                                     </Switch>
