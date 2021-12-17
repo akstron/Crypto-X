@@ -1,6 +1,7 @@
 import React from 'react';
 import {Form, Input,  Select,    Checkbox,  Button } from 'antd';
 import { Typography,Card} from 'antd';
+import { useHistory } from 'react-router-dom';
 
 import signupIcon from '../../Images/signup-logo.png'
 import  './SignupPage.css'
@@ -45,9 +46,26 @@ const tailFormItemLayout = {
 const SignupPage = () => {
   const [form] = Form.useForm();
 
+  const history = useHistory();
+  const loginToHome=()=>{
+      history.push('/')
+  }
+
   const onFinish = (values) => {
     console.log('Received values of form: ', values);
+    const userDetails = {firstName:values.firstname,lastName:values.lastname,email:values.email,password:values.password};
+    console.log(userDetails);
     
+    const route = process.env.REACT_APP_BACKEND + '/signup';
+        axios.post(route, userDetails, {withCredentials: true}).then(res => {
+            console.log(res);
+            if(res['data']['status']){
+                console.log(userDetails);
+                loginToHome();
+            }
+        }).catch(error => {
+            console.log(error);
+        })
   };
 
   const prefixSelector = (
