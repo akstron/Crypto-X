@@ -1,3 +1,12 @@
+/**
+ * Model for user's wallet
+ * 
+ * Coins: Info about coins user have and its quantity
+ * Transaction: Transaction history
+ * costPrice: current money invested in buying coins
+ * balance: money available in INR
+ */
+
 const mongoose = require('mongoose');
 
 const walletSchema = mongoose.Schema({

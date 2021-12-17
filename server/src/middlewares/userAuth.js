@@ -5,7 +5,6 @@
 const nodemailer = require('nodemailer');
 const passport = require('passport');
 const mongoose = require('mongoose');
-const {v4: idGenerator} = require('uuid');
 
 const User = require('../models/User');
 const VerificationCode = require('../models/VerificationCode');
@@ -85,7 +84,6 @@ module.exports.SignUp = async (req, res) => {
             watchList: []
         }], {session});
 
-        // throw new Error('hel');
 
         const vc = await VerificationCode.create([{
             accountId: userId
