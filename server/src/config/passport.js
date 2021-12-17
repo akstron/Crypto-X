@@ -42,7 +42,7 @@ passport.use(
 		{
 			clientID: process.env.GOOGLE_CLIENT_ID,
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-			callbackURL: "http://localhost:8000/login/google/callback",
+			callbackURL: process.env.REACT_APP_BACKEND+"/login/google/callback",
 		},
 		function (accessToken, refreshToken, profile, done) {
 			console.log(profile);
