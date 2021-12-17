@@ -1,117 +1,199 @@
-import { Table, Button, Space } from 'antd';
+import { Table,Card,Input,Space,Button} from 'antd';
+import {FallOutlined,RiseOutlined,SearchOutlined} from '@ant-design/icons';
 import React from 'react';
-
-const data = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-  },
-  {
-    key: '4',
-    name: 'Jim Red',
-    age: 32,
-    address: 'London No. 2 Lake Park',
-  },
-];
+import {Loader} from '../../Components'
+import millify from 'millify';
+import mainLogo from '../../Images/main-logo.png'
+import Highlighter from 'react-highlight-words';
 
 class CoinTable extends React.Component {
+
   state = {
-    filteredInfo: null,
-    sortedInfo: null,
+    searchText: '',
+    searchedColumn: '',
   };
 
-  handleChange = (pagination, filters, sorter) => {
-    console.log('Various parameters', pagination, filters, sorter);
+  getColumnSearchProps = dataIndex => ({
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+      <div style={{ padding: 8 }}>
+        <Input
+          ref={node => {
+            this.searchInput = node;
+          }}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onPressEnter={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{ marginBottom: 8, display: 'block' }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Search
+          </Button>
+          <Button onClick={() => this.handleReset(clearFilters)} size="small" style={{ width: 90 }}>
+            Reset
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              confirm({ closeDropdown: false });
+              this.setState({
+                searchText: selectedKeys[0],
+                searchedColumn: dataIndex,
+              });
+            }}
+          >
+            Filter
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: filtered => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
+    onFilter: (value, record) =>
+      record[dataIndex]
+        ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase())
+        : '',
+    onFilterDropdownVisibleChange: visible => {
+      if (visible) {
+        setTimeout(() => this.searchInput.select(), 100);
+      }
+    },
+    render: text =>
+      this.state.searchedColumn === dataIndex ? (
+        <Highlighter
+          highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+          searchWords={[this.state.searchText]}
+          autoEscape
+          textToHighlight={text ? text.toString() : ''}
+        />
+      ) : (
+        text
+      ),
+  });
+
+  handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm();
     this.setState({
-      filteredInfo: filters,
-      sortedInfo: sorter,
+      searchText: selectedKeys[0],
+      searchedColumn: dataIndex,
     });
   };
 
-  clearFilters = () => {
-    this.setState({ filteredInfo: null });
+  handleReset = clearFilters => {
+    clearFilters();
+    this.setState({ searchText: '' });
   };
 
-  clearAll = () => {
-    this.setState({
-      filteredInfo: null,
-      sortedInfo: null,
-    });
-  };
-
-  setAgeSort = () => {
-    this.setState({
-      sortedInfo: {
-        order: 'descend',
-        columnKey: 'age',
-      },
-    });
-  };
 
   render() {
-    let { sortedInfo, filteredInfo } = this.state;
-    sortedInfo = sortedInfo || {};
-    filteredInfo = filteredInfo || {};
-    const columns = [
+    const data=(this.props.data);
+    
+
+    const columns=[
       {
-        title: 'Name',
-        dataIndex: 'name',
-        key: 'name',
-        filters: [
-          { text: 'Joe', value: 'Joe' },
-          { text: 'Jim', value: 'Jim' },
-        ],
-        filteredValue: filteredInfo.name || null,
-        onFilter: (value, record) => record.name.includes(value),
+        title:'Image',
+        dataIndex:'iconUrl',
+        key:'id',
+        width:'12%',
+        render:iconUrl=>{
+          return (
+            <img src={iconUrl} alt='CoinIcon' height={'20px'}/>
+          )
+        }
+      },
+      {
+        title:'Coin',
+        dataIndex:'name',
+        key:'id',        
         sorter: (a, b) => a.name.length - b.name.length,
-        sortOrder: sortedInfo.columnKey === 'name' && sortedInfo.order,
-        ellipsis: true,
+         ...this.getColumnSearchProps('name'),
       },
       {
-        title: 'Age',
-        dataIndex: 'age',
-        key: 'age',
-        sorter: (a, b) => a.age - b.age,
-        sortOrder: sortedInfo.columnKey === 'age' && sortedInfo.order,
-        ellipsis: true,
+        title:'Price',
+        dataIndex:'price',
+        key:'id',
+        sorter: (a, b) => {
+          return a.price - b.price;
+        },
+        render:price=>{
+          return (
+            <>
+              {'$ '+millify(price).toString()}
+            </>
+          )
+        }
       },
       {
-        title: 'Address',
-        dataIndex: 'address',
-        key: 'address',
-        filters: [
-          { text: 'London', value: 'London' },
-          { text: 'New York', value: 'New York' },
-        ],
-        filteredValue: filteredInfo.address || null,
-        onFilter: (value, record) => record.address.includes(value),
-        sorter: (a, b) => a.address.length - b.address.length,
-        sortOrder: sortedInfo.columnKey === 'address' && sortedInfo.order,
-        ellipsis: true,
+        title:'Change',
+        dataIndex:'change',
+        key:'id',
+        sorter: (a, b) => {
+          return a.change - b.change;
+        },
+        render:change=>{
+          return (
+            <>
+              {millify(change)} % {(change < 0)?(<FallOutlined style={{color: "red"}}/>):(<RiseOutlined style={{color: "green"}} />)}
+            </>
+          )
+        }
       },
-    ];
+      {
+        title:'Market Cap',
+        dataIndex:'marketCap',
+        key:'id',
+        sorter: (a, b) => {
+          return a.markerCap - b.markerCap;
+        },
+        render:marketCap=>{
+          return (
+            <>
+              {millify(marketCap)}
+            </>
+          )
+        }
+      },
+      {
+        title:'Market Volume',
+        dataIndex:'volume',
+        key:'id',
+        sorter: (a, b) => {
+          return a.volume - b.volume;
+        },
+        render:marketvolume=>{
+          return (
+            <>
+              {millify(marketvolume)}
+            </>
+          )
+        }
+      },
+    ]
+
     return (
       <>
-        <Space style={{ marginBottom: 16 }}>
-          <Button onClick={this.setAgeSort}>Sort age</Button>
-          <Button onClick={this.clearFilters}>Clear filters</Button>
-          <Button onClick={this.clearAll}>Clear filters and sorters</Button>
-        </Space>
-        <Table columns={columns} dataSource={data} onChange={this.handleChange} />
+        {(data?.isFetching)?(
+          <>
+            <Loader/>
+          </>
+        ):(
+          <>
+            <Card
+                title={`Crypto Coins`}
+                extra={<img className='crypto-image' alt='img' src={mainLogo} height={'25px'}/>}
+                style={{margin:"1rem auto",width:"fit-content"}}
+                hoverable>
+              <Table columns={columns} dataSource={data?.data} />
+            </Card>
+          </>
+        )}
       </>
     );
   }

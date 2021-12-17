@@ -1,26 +1,15 @@
 import { Steps, Button, message} from 'antd';
-import React from 'react'
+import React,{useState,useEffect}from 'react'
 import Login from '../LoginPage/LoginPage.jsx'
 import CoinTable from './CoinTable';
-const { Step } = Steps;
+import axios from 'axios';
 
-const steps = [
-  {
-    title: 'Select Coin',
-    content: <CoinTable style={{margin:".5rem"}}/>,
-  },
-  {
-    title: 'Choose Sell/Buy',
-    content: <Login/>,
-  },
-  {
-    title: 'Place Order',
-    content: <Login/>,
-  },
-];
+
 
 const BuySellPage = () => {
-  const [current, setCurrent] = React.useState(0);
+
+  const [current, setCurrent] = useState(0);
+  const [coinsData,setCoinsData] = useState({data:undefined,isFetching:true});
 
   const next = () => {
     setCurrent(current + 1);
@@ -29,6 +18,53 @@ const BuySellPage = () => {
   const prev = () => {
     setCurrent(current - 1);
   };
+
+  const { Step } = Steps;
+
+  const steps = [
+    {
+      title: 'Select Coin',
+      content: <CoinTable style={{margin:".5rem"}} data={coinsData}/>,
+    },
+    {
+      title: 'Choose Sell/Buy',
+      content: <Login/>,
+    },
+    {
+      title: 'Place Order',
+      content: <Login/>,
+    },
+  ];
+
+  useEffect(()=>{
+        let isComponentMounted = true;
+
+        const getCoinsDetailsAPI=(count)=>{
+            const options = {
+                method: 'GET',
+                url: 'https://coinranking1.p.rapidapi.com/coins?limit='+count,
+                headers: {
+                    'x-rapidapi-host': 'coinranking1.p.rapidapi.com',
+                    'x-rapidapi-key': 'b5dcac0fdamsh6ce3cdcd6c0a205p1206bcjsn78e048e0a244'
+                }
+            };
+
+            axios.request(options).then(function (response) {
+                setCoinsData({
+                    data:response.data.data.coins,
+                    isFetching:false,
+                });
+            }).catch(function (error) {
+                console.error(error);
+            });
+        }
+        if(isComponentMounted) getCoinsDetailsAPI(100);
+
+        return (() => {
+            isComponentMounted = false;
+        })
+
+    },[]);
 
   return (
     <>

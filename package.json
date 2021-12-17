@@ -17,6 +17,7 @@
     "ttab": "^0.7.1"
   },
   "dependencies": {
+    "react-highlight-words": "^0.17.0",
     "react-switch": "^6.0.0"
   }
 }
