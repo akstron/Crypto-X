@@ -1,12 +1,26 @@
 import React,{ useContext } from 'react'
+import axios from 'axios';
 import { Button,Menu,Typography,Avatar } from 'antd';
 import { Link } from "react-router-dom";
-import { HomeOutlined, DollarOutlined,UserAddOutlined, LoginOutlined,BulbOutlined,ShoppingOutlined } from '@ant-design/icons';
+import { HomeOutlined, DollarOutlined,UserAddOutlined, LoginOutlined,BulbOutlined,ShoppingOutlined,LogoutOutlined,UserOutlined} from '@ant-design/icons';
 import icon from '../../Images/main-logo.png'
 import { UserContext } from '../../App';
 
+
 const Navbar = () => {
     const User = useContext(UserContext);
+
+    const logOut=async ()=>{
+        console.log("Loging Out")
+        const userRoute = process.env.REACT_APP_BACKEND + '/logout';
+        await axios.post(userRoute, {},{withCredentials: true}).then(res => {
+            console.log(res);
+            console.log("Log Out Clicked !");
+            window.location.reload(false);
+        }).catch(error => {
+            console.log(error);
+        })
+    }
 
     return (
         <div className='nav-container'>
@@ -28,8 +42,14 @@ const Navbar = () => {
                 </Menu.Item>
                 {(User?.data)?(
                     <>
+                        <Menu.Item icon={<UserOutlined />}>
+                            <Link to='/Profile'>Profile</Link>
+                        </Menu.Item>
                         <Menu.Item icon={<ShoppingOutlined />}>
                             <Link to='/BuySell'>BuySell</Link>
+                        </Menu.Item>
+                        <Menu.Item icon={<LogoutOutlined />}>
+                            <Link to='/' onClick={logOut}>LogOut</Link>
                         </Menu.Item>
                     </>
                 ):(
@@ -38,7 +58,7 @@ const Navbar = () => {
                             <Link to='/Signup'>Sign-Up</Link>
                         </Menu.Item>
                         <Menu.Item icon={<LoginOutlined />}>
-                            <Link to='/Login'>Login</Link>
+                            <Link to='/Login' on>Login</Link>
                         </Menu.Item>
                     </>
                 )}
