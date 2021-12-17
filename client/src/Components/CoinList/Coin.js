@@ -1,6 +1,5 @@
 import CoinImage from './CoinImage'
 import CoinName from './CoinName'
-// import CoinDetailInfo from './CoinDetailInfo';
 import CoinPriceInfo from './CoinPriceInfo';
 import CoinBalance from '../Portfolio/CoinBalance'
 import './Coin.css'
@@ -29,9 +28,7 @@ function Coin({Id,ImgURL,CoinTitle,Currency,CoinPrices,CurrentPriceClose,Current
                     <CoinPriceInfo coinPrice={CurrentPriceClose} priceData={CoinPrices} options={options}/>
                 </div>
             </div>
-            <button type="button" className='btn btn-delete' onClick={()=>{
-                removeCoin(Id);
-            }}> Delete </button>
+
         </div>
     );
 }

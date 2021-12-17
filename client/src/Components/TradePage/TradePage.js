@@ -12,7 +12,7 @@ export const TradePage = ({allCoinsList}) => {
                 <h3>Buy/Sell Coins</h3>
                 <h7>[ Select coins from list and chose options from given form ]</h7>
             </div>
-            <Row>
+            <Row className='trade-content'>
                 <Col className='coin-list'>
                     <CoinsTable allCoinsList={allCoinsList}></CoinsTable>
                 </Col>

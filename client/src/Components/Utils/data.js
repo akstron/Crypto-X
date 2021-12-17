@@ -69,6 +69,42 @@ export const favCryptoCoins=[
         CurrentPriceHigh:0,
         CurrentPriceLow:0,
         
+    },
+        {
+        Id:4,
+        ImgURL :"https://pbs.twimg.com/profile_images/1389823228533739522/-Tj2WF_6_400x400.jpg",
+        CoinTitle:'Polkadot',
+        CoinName:'polkadot',
+        coinDetails:'Polkadot is a sharded heterogeneous multi-chain architecture which enables external networks as well as customized layer one "parachains" to communicate, creating an interconnected internet of blockchains. The network uses an environmentally-friendly proof of stake consensus algorithm',
+        coinPrice: 5907.53,
+        CoinSymbol:'DOTUSDT',
+        Currency:'usd',
+        CurrentPrice:25701.50,
+        CoinGrowth_24:-0.3,
+        CoinPrices:{timeStamps:[],priceData:[]},
+        CurrentPriceClose:0,
+        CurrentPriceOpen:0,
+        CurrentPriceHigh:0,
+        CurrentPriceLow:0,
+        
+    },
+        {
+        Id:4,
+        ImgURL :"https://pbs.twimg.com/profile_images/1389823228533739522/-Tj2WF_6_400x400.jpg",
+        CoinTitle:'Polkadot',
+        CoinName:'polkadot',
+        coinDetails:'Polkadot is a sharded heterogeneous multi-chain architecture which enables external networks as well as customized layer one "parachains" to communicate, creating an interconnected internet of blockchains. The network uses an environmentally-friendly proof of stake consensus algorithm',
+        coinPrice: 5907.53,
+        CoinSymbol:'DOTUSDT',
+        Currency:'usd',
+        CurrentPrice:25701.50,
+        CoinGrowth_24:-0.3,
+        CoinPrices:{timeStamps:[],priceData:[]},
+        CurrentPriceClose:0,
+        CurrentPriceOpen:0,
+        CurrentPriceHigh:0,
+        CurrentPriceLow:0,
+        
     }
 ]
 

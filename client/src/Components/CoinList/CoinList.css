@@ -1,3 +1,9 @@
+/* .coin-section {
+  max-height: 450px;
+  background-color: aliceblue;
+  overflow-y: scroll;
+} */
+
 .CoinList {
   /* width: 90vw; */
   max-width: 1170px;

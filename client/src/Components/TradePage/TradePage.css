@@ -1,5 +1,12 @@
+.trade-content {
+}
+
 .Trade-page {
-  margin: 0.5rem auto;
+  margin-top: 1rem !important;
+  background-color: blanchedalmond;
+  margin: 0.5rem;
+  border-radius: 2rem;
+  padding-top: 1rem;
 }
 
 .trade-page-heading {
@@ -20,7 +27,7 @@
 .coin-list {
   background-color: rgb(30, 153, 253);
   margin: 0.5rem 2rem;
-  border-radius: 2rem;
+  border-radius: 2rem 0 2rem 2rem;
 }
 
 .trade-card {
@@ -29,5 +36,5 @@
   height: fit-content;
   align-items: center;
   margin: 2rem;
-  border-radius: 2rem;
+  border-radius: 0 2rem 2rem 2rem;
 }

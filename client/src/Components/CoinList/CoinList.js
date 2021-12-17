@@ -42,7 +42,7 @@ const CoinList=({cryptoCoinsList})=>{
 
     useEffect(() => {
         let isComponentMounted = true;    
-        if(isComponentMounted) socketConnect();        
+        // if(isComponentMounted) socketConnect();        
         return (()=>{
           isComponentMounted = false;
           socket.emit('disconnection');
@@ -59,7 +59,7 @@ const CoinList=({cryptoCoinsList})=>{
     }
 
     return (
-        <>
+        <div className='coin-section'>
         <section className='CoinList'>
             {cryptoCoins.map((cryptoCoin)=>{
                 return (
@@ -69,10 +69,8 @@ const CoinList=({cryptoCoinsList})=>{
                 );
             })}
         </section>
-        <button type="button" className='btn btn-delete' onClick={()=>{
-            setCryptoCoins([]);
-        }}> Clear All </button>
-        </>
+        
+        </div>
     );
 }
 

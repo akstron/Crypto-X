@@ -41,6 +41,7 @@ const corsOptions = {
       In this case it is used to get cookies, for express-session.
   */
   credentials: true,
+  optionSuccessStatus:200,
 };
 
 /* Session configuration */
