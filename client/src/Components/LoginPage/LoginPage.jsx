@@ -37,7 +37,6 @@ const LoginPage = () => {
         }).catch(error => {
             console.log(error);
         })
-
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -69,8 +68,8 @@ const LoginPage = () => {
                     autoComplete="off"
                     >
                     <Form.Item
-                        label="Username"
-                        name="username"
+                        label="Email Id"
+                        name="emailId"
                         rules={[
                         {
                             required: true,
