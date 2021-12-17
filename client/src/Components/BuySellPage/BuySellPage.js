@@ -1,8 +1,11 @@
-import { Steps, Button, message,Popover} from 'antd';
+import { Typography,Steps, Button, message} from 'antd';
 import React,{useState,useEffect}from 'react'
-import Login from '../LoginPage/LoginPage.jsx'
+import buyIcon from '../../Images/buy-logo.png'
+import CoinSummary from './CoinSummary'
 import CoinTable from './CoinTable';
 import axios from 'axios';
+
+const {Title} =Typography
 
 const BuySellPage = () => {
 
@@ -27,11 +30,11 @@ const BuySellPage = () => {
     },
     {
       title: 'Choose Sell/Buy',
-      content: <Login/>,
+      content: <CoinSummary coin={selectedCoin}/>,
     },
     {
       title: 'Place Order',
-      content: <Login/>,
+      content: <CoinSummary/>,
     },
   ];
 
@@ -67,13 +70,17 @@ const BuySellPage = () => {
 
   return (
     <>
-      <Steps current={current}>
+      <Title level={3} style={{margin:".5rem",padding:".5rem"}}><img className='login-image' alt='img' src={buyIcon} height={'35px'} /> Buy / Sell  Coins </Title>
+      <hr/>
+      <Steps current={current} style={{margin:".5rem"}}>
         {steps.map(item => (
           <Step key={item.title} title={item.title} />
         ))}
       </Steps>
+      <hr/>
+      
       <div className="steps-content">{steps[current].content}</div>
-      <div className="steps-action">
+      <div className="steps-action" style={{margin:".5rem auto",textAlign: "center",padding:".5rem"}}>
         {current < steps.length - 1 && (
           (current==0 && !selectedCoin)?(
             <>
