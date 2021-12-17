@@ -34,7 +34,7 @@ const BuySellPage = () => {
     },
     {
       title: 'Place Order',
-      content: <CoinSummary/>,
+      content: <CoinSummary coin={selectedCoin}/>,
     },
   ];
 
