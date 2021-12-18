@@ -1,5 +1,7 @@
 /**
  * Middlewares related to Trading 
+ * 
+ * Author: Alok Kumar Singh
  */
 
 const {v4: idGererator} = require('uuid');
@@ -8,7 +10,59 @@ const Wallet = require('../models/Wallet');
 const Bank = require('../models/Bank');
 const {getCurrentPrice} = require('../utils/priceStats');
 const {getPercentChange} = require('../utils/priceStats');
+const {createAndAddOrder} = require('../utils/trade');
+const {addSocketId, getSocketId} = require('../store/SocketMap');
 
+/**
+ * TODO: Remove socket Id
+ * TODO: Test socket update functionality
+ */
+
+module.exports.Sell = async (req, res) => {
+    const user = req.user;
+    const {price, quantity, coinType} = req.body;
+    const { socketId } = req.session;
+    addSocketId(user._id, socketId);
+
+    try{
+        await createAndAddOrder(user._id, coinType, price, quantity, 'sell');
+        
+        return res.json({
+            status: true
+        });
+    }
+    catch(e){
+        console.log('error:', e);
+
+        return res.status(500).json({
+            status: false,
+            error: e.message
+        });
+    }
+}
+
+module.exports.Buy = async (req, res) => {
+    const user = req.user;
+    const {price, quantity, coinType} = req.body;
+    const { socketId } = req.session;
+    addSocketId(user._id, socketId);
+    
+    try{
+        await createAndAddOrder(user._id, coinType, price, quantity, 'buy');
+
+        return res.json({
+            status: true
+        });
+    }
+    catch(e){
+
+        console.log('error:', e);
+        return res.status(500).json({
+            status: false,
+            error: e.message
+        });
+    }
+}
 
 const updateBank = (coins, updates) => {
     for(const [key, value] of Object.entries(updates)){
@@ -41,8 +95,9 @@ const addTransaction = (coins, updates, rate) => {
 }
 
 /**
- * TODO: Add checks whether account reaches below zero
+ * TODO: Remove transaction
  */
+
 
 module.exports.Transaction = async (req, res) => {
     const user = req.user;
