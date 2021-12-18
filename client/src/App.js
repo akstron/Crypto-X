@@ -2,7 +2,7 @@ import React,{useState,useEffect,createContext } from 'react'
 import {BrowserRouter,Route,Switch,Redirect} from 'react-router-dom'
 import {Layout} from 'antd';
 import axios from 'axios';
-import {Navbar,HomePage,MarketPage,NewsPage,SignupPage,LoginPage,CryptoDetails,BuySellPage, Loader,NotFound} from './Components';
+import {Navbar,HomePage,MarketPage,NewsPage,SignupPage,LoginPage,CryptoDetails,BuySellPage, Loader,Test,NotFound} from './Components';
 import './App.css';
 
 
@@ -78,6 +78,9 @@ const App = () => {
                                         </Route>
                                         <Route path="/BuySell">
                                             {(User.data)?(<BuySellPage/>):(<Redirect to='/Login'/>)}
+                                        </Route>
+                                        <Route path="/test">
+                                            <Test/>
                                         </Route>
                                         <Route>
                                             <NotFound/>
