@@ -79,15 +79,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.json());
 
-app.use(userAuthRouter);
-app.use(userUtilityRouter);
-app.use(userTradeRouter);
-
-app.use(express.static(publicDirectoryPath));
-
-app.use(fetchCryptoDataRouter);
-app.use(paymentGatewayRouter);
-
 // when any client gets connected with server
 io.on('connection', (socket) =>{
   console.log('New websocket connection');
@@ -118,10 +109,19 @@ io.on('connection', (socket) =>{
 
 })
 
+app.use(userAuthRouter);
+app.use(userUtilityRouter);
+app.use(userTradeRouter);
+
+app.use(express.static(publicDirectoryPath));
+
+app.use(fetchCryptoDataRouter);
+app.use(paymentGatewayRouter);
+
 const PORT = process.env.PORT || 8000;
 
 server.listen(PORT, () => {
   console.log(`Server is running at port ${PORT}`);
 })
 
-module.exports = io
+module.exports = io;

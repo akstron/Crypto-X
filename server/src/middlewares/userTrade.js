@@ -25,10 +25,11 @@ module.exports.Sell = async (req, res) => {
     addSocketId(user._id, socketId);
 
     try{
-        await createAndAddOrder(user._id, coinType, price, quantity, 'sell');
+        const orderId = await createAndAddOrder(user._id, coinType, price, quantity, 'sell');
         
         return res.json({
-            status: true
+            status: true,
+            orderId
         });
     }
     catch(e){
@@ -48,10 +49,11 @@ module.exports.Buy = async (req, res) => {
     addSocketId(user._id, socketId);
     
     try{
-        await createAndAddOrder(user._id, coinType, price, quantity, 'buy');
+        const orderId = await createAndAddOrder(user._id, coinType, price, quantity, 'buy');
 
         return res.json({
-            status: true
+            status: true,
+            orderId
         });
     }
     catch(e){
