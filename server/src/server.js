@@ -107,7 +107,7 @@ io.on('connection', (socket) =>{
     console.log('Disconnected...');
   })
 
-})
+});
 
 app.use(userAuthRouter);
 app.use(userUtilityRouter);
@@ -122,6 +122,8 @@ const PORT = process.env.PORT || 8000;
 
 server.listen(PORT, () => {
   console.log(`Server is running at port ${PORT}`);
-})
+});
+
+// console.log(io);
 
 module.exports = io;

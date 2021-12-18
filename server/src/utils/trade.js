@@ -70,6 +70,11 @@ const addOrderInDatabase = async (order) => {
         console.log(wallet.coins);
     }
 
+    user.activeOrders.push(dbOrder._id);
+    user.orders.push(dbOrder._id);
+    user.markModified('orders');
+    user.markModified('activeOrders');
+    await user.save();
     await wallet.save();
     await dbOrder.save();   
 }
@@ -134,7 +139,6 @@ const updateOrderInDatabase = async (order, exchange) => {
 
     await Order.findByIdAndUpdate(_id, order);
     await updateWallet(order, exchange);
-
 }
 
 // Send order completions updates from here to client using socket

@@ -10,13 +10,39 @@ const {getCurrentPrice} = require('../utils/priceStats');
 const {getPercentChange} = require('../utils/priceStats');
 const {createAndAddOrder} = require('../utils/trade');
 const {addSocketId} = require('../store/SocketMap');
+const {GetActiveOrders, GetOrders, getActiveOrders, getOrders} = require('../utils/orders');
 
 module.exports.GetActiveOrders = async (req, res) => {
-    const userId = req.user;
+    try{
+        const activeOrders = await getActiveOrders(req.user);
+        return res.json({
+            status: true,
+            activeOrders
+        });
+    }
+    catch(e){
+        return res.status(500).json({
+            status: false,
+            error: e.message
+        })
+    }
 }
 
 module.exports.GetOrders = async (req , res) => {
-
+    try{
+        const orders = await getOrders(req.user);
+        return res.json({
+            status: true,
+            orders
+        });
+    }
+    catch(e){
+        console.log(e);
+        return res.status(500).json({
+            status: false,
+            error: e.message
+        })
+    }
 }
 
 /**
