@@ -31,11 +31,12 @@ const CoinSummary = ({coin,next,setOrderDetails}) => {
     
     const onFinish = values => {
         const orderDetails={
-            coinName:coin.name,
-            quatity:values.noOfCoins,
+            coinType:coin.symbol,
+            quantity:values.noOfCoins,
             price:values.price,
             category:values.category,
         };
+        console.log(orderDetails);
         setOrderDetails(orderDetails);
         next();
     }
