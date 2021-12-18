@@ -4,6 +4,7 @@ import {Layout} from 'antd';
 import axios from 'axios';
 import {Navbar,HomePage,MarketPage,NewsPage,SignupPage,LoginPage,CryptoDetails,BuySellPage, Loader,Test,NotFound} from './Components';
 import './App.css';
+axios.defaults.withCredentials = true;
 
 
 // ToDo:: 1. add isError attribute to User useState

@@ -4,14 +4,28 @@
  * Author: Alok Kumar Singh
  */
 
-const {v4: idGererator} = require('uuid');
 const mongoose = require('mongoose');
 const Wallet = require('../models/Wallet');
-const Bank = require('../models/Bank');
 const {getCurrentPrice} = require('../utils/priceStats');
 const {getPercentChange} = require('../utils/priceStats');
 const {createAndAddOrder} = require('../utils/trade');
-const {addSocketId, getSocketId} = require('../store/SocketMap');
+const {addSocketId} = require('../store/SocketMap');
+// const {getActiveOrders, getOrders} = require('../utils/orders');
+
+module.exports.GetActiveOrders = async (req, res) => {
+    // try{
+    //     const activeOrders = await getActiveOrders(req.user);
+    // }
+    // catch(e){
+    //     res.status(500).json({
+
+    //     })
+    // }
+}
+
+module.exports.GetOrders = async (req , res) => {
+    // const orders = await getOrders(req.user);
+}
 
 /**
  * TODO: Remove socket Id
@@ -25,10 +39,11 @@ module.exports.Sell = async (req, res) => {
     addSocketId(user._id, socketId);
 
     try{
-        await createAndAddOrder(user._id, coinType, price, quantity, 'sell');
+        const orderId = await createAndAddOrder(user._id, coinType, price, quantity, 'sell');
         
         return res.json({
-            status: true
+            status: true,
+            orderId
         });
     }
     catch(e){
@@ -48,10 +63,11 @@ module.exports.Buy = async (req, res) => {
     addSocketId(user._id, socketId);
     
     try{
-        await createAndAddOrder(user._id, coinType, price, quantity, 'buy');
+        const orderId = await createAndAddOrder(user._id, coinType, price, quantity, 'buy');
 
         return res.json({
-            status: true
+            status: true,
+            orderId
         });
     }
     catch(e){
@@ -64,40 +80,9 @@ module.exports.Buy = async (req, res) => {
     }
 }
 
-const updateBank = (coins, updates) => {
-    for(const [key, value] of Object.entries(updates)){
-        if(key in coins){
-            coins[key] += value * -1;
-        } 
-        else {
-            coins[key] = value * -1;
-        }
-    }
-}
-
-const addTransaction = (coins, updates, rate) => {
-    for(const [key, value] of Object.entries(updates)){
-        if(key in coins){
-            coins[key].push({
-                id: idGererator(), 
-                coins: value,
-                rate
-            });
-        }
-        else{
-           coins[key] = [{
-                id: idGererator(),
-                coins: value,
-                rate
-           }];
-        }
-    }
-}
-
 /**
  * TODO: Remove transaction
  */
-
 
 module.exports.Transaction = async (req, res) => {
     const user = req.user;
