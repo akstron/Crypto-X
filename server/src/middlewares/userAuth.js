@@ -9,6 +9,7 @@ const mongoose = require('mongoose');
 const User = require('../models/User');
 const VerificationCode = require('../models/VerificationCode');
 const Wallet = require('../models/Wallet');
+const Coin = require('../models/Coin');
 
 /* Utility function for checking mail in database */
 const isEmailAvailable = async (email) => {
@@ -42,6 +43,7 @@ const sendVerificationCode = async (email, code) => {
     })
 }
 
+/* SignUp middlewaer */
 module.exports.SignUp = async (req, res) => {
     const {email, password, firstName, lastName} = req.body;
 
@@ -63,13 +65,22 @@ module.exports.SignUp = async (req, res) => {
         /* When creating objects with new in session, automatic _id is not generated */        
 
         const walletId = mongoose.Types.ObjectId();
+        const coinId = mongoose.Types.ObjectId();
+        
+        /*Remove initial coins in wallet afterwards */
+
+        await Coin.create([{
+            _id: coinId,
+            walletId,
+            coinType: 'BTC',
+            quantity: 2,
+            costPrice: 10,
+            sellPrice: 0
+        }], {session});
 
         await Wallet.create([{
             _id: walletId,
-            coins: {
-                BTC: 2,
-                DOGE: 100,
-            }
+            coins: [coinId]
         }], {session});
 
         const userId = mongoose.Types.ObjectId();
@@ -99,6 +110,7 @@ module.exports.SignUp = async (req, res) => {
 
         return res.json({
             status: true,
+            message: 'Signed up successfully'
         });
 
     } catch(e){
