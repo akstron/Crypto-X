@@ -4,7 +4,6 @@ const passport = require('passport');
 const session = require('express-session');
 const cors = require('cors');
 const app = express();
-const bodyParser = require('body-parser')
 
 require('./config/passport');
 require('./config/dbConnection');
@@ -81,20 +80,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.json());
 
-<<<<<<< HEAD
-
-app.use(userAuthRouter);
-app.use(userUtilityRouter);
-app.use(userTradeRouter);
-
-app.use(express.static(publicDirectoryPath));
-
-app.use(fetchCryptoDataRouter);
-app.use(bodyParser);
-app.use(paymentGatewayRouter);
-
-=======
->>>>>>> main
 // when any client gets connected with server
 io.on('connection', (socket) =>{
   console.log('New websocket connection');
