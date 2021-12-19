@@ -1,30 +1,21 @@
-import React,{useState,useEffect} from 'react'
-import { Progress } from 'antd';
+import React from 'react'
+import { Typography,Divider } from 'antd';
+import portfolioIcon from '../../Images/portfolioIcon.png'
+const { Title } = Typography;
 
 const Test = () => {
-    const [status,setStatus] = useState(0);
-
-    useEffect(() => {
-        let isComponentMounted=true;
-        if(isComponentMounted) setInterval(() => {
-            setStatus(oldStatus=>oldStatus+1);
-        }, 50);
-        return () => {
-            isComponentMounted=false;
-        }
-    }, [])
 
     return (
         <div>
-            <h2>this is test area :: - </h2>
-            <Progress
-                type='circle'
-                strokeColor={{
-                    '0%': '#108ee9',
-                    '100%': '#87d068',
-                }}
-                percent={status}
-                />
+            <div className="portfolio-div">
+                <div className="portfolio-heading-div">
+                    <Title level={2}>
+                        <img src={portfolioIcon} alt='ImgIcon' height={'50px'} style={{margin:'0rem .8rem '}}/>
+                        Porfolio
+                    </Title>
+                    <Divider/>
+                </div>
+            </div>
         </div>
     )
 }
