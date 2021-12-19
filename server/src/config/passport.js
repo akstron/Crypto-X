@@ -14,7 +14,7 @@ passport.use(
 		User.findByEmail(email)
 			.then((user) => {
 				if (!user) {
-					return done(null, false, { message: "Wrong email or password.fsdf" });
+					return done(null, false, { message: "Wrong email or password" });
 				}
 
 				bcrypt.compare(password, user.password, (error, isMatch) => {
@@ -39,7 +39,9 @@ passport.use(
  * GoogleStrategy: Login using google account
  */
 
- console.log(process.env.REACT_APP_BACKEND);
+/**
+ * TODO : In Google login create wallet and user using transaction!!!!!!
+ */
 
 passport.use(
 	new GoogleStrategy(
@@ -54,12 +56,7 @@ passport.use(
 			User.findOne({ googleId: profile.id })
 				.then((user) => {
 					if (!user) {
-						const wallet = new Wallet({
-							coins: {
-								BTC: 2,
-								DOGE: 100,
-							},
-						});
+						const wallet = new Wallet();
 
 						const curUser = new User({
 							googleId: profile.id,
@@ -72,7 +69,9 @@ passport.use(
 
 						wallet
 							.save()
-							.then((wallet) => {})
+							.then((wallet) => {
+								console.log('Wallet created!');
+							})
 							.catch((e) => {
 								console.log(e);
 							});

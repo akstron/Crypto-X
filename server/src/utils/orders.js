@@ -1,19 +1,28 @@
-const getActiveOrders = async (user) => {
-    await user.populate({
-        path: 'activeOrders',
-        select: ['_id', 'orderType', 'coinType', 'price', 'quantity', 'completed']
-    });
+/**
+ * Methods used to handle orders
+ */
 
-    return user.activeOrders;
-}
-
-const getOrders = async (user) => {
-    await user.populate({
+const getActiveOrders = async (wallet) => {
+    await wallet.populate({
         path: 'orders',
         select: ['_id', 'orderType', 'coinType', 'price', 'quantity', 'completed']
     });
 
-    return user.orders;
+    const activeOrder = [];
+    wallet.orders.forEach(order => {
+        if(order.quantity !== order.completed) activeOrder.push(order);
+    })
+
+    return activeOrder;
+}
+
+const getOrders = async (wallet) => {
+    await wallet.populate({
+        path: 'orders',
+        select: ['_id', 'orderType', 'coinType', 'price', 'quantity', 'completed']
+    });
+
+    return wallet.orders;
 }
 
 module.exports = {

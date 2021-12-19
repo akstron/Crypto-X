@@ -69,16 +69,6 @@ const userSchema = mongoose.Schema({
         ref: 'Wallet'
     }, 
 
-    orders: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Order'
-    }],
-
-    activeOrders:  [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Order'
-    }],
-
     /* Social login ids */
 
     googleId: {

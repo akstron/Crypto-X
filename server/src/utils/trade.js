@@ -12,6 +12,7 @@ const User = require('../models/User');
 const Wallet = require('../models/Wallet');
 const { getSocketId } = require('../store/SocketMap'); 
 const io = require('../server');
+const Coin = require('../models/Coin');
 
 const createOrder = (userId, coinType, price, quantity, orderType) => {
 
@@ -31,6 +32,16 @@ const createOrder = (userId, coinType, price, quantity, orderType) => {
     return currentOrder;
 }
 
+const getCoinFromWallet = (coinType, wallet) => {
+
+    var coin = null;
+    wallet.coins.forEach((currentCoin) => {
+        if(currentCoin.coinType === coinType) coin = currentCoin;
+    });
+
+    return coin;
+}
+
 /* While placing an order remove required amount of money or coins from wallet beforehand */
 const addOrderInDatabase = async (order) => {
     const dbOrder = new Order(order);
@@ -46,6 +57,10 @@ const addOrderInDatabase = async (order) => {
     }
 
     if(order.orderType === 'buy'){
+
+        /**
+         * TODO : change status code according to this
+         */
     
         const totalMoneySpent = order.price * order.quantity;
         if(totalMoneySpent > wallet.balance){
@@ -53,28 +68,37 @@ const addOrderInDatabase = async (order) => {
         }
 
         wallet.balance -= totalMoneySpent;
-
     }
     else {
-        if(!(order.coinType in wallet.coins)){
+        /**
+         * Change this
+         */
+
+        await wallet.populate({
+            path: 'coins',
+            select: ['coinType', 'quantity', 'costPrice', 'sellPrice']
+        });
+
+        console.log(wallet);
+
+        const coin = getCoinFromWallet(order.coinType, wallet);
+
+        if(!coin){
+            throw new Error('Insufficient coins in wallet!!');
+        }
+
+        if(coin.quantity < order.quantity){
             throw new Error('Insufficient coins in wallet');
         }
 
-        if(wallet.coins[order.coinType] < order.quantity){
-            throw new Error('Insufficient coins in wallet');
-        }
+        if(coin.quantity !== 0)coin.costPrice = (coin.quantity - order.quantity) * coin.costPrice/coin.quantity;
+        coin.quantity -= order.quantity;
+        coin.sellPrice += order.quantity * order.price;
 
-        wallet.coins[order.coinType] -= order.quantity;
-        wallet.markModified('coins');
-
-        console.log(wallet.coins);
+        await coin.save();
     }
-
-    user.activeOrders.push(dbOrder._id);
-    user.orders.push(dbOrder._id);
-    user.markModified('orders');
-    user.markModified('activeOrders');
-    await user.save();
+    
+    wallet.orders.push(dbOrder._id);
     await wallet.save();
     await dbOrder.save();   
 }
@@ -113,15 +137,30 @@ const updateWallet = async (order, exchange) => {
         throw new Error('No wallet found!');
     }
 
+    await wallet.populate({
+        path: 'coins',
+        select: ['coinType', 'quantity', 'costPrice', 'sellPrice']
+    });
+
+    var coin = getCoinFromWallet(order.coinType, wallet);
+
+    if(!coin){
+        coin = new Coin({
+            walletId: wallet._id,
+            coinType: order.coinType,
+        });
+
+        wallet.coins.push(coin._id);
+    }
+
     if(order.orderType === 'buy'){
-        if(!(order.coinType in wallet.coins)){
-            wallet.coins[order.coinType] = 0;
-        }
 
-        console.log('Coins update');
+        coin.quantity += exchange;
 
-        wallet.coins[order.coinType] += exchange;
-        wallet.markModified('coins');
+        /* Update investment */
+        coin.costPrice += exchange * order.price;
+
+        await coin.save();
     }
     else {
         wallet.balance += exchange * order.price;
@@ -146,8 +185,14 @@ const updateOrderInDatabase = async (order, exchange) => {
 const sendOrderNotification = async (order) => {
     const socketId = getSocketId(order.userId);
 
+    /**
+     * TODO!!!!!!!!!!!!!!!!
+     * CHECK WHY IO IS THROWING ERROR AGAIN AND AGAIN
+     * COMMENTING IT AT PRESENT
+     */
+
     /* If no socket is found, function would throw error */
-    io.to(socketId).emit('sendOrderNotification', order);
+    // io.to(socketId).emit('sendOrderNotification', order);
 }
 
 const orderUpdate = async (order, exchange) => {

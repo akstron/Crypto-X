@@ -17,6 +17,8 @@ const io = socketio(server);
 const userAuthRouter = require('./routers/userAuthRouter');
 const userUtilityRouter = require('./routers/userControlsRouter');
 const userTradeRouter = require('./routers/userTradeRouter');
+const userAccountRouter = require('./routers/userAccountRouter');
+require('./models/Coin');
 
 const currentData = require('./utils/currenData');
 const fetchCryptoDataRouter = require('./routers/fetchCryptoDataRouter');
@@ -112,6 +114,7 @@ io.on('connection', (socket) =>{
 app.use(userAuthRouter);
 app.use(userUtilityRouter);
 app.use(userTradeRouter);
+app.use(userAccountRouter);
 
 app.use(express.static(publicDirectoryPath));
 
