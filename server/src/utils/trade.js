@@ -11,7 +11,6 @@
  const User = require('../models/User');
  const Wallet = require('../models/Wallet');
  const { getSocketId } = require('../store/SocketMap'); 
-const io = require('../server');
  
  const createOrder = (userId, coinType, price, quantity, orderType) => {
  
@@ -140,6 +139,7 @@ const io = require('../server');
   // Send order completions updates from here to client using socket
   
  const sendOrderNotification = async (order) => {
+    const io = require('../server');
     const socketId = getSocketId(order.userId);
 
     /* If no socket is found, function would throw error */
