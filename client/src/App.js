@@ -4,7 +4,6 @@ import {Layout} from 'antd';
 import axios from 'axios';
 import {Navbar,HomePage,MarketPage,NewsPage,SignupPage,LoginPage,CryptoDetails,BuySellPage, Loader,Test,ProfilePage,NotFound} from './Components';
 import './App.css';
-axios.defaults.withCredentials = true;
 
 // ToDo:: 1. add isError attribute to User useState
 export const UserContext = createContext();
@@ -80,7 +79,7 @@ const App = () => {
                                             {(User.data)?(<BuySellPage/>):(<Redirect to='/Login'/>)}
                                         </Route>
                                         <Route path="/Profile">
-                                            {(User.data)?(<ProfilePage User={User.data}/>):(<Redirect to='/Login'/>)}
+                                            {(User.data)?(<ProfilePage/>):(<Redirect to='/Login'/>)}
                                         </Route>
                                         <Route path="/test">
                                             <Test/>
