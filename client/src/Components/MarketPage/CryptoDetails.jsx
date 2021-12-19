@@ -136,7 +136,9 @@ const CryptoDetails = () => {
                                 <Title level={3} className="coin-details-heading">{coinDetails.details?.name} Value Statistics</Title>
                                 <p>An overview showing the statistics of {coinDetails.details?.name}, such as the base and quote currency, the rank, and trading volume.</p>
                             </Col>
-                            {stats.map(({ icon, title, value }) => (
+                            {stats.map(({ icon, title, value },key) => (
+                                
+                                <div key={key}>
                                 <Col className="coin-stats">
                                     <Col className="coin-stats-name">
                                         <Text>{icon}</Text>
@@ -144,6 +146,7 @@ const CryptoDetails = () => {
                                     </Col>
                                     <Text className="stats">{value}</Text>
                                 </Col>
+                                </div>
                             ))}
                         </Col>
                         <Col className="other-stats-info">
@@ -151,15 +154,17 @@ const CryptoDetails = () => {
                                 <Title level={3} className="coin-details-heading">Other Stats Info</Title>
                                 <p>An overview showing the statistics of {coinDetails.details?.name}, such as the base and quote currency, the rank, and trading volume.</p>
                             </Col>
-                            {genericStats.map(({ icon, title, value }) => (
-                                <Col className="coin-stats">
-                                <Col className="coin-stats-name">
-                                    <Text>{icon}</Text>
-                                    <Text>{title}</Text>
-                                </Col>
-                                <Text className="stats">{value}</Text>
-                                </Col>
-                            ))}
+                            {genericStats.map(({ icon, title, value },key) => 
+                                <div key={key}>
+                                    <Col className="coin-stats">
+                                    <Col className="coin-stats-name">
+                                        <Text>{icon}</Text>
+                                        <Text>{title}</Text>
+                                    </Col>
+                                    <Text className="stats">{value}</Text>
+                                    </Col>
+                                </div>
+                            )}
                         </Col>
                     </Col>
                     <Col className="coin-desc-link">

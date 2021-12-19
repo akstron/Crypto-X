@@ -1,5 +1,5 @@
 import React,{useEffect} from 'react'
-import { Result, Button,Card } from 'antd';
+import { Result, Button,Card ,message} from 'antd';
 import axios from 'axios';
 
 const OrderCard = ({orderDetails}) => {
@@ -18,6 +18,7 @@ const OrderCard = ({orderDetails}) => {
                 console.log(res);
             }).catch(error => {
                 console.log(error);
+                message.error("Something Went Wrong !")
             })
         }
             if(isComponentMounted){

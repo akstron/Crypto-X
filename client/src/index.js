@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom/cjs/react-router-dom.min';
-import App from './App';
+import AppTest from './AppTest';
 import 'antd/dist/antd.css';
 
 ReactDOM.render(
     <Router>        
-        <App/>
+        <AppTest/>
     </Router>
 ,document.getElementById('root'));

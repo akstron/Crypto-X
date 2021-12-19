@@ -8,28 +8,17 @@ import './App.css';
 // ToDo:: 1. add isError attribute to User useState
 export const UserContext = createContext();
 
-const App = () => {
+const AppTest = () => {
     const [User,setUser]=useState({data:undefined,isFetching:true});
 
     const getUser=()=>{
-        const userRoute = process.env.REACT_APP_BACKEND + '/getuser';
-
-        axios.get(userRoute, {withCredentials: true}).then(res => {
-            if(res['data']['status']){
-                const user=({firstName:res['data']['user']['firstName'],
-                            lastName:res['data']['user']['lastName'],
-                            emailId:res['data']['user']['email']});
-                setUser({
-                    data:user,
-                    isFetching:false
-                });
-            }
-        }).catch(error => {
-            console.log(error);
-            setUser({
-                data:undefined,
-                isFetching:false
-            });
+        setUser({
+            data:{
+                firstName:"Aayush",
+                lastName:"Shandilya",
+                emailId:"heyaayush.py@gmail.com",
+            },
+            isFetching:false,
         })
     }
 
@@ -46,6 +35,7 @@ const App = () => {
   return (
         <UserContext.Provider value={User}>
             <BrowserRouter basename='/'>
+                {console.log("User in App.js",User)}
             {(User.isFetching)?(
                 <Loader/>
             ):(
@@ -79,7 +69,7 @@ const App = () => {
                                             {(User.data)?(<BuySellPage/>):(<Redirect to='/Login'/>)}
                                         </Route>
                                         <Route path="/Profile">
-                                            {(User.data)?(<ProfilePage User={User.data}/>):(<Redirect to='/Login'/>)}
+                                            {(User.data)?(<ProfilePage/>):(<Redirect to='/Login'/>)}
                                         </Route>
                                         <Route path="/test">
                                             <Test/>
@@ -99,4 +89,4 @@ const App = () => {
     )
 }
 
-export default App;
+export default AppTest;

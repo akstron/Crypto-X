@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form, Input, Button } from 'antd';
+import {Form, Input, Button,message } from 'antd';
 import { Typography,Card} from 'antd';
 import { useHistory } from 'react-router-dom';
 
@@ -63,6 +63,7 @@ const SignupPage = () => {
           }
       }).catch(error => {
           console.log(error);
+          message.error(error.toString());
       })
   };
 
