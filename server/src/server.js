@@ -17,6 +17,8 @@ const io = socketio(server);
 const userAuthRouter = require('./routers/userAuthRouter');
 const userUtilityRouter = require('./routers/userControlsRouter');
 const userTradeRouter = require('./routers/userTradeRouter');
+const userAccountRouter = require('./routers/userAccountRouter');
+require('./models/Coin');
 
 const currentData = require('./utils/currenData');
 const fetchCryptoDataRouter = require('./routers/fetchCryptoDataRouter');
@@ -79,15 +81,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.json());
 
-app.use(userAuthRouter);
-app.use(userUtilityRouter);
-app.use(userTradeRouter);
-
-app.use(express.static(publicDirectoryPath));
-
-app.use(fetchCryptoDataRouter);
-app.use(paymentGatewayRouter);
-
 // when any client gets connected with server
 io.on('connection', (socket) =>{
   console.log('New websocket connection');
@@ -116,12 +109,24 @@ io.on('connection', (socket) =>{
     console.log('Disconnected...');
   })
 
-})
+});
+
+app.use(userAuthRouter);
+app.use(userUtilityRouter);
+app.use(userTradeRouter);
+app.use(userAccountRouter);
+
+app.use(express.static(publicDirectoryPath));
+
+app.use(fetchCryptoDataRouter);
+app.use(paymentGatewayRouter);
 
 const PORT = process.env.PORT || 8000;
 
 server.listen(PORT, () => {
   console.log(`Server is running at port ${PORT}`);
-})
+});
 
-module.exports = io
+// console.log(io);
+
+module.exports = io;
