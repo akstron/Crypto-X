@@ -75,6 +75,7 @@ const MarketPage = ({simplified}) => {
                         <Col key={id} xs={24} sm={12} lg={6} className='crypto-card' key={currency.id}>
                             <Link to={`/crypto/${currency.id}`}>
                                 <Card
+                                    style={{borderRadius:"2rem"}}
                                     title={`${currency.rank}. ${currency.name}`}
                                     extra={<img className='crypto-image' alt='img' src={currency.iconUrl}/>}
                                     hoverable

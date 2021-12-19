@@ -48,7 +48,7 @@ const Navbar = () => {
     return (
         <div className='nav-container'>
             <div className="logo-container">
-                <Avatar src={icon} size={32}/>
+                <Avatar src={icon} size={64}/>
                 <Typography.Title level={3} className="logo">
                     <Link to='/'>Baniya-Trade</Link>
                 </Typography.Title>
