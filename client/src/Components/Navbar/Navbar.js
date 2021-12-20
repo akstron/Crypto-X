@@ -2,7 +2,7 @@ import React,{ useContext,useState,useEffect } from 'react'
 import axios from 'axios';
 import { Button,Menu,Typography,Avatar } from 'antd';
 import { Link } from "react-router-dom";
-import { HomeOutlined, DollarOutlined,UserAddOutlined, LoginOutlined,BulbOutlined,ShoppingOutlined,LogoutOutlined,UserOutlined,MenuOutlined} from '@ant-design/icons';
+import { HomeOutlined, ProfileOutlined,DollarOutlined,UserAddOutlined, LoginOutlined,BulbOutlined,ShoppingOutlined,LogoutOutlined,UserOutlined,MenuOutlined,BankOutlined} from '@ant-design/icons';
 import icon from '../../Images/main-logo.png'
 
 // !important Change Back to App
@@ -70,10 +70,16 @@ const Navbar = () => {
                             <Menu.Item key="4" icon={<UserOutlined />}>
                                 <Link to='/Profile'>Profile</Link>
                             </Menu.Item>
-                            <Menu.Item key="5" icon={<ShoppingOutlined />}>
+                            <Menu.Item key="8" icon={<ProfileOutlined />}>
+                                <Link to='/Portfolio'>Portfolio</Link>
+                            </Menu.Item>
+                            <Menu.Item key="5" icon={<BankOutlined />}>
+                                <Link to='/BankOptions'>Payment Options</Link>
+                            </Menu.Item>
+                            <Menu.Item key="6" icon={<ShoppingOutlined />}>
                                 <Link to='/BuySell'>BuySell</Link>
                             </Menu.Item>
-                            <Menu.Item key="6" icon={<LogoutOutlined />}>
+                            <Menu.Item key="7" icon={<LogoutOutlined />}>
                                 <Link to='/' onClick={logOut}>LogOut</Link>
                             </Menu.Item>
                         </>
