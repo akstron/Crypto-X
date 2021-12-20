@@ -17,8 +17,8 @@ const OrderCard = ({orderDetails}) => {
             axios.post(orderRoute,order, {withCredentials: true}).then(res => {
                 console.log(res);
             }).catch(error => {
-                console.log(error);
-                message.error("Something Went Wrong !")
+                console.log(error.response.data.error);
+                message.error(error.response.data.error)
             })
         }
             if(isComponentMounted){

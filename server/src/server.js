@@ -35,7 +35,7 @@ const sessionStore = require('connect-mongo').create({
 
 const corsOptions = {
   /*origin can't be wildcard ('*') when sending credentials*/
-  origin: [process.env.REACT_APP_FRONTEND,process.env.REACT_APP_BACKEND,"http://localhost:3000/","http://localhost:8000/"],
+  origin: [process.env.REACT_APP_FRONTEND,process.env.REACT_APP_BACKEND,"http://localhost:3000","http://localhost:8000"],
   optionsSuccessStatus: 200, // some legacy borwsers choke on 204 (IE11 & various SmartTVs)
   /* 
       Below sets Access-Control-Allow-Credentials to true for cross origin credentials sharing.

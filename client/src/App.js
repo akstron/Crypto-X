@@ -9,11 +9,12 @@ import './App.css';
 export const UserContext = createContext();
 
 const App = () => {
+
     const [User,setUser]=useState({data:undefined,isFetching:true});
 
     const getUser=()=>{
         const userRoute = process.env.REACT_APP_BACKEND + '/getuser';
-
+        
         axios.get(userRoute, {withCredentials: true}).then(res => {
             if(res['data']['status']){
                 const user=({firstName:res['data']['user']['firstName'],
