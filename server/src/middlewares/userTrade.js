@@ -10,21 +10,42 @@ const {getCurrentPrice} = require('../utils/priceStats');
 const {getPercentChange} = require('../utils/priceStats');
 const {createAndAddOrder} = require('../utils/trade');
 const {addSocketId} = require('../store/SocketMap');
-// const {getActiveOrders, getOrders} = require('../utils/orders');
+
+const {getActiveOrders, getOrders} = require('../utils/orders');
 
 module.exports.GetActiveOrders = async (req, res) => {
-    // try{
-    //     const activeOrders = await getActiveOrders(req.user);
-    // }
-    // catch(e){
-    //     res.status(500).json({
-
-    //     })
-    // }
+    try{
+        const activeOrders = await getActiveOrders(req.wallet);
+        return res.json({
+            status: true,
+            activeOrders
+        });
+    }
+    catch(e){
+        console.log(e);
+        return res.status(500).json({
+            status: false,
+            error: 'Internal server error'
+        })
+    }
 }
 
 module.exports.GetOrders = async (req , res) => {
-    // const orders = await getOrders(req.user);
+    try{
+        const orders = await getOrders(req.wallet);
+        return res.json({
+            status: true,
+            orders
+        });
+    }
+    catch(e){
+        console.log(e);
+        return res.status(500).json({
+            status: false,
+            error: 'Internal server error'
+        })
+    }
+
 }
 
 /**

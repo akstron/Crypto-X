@@ -8,7 +8,7 @@ import axios from 'axios';
 
 const {Title} =Typography
 
-const LoginPage = () => {
+const LoginPage = ({setUser}) => {
 
     const [GAuth, setGAuth] = useState(false);
 
@@ -31,8 +31,13 @@ const LoginPage = () => {
         }, {withCredentials: true}).then(res => {
             console.log(res);
             if(res['data']['status']){
-                loginToHome();
-                console.log(res);
+                const user=({firstName:res['data']['user']['firstName'],
+                            lastName:res['data']['user']['lastName'],
+                            emailId:res['data']['user']['email']});
+                setUser({
+                    data:user,
+                    isFetching:false
+                });
             }
         }).catch(error => {
             console.log(error);

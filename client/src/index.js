@@ -6,6 +6,6 @@ import 'antd/dist/antd.css';
 
 ReactDOM.render(
     <Router>        
-        <App/>
+        <App style={{}}/>
     </Router>
 ,document.getElementById('root'));
