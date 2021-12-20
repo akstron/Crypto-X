@@ -1,10 +1,16 @@
 import React from 'react'
-import {Card,Typography,Row,Col,Statistic,Divider,Button} from 'antd';
+import {Card,Typography,Row,Col,Statistic,Popover,Button} from 'antd';
 import { PlusCircleOutlined,MinusCircleOutlined } from '@ant-design/icons';
 import walletIcon from '../../Images/wallet.png'
+import AmountConfirm from './AmountConfirm.jsx'
 const {Text} = Typography;
 
 const WalletCard = () => {
+
+    const confirm=()=>{
+
+    }
+
     return (
         <div>
             <Card 
@@ -30,8 +36,10 @@ const WalletCard = () => {
                             <Statistic title="Account Balance ($)" value={128.93} precision={2} />
                         </Col>
                         <Col xs={{span:24}} md={{span:12}}>
-                            {/* Add Loading Atrribute */}
-                            <Button> <PlusCircleOutlined style={{margin:"0rem"}}/>Add</Button>
+                            {/* Add Loading Atrribute */} 
+                            <Popover content={<AmountConfirm/>} title={<strong>💰 Enter Amount</strong>} trigger="click">
+                                <Button> <PlusCircleOutlined style={{margin:"0rem"}}/>Add</Button>
+                            </Popover>
                         </Col>
                         <Col xs={{span:24}} md={{span:12}}>
                             <Button> <MinusCircleOutlined style={{margin:"0rem"}}/>Withdraw</Button>
