@@ -8,6 +8,7 @@ import icon from '../../Images/main-logo.png'
 // !important Change Back to App
 import { UserContext } from '../../App';
 
+const { SubMenu } = Menu;
 
 const Navbar = () => {
     const [activeMenu, setActiveMenu] = useState(true);
@@ -67,21 +68,24 @@ const Navbar = () => {
                     </Menu.Item>
                     {(User?.data)?(
                         <>
-                            <Menu.Item key="4" icon={<UserOutlined />}>
-                                <Link to='/Profile'>Profile</Link>
-                            </Menu.Item>
-                            <Menu.Item key="8" icon={<ProfileOutlined />}>
-                                <Link to='/Portfolio'>Portfolio</Link>
-                            </Menu.Item>
-                            <Menu.Item key="5" icon={<BankOutlined />}>
-                                <Link to='/BankOptions'>Payment Options</Link>
-                            </Menu.Item>
-                            <Menu.Item key="6" icon={<ShoppingOutlined />}>
-                                <Link to='/BuySell'>BuySell</Link>
-                            </Menu.Item>
-                            <Menu.Item key="7" icon={<LogoutOutlined />}>
-                                <Link to='/' onClick={logOut}>LogOut</Link>
-                            </Menu.Item>
+                            <SubMenu key="sub1" icon={<UserOutlined />} title="My Account">
+                                <Menu.Item key="4" icon={<UserOutlined />}>
+                                    <Link to='/Profile'>Profile</Link>
+                                </Menu.Item>
+                                <Menu.Item key="8" icon={<ProfileOutlined />}>
+                                    <Link to='/Portfolio'>Portfolio</Link>
+                                </Menu.Item>
+                                <Menu.Item key="5" icon={<BankOutlined />}>
+                                    <Link to='/BankOptions'>Payment Options</Link>
+                                </Menu.Item>
+                                <Menu.Item key="6" icon={<ShoppingOutlined />}>
+                                    <Link to='/BuySell'>BuySell</Link>
+                                </Menu.Item>
+                            </SubMenu>
+
+                                <Menu.Item key="7" icon={<LogoutOutlined />}>
+                                    <Link to='/' onClick={logOut}>LogOut</Link>
+                                </Menu.Item>
                         </>
                     ):(
                         <>
