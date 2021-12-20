@@ -9,5 +9,6 @@ export { default as Loader } from './Utils/Loader';
 export { default as CoinsStat } from './HomePage/CoinsStat';
 export { default as BuySellPage } from './BuySellPage/BuySellPage';
 export { default as NotFound } from './NotFoundPage/NotFound';
-export { default as Test } from './Test/Test';
 export { default as ProfilePage } from './ProfilePage/ProfilePage';
+export { default as OTPPage } from '../Components/OTPPage/OTPPage';
+export { default as Test } from './Test/Test';

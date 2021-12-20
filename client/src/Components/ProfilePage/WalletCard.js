@@ -1,6 +1,6 @@
 import React from 'react'
 import {Card,Typography,Row,Col,Statistic,Divider,Button} from 'antd';
-import { PlusCircleOutlined} from '@ant-design/icons';
+import { PlusCircleOutlined,MinusCircleOutlined } from '@ant-design/icons';
 import walletIcon from '../../Images/wallet.png'
 const {Text} = Typography;
 
@@ -26,11 +26,15 @@ const WalletCard = () => {
                     <hr style={{margin:"0.5rem"}}/>
 
                     <Row span={24}  style={{ margin:"1rem auto 0rem auto",width:"fit-content"}}>
-                        <Col xs={{span:24}} md={{span:16}}>
+                        <Col xs={{span:24}} md={{span:24}}>
                             <Statistic title="Account Balance ($)" value={128.93} precision={2} />
                         </Col>
-                        <Col xs={{span:24}} md={{span:8}}>
+                        <Col xs={{span:24}} md={{span:12}}>
+                            {/* Add Loading Atrribute */}
                             <Button> <PlusCircleOutlined style={{margin:"0rem"}}/>Add</Button>
+                        </Col>
+                        <Col xs={{span:24}} md={{span:12}}>
+                            <Button> <MinusCircleOutlined style={{margin:"0rem"}}/>Withdraw</Button>
                         </Col>
                     </Row>
                     <hr style={{margin:"0.5rem"}}/>
