@@ -11,4 +11,5 @@ export { default as BuySellPage } from './BuySellPage/BuySellPage';
 export { default as NotFound } from './NotFoundPage/NotFound';
 export { default as ProfilePage } from './ProfilePage/ProfilePage';
 export { default as OTPPage } from '../Components/OTPPage/OTPPage';
+export { default as BankOptions } from '../Components/BankOptions/BankOptions';
 export { default as Test } from './Test/Test';

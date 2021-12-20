@@ -44,7 +44,7 @@ const AmountConfirm = () => {
 			 headers,
 			 body: JSON.stringify(body) 
 			}).then((t) =>
-			t.json()
+			console.log(t)
 		)
 
 		console.log(order)

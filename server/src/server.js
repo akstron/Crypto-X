@@ -4,7 +4,7 @@ const passport = require('passport');
 const session = require('express-session');
 const cors = require('cors');
 const app = express();
-const bodyParser = require('body-parser')
+// const bodyParser = require('body-parser')
 
 require('./config/passport');
 require('./config/dbConnection');
@@ -85,7 +85,7 @@ app.use(userTradeRouter);
 app.use(express.static(publicDirectoryPath));
 
 app.use(fetchCryptoDataRouter);
-app.use(bodyParser);
+// app.use(bodyParser);
 app.use(paymentGatewayRouter);
 
 
