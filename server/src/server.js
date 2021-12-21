@@ -55,9 +55,6 @@ const sessionOptions = {
     /* Set to false, to allow cookies from http */
     secure: false,
 
-    /* Removed this
-    sameSite: 'none'
-    */
   }
 }
 

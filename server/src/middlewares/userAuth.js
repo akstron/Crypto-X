@@ -10,6 +10,7 @@ const User = require('../models/User');
 const VerificationCode = require('../models/VerificationCode');
 const Wallet = require('../models/Wallet');
 const Coin = require('../models/Coin');
+const Account = require('../models/Account');
 
 /* Utility function for checking mail in database */
 const isEmailAvailable = async (email) => {
@@ -78,9 +79,16 @@ module.exports.SignUp = async (req, res) => {
             sellPrice: 0
         }], {session});
 
+        const accountId = mongoose.Types.ObjectId();
+
+        await Account.create([{
+            _id: accountId
+        }], {session});
+
         await Wallet.create([{
             _id: walletId,
-            coins: [coinId]
+            coins: [coinId], 
+            account: accountId
         }], {session});
 
         const userId = mongoose.Types.ObjectId();
