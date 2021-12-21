@@ -55,16 +55,16 @@ const SignupPage = () => {
     console.log(userDetails);
     
     const route = process.env.REACT_APP_BACKEND + '/signup';
-      axios.post(route, userDetails, {withCredentials: true}).then(res => {
-          console.log(res);
-          if(res['data']['status']){
-              console.log(userDetails);
-              loginToHome();
-          }
-      }).catch(error => {
-          console.log(error);
-          message.error(error.toString());
-      })
+    axios.post(route, userDetails, {withCredentials: true}).then(res => {
+        console.log(res);
+        if(res['data']['status']){
+            console.log(userDetails);
+            loginToHome();
+        }
+    }).catch(error => {
+        console.log(error);
+        message.error(error.toString());
+    })
   };
 
   return (
