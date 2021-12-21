@@ -2,7 +2,8 @@ import React,{useState,useEffect,createContext } from 'react'
 import {BrowserRouter,Route,Switch,Redirect} from 'react-router-dom'
 import {Layout} from 'antd';
 import axios from 'axios';
-import {Navbar,HomePage,MarketPage,NewsPage,SignupPage,LoginPage,CryptoDetails,BuySellPage, Loader,Test,ProfilePage,OTPPage,NotFound} from './Components';
+import {Navbar,HomePage,MarketPage,NewsPage,SignupPage,LoginPage,CryptoDetails,
+            BuySellPage, Loader,Test,ProfilePage,OTPPage,BankOptions ,NotFound,PortfolioPage} from './Components';
 import './App.css';
 
 // ToDo:: 1. add isError attribute to User useState
@@ -17,9 +18,7 @@ const App = () => {
         
         axios.get(userRoute, {withCredentials: true}).then(res => {
             if(res['data']['status']){
-                const user=({firstName:res['data']['user']['firstName'],
-                            lastName:res['data']['user']['lastName'],
-                            emailId:res['data']['user']['email']});
+                const user=(res['data']['user']);
                 setUser({
                     data:user,
                     isFetching:false
@@ -50,7 +49,7 @@ const App = () => {
             {(User.isFetching)?(
                 <Loader/>
             ):(
-                <div className='app' style={{backgroundColor:"rgb(240,242,245)"}}>            
+                <div className='app' style={{backgroundColor:"rgb(240,242,245)"}}>       
                     <div className="navbar">
                         <Navbar/>
                     </div>
@@ -81,6 +80,12 @@ const App = () => {
                                         </Route>
                                         <Route path="/Profile">
                                             {(User.data)?(<ProfilePage/>):(<Redirect to='/Login'/>)}
+                                        </Route>
+                                        <Route path="/Portfolio">
+                                            {(User.data)?(<PortfolioPage/>):(<Redirect to='/Login'/>)}
+                                        </Route>
+                                        <Route path="/BankOptions">
+                                            {(User.data)?(<BankOptions/>):(<Redirect to='/Login'/>)}
                                         </Route>
                                         <Route path="/OTP/:emailId">
                                             <OTPPage/>

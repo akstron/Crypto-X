@@ -21,8 +21,13 @@ const walletSchema = mongoose.Schema({
         ref: 'Order'
     }],
 
+    account: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Account'
+    },
+
     balance: {
-        type: Number, 
+        type: mongoose.Types.Decimal128, 
         require: true,
         default: 0
     }

@@ -6,10 +6,9 @@ const request = require('request')
 const razorpay = new Razorpay({
 	key_id: process.env.KEY_ID,
 	key_secret: process.env.KEY_SECRET
-})
+});
 
-
-module.exports.createOrder = async(req, res) => {
+module.exports.CreateOrder = async(req, res) => {
 	const body = req.body
 	const amount = body.amount
 	const currency = body.currency
@@ -23,21 +22,27 @@ module.exports.createOrder = async(req, res) => {
 	try {
 		const order = await razorpay.orders.create(options)
 		console.log(order)
-		res.json({
+		return res.json({
 			id: order.id,
 			currency: order.currency,
 			amount: order.amount
-		})
+		});
+
 	} catch (error) {
 		console.log(error);
-		res.status(400).json(error);
+
+		return res.status(400).json({
+			status: false, 
+			error
+		});
 	}
 }
 
-module.exports.verification = async(req, res) => {
+module.exports.Verification = async(req, res) => {
 	
+	const amount = parseFloat(req.body.amount);
+	const wallet = req.wallet;
 	const secret = process.env.WEBHOOOK_KEY;
-
 	const crypto = require('crypto')
 
 	const shasum = crypto.createHmac('sha256', secret)
@@ -48,61 +53,154 @@ module.exports.verification = async(req, res) => {
 
 	if (digest === req.headers['x-razorpay-signature']) {
 		console.log('request is legit')
-		// TODO: add the money in wallet
+
+		/* Add money to wallet */
+		wallet.balance = parseFloat(wallet.balance) + amount;
+		await wallet.save();
+		console.log(req.amount);
+
 	} else {
 		// fake requsest
 	}
-	res.json({ status: 'ok' })
+
+	res.json({ 
+		status: true,
+		message: 'Amount added in wallet successfully!'
+	});
 }
 
-module.exports.contact = async(req, res) => {
+module.exports.Contact = async(req, res) => {
 	try{
+		const account = req.account;
 		const response = await createContact(req.user);
-		res.send(response)     // response will be contact
+		
+		console.log(response.contact_id);
+		account.contact_id = response.contact_id;
+		await account.save();
+
+		res.json({
+			status: true,
+			message: 'Contact id added successfully!'
+		});
+
+		// res.send(response)     // response will be contact
 		// TODO: store contact_id
+
 	}catch(error){
-		console.log(error)
+		console.log(error)	
 	}
 }
 
-module.exports.fundAccountUsingBankAccount = async(req, res) => {
+module.exports.AddAccount = async (req, res) => {
+	const account = req.account;
+	
+	const {name, account_number, ifsc} = req.body;
+	account.name = name;
+	account.account_number = account_number;
+	account.ifsc = ifsc;
+
+	await account.save();
+}
+
+module.exports.FundAccountUsingBankAccount = async(req, res) => {
+
 	try{
+		const account = req.account;
+
 		///TODO: require all below things from database
-		const {name, contact_id, account_number, ifsc} = req.body
+		const {name, contact_id, account_number, ifsc} = account;
 		const data = {
 			name,
 			contact_id,
 			account_number,
 			ifsc,
 			account_type: 'bank_account'
-		}
+		};
+
 		const response = await createFundAccountUsingBankAccount(data);
-		res.send(response)
+
 		//TODO: store fund_account_id for bank account in database
+		// fund_account_id_bank_account
+
+		account.bank_fund_account_id = response.fund_account_id;
+		await account.save();
+
+		res.json({
+			status: true,
+			message: 'Bank fund account id added successfully!'
+		});
+
 	}catch(error){
-		console.log(error)
+		console.log(error);
+		res.status(400).json({
+			status: true,
+			error
+		});
 	}
 }
 
-module.exports.fundAccountUsingVPA = async(req, res) => {
+module.exports.AddUPI = async(req, res) => {
+	const account = req.account;
+	const {UPI_id} = req;
+
 	try{
+		account.UPI_id = UPI_id;
+
+		await account.save();
+
+		return res.json({
+			status: true,
+			message: 'UPI id added!'
+		});
+	}
+	catch(e){
+		console.log(e);
+		return res.status(500).json({
+			status: false,
+			error: e
+		});
+	}
+}
+
+module.exports.FundAccountUsingVPA = async(req, res) => {
+	try{
+		const account = req.account;
+
 		// TODO: require all below things form database
-		const {contact_id, UPI_ID} = req.body
+		const {contact_id, UPI_id} = account;
 		const data = {
-			UPI_ID,
+			UPI_ID: UPI_id,
 			contact_id,
 			account_type: 'vpa'
 		}
 		const response = await createFundAccountUsingVPA(data);
-		res.send(response)
 		//TODO: store fund_account_id for vpa in database
+
+		// fund_account_id_vpa
+
+		account.vpa_fund_account_id = response.fund_account_id;
+		await account.save();
+
+		return res.json({
+			status: true,
+			message: 'VPA fund account id saved!'
+		});
+
 	}catch(error){
-		console.log(error)
+		console.log(error);
+
+		return res.status(400).json({
+			status: false,
+			error
+		});
 	}
 }
 
-module.exports.payout = async(req, res) => {
+module.exports.Payout = async(req, res) => {
 	try{
+		const wallet = req.wallet;
+
+		// NOT DONE YET!
 		//TODO: require fund_account_id (according to map)
 		const {fund_account_id, amount, currency, mode, purpose} = req.body
 		const userId = req.user.id
@@ -114,11 +212,34 @@ module.exports.payout = async(req, res) => {
 			purpose,
 			reference_id: userId
 		}
+
+		const payoutAmount = parseFloat(response.amount)/100; 
+
+		// Check given amount is available or not
+		if(wallet.balance < payoutAmount){
+			return res.status(400).json({
+				status: false,
+				error: 'Insufficient balance in wallet!'
+			});
+		}
+
 		const response = await createPayout(data);
-		res.send(response)
-		// TODO: subtract response.amount/100 from wallet money
+
+		wallet.balance = parseFloat(wallet.balance) - payoutAmount;
+		await wallet.save();
+
+		return res.json({
+			status: true,
+			message: 'Payout completed'
+		});
+
 	}catch(error){
+		
 		console.log(error)
+		return res.status(500).json({
+			status: false,
+			error
+		});
 	}
 }
 
