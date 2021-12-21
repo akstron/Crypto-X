@@ -28,9 +28,9 @@ const getCoinFromWallet = (coinType, wallet) => {
 router.post('/addCoins', IsAuthenticated, IsVerified, PopulateWallet, async (req, res) => {
     var {coinType, quantity, sellPrice, costPrice} = req.body;
 
-    quantity = parseInt(quantity);
-    sellPrice = parseInt(sellPrice);
-    costPrice = parseInt(costPrice);
+    quantity = parseFloat(quantity);
+    sellPrice = parseFloat(sellPrice);
+    costPrice = parseFloat(costPrice);
 
     const wallet = req.wallet;
 
@@ -61,7 +61,7 @@ router.post('/addCoins', IsAuthenticated, IsVerified, PopulateWallet, async (req
             });
         }
 
-        coin.quantity += quantity;
+        coin.quantity = parseFloat(coin.quantity) + quantity;
         coin.sellPrice = parseFloat(coin.sellPrice) + sellPrice;
         coin.costPrice = parseFloat(coin.costPrice) + costPrice;
         await coin.save();
