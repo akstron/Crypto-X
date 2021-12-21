@@ -51,7 +51,7 @@ const App = () => {
             {(User.isFetching)?(
                 <Loader/>
             ):(
-                <div className='app' style={{backgroundColor:"rgb(240,242,245)"}}>            
+                <div className='app' style={{backgroundColor:"rgb(240,242,245)"}}>       
                     <div className="navbar">
                         <Navbar/>
                     </div>

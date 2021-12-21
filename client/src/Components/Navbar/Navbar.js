@@ -56,7 +56,9 @@ const Navbar = () => {
                 <Button className="menu-control-container" onClick={() => setActiveMenu(!activeMenu)}><MenuOutlined /></Button>
             </div>
             {activeMenu && (
-                <Menu theme='dark' style={{backgroundColor:'black'}}>
+                <Menu theme='dark' style={{backgroundColor:'black',width: 256}} 
+                    defaultSelectedKeys={['1']}
+                    mode="inline">
                     <Menu.Item key="1" icon={<HomeOutlined/>}>
                         <Link to='/'>Home</Link>
                     </Menu.Item>
@@ -68,7 +70,7 @@ const Navbar = () => {
                     </Menu.Item>
                     {(User?.data)?(
                         <>
-                            <SubMenu key="sub1" icon={<UserOutlined />} title="My Account">
+                            <SubMenu key="account" icon={<UserOutlined />} title="My Account">
                                 <Menu.Item key="4" icon={<UserOutlined />}>
                                     <Link to='/Profile'>Profile</Link>
                                 </Menu.Item>
