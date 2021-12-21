@@ -13,6 +13,7 @@ const BuySellPage = () => {
   const [current, setCurrent] = useState(0);
   const [coinsData,setCoinsData] = useState({data:undefined,isFetching:true});
   const [selectedCoin,setSelectedCoin]=useState(undefined);
+  const [orderDetails,setOrderDetails]=useState(undefined);
 
   const next = () => {
     setCurrent(current + 1);
@@ -31,11 +32,11 @@ const BuySellPage = () => {
     },
     {
       title: 'Choose Sell/Buy',
-      content: <CoinSummary coin={selectedCoin} next={next}/>,
+      content: <CoinSummary coin={selectedCoin} next={next} setOrderDetails={setOrderDetails}/>,
     },
     {
       title: 'Order Details',
-      content: <OrderCard/>,
+      content: <OrderCard orderDetails={orderDetails}/>,
     },
   ];
 

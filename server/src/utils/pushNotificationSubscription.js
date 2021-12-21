@@ -22,8 +22,4 @@ const subscribe = (req, res) => {
   res.status(201).json({});
 }
 
-const port = 5000;
-
-app.listen(port, () => console.log(`Server started on port ${port}`));
-
 module.exports = {subscribe, webpush};

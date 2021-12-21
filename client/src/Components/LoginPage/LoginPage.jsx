@@ -8,7 +8,7 @@ import axios from 'axios';
 
 const {Title} =Typography
 
-const LoginPage = () => {
+const LoginPage = ({setUser}) => {
 
     const [GAuth, setGAuth] = useState(false);
 
@@ -31,8 +31,13 @@ const LoginPage = () => {
         }, {withCredentials: true}).then(res => {
             console.log(res);
             if(res['data']['status']){
-                loginToHome();
-                console.log(res);
+                const user=({firstName:res['data']['user']['firstName'],
+                            lastName:res['data']['user']['lastName'],
+                            emailId:res['data']['user']['email']});
+                setUser({
+                    data:user,
+                    isFetching:false
+                });
             }
         }).catch(error => {
             console.log(error);
@@ -101,8 +106,8 @@ const LoginPage = () => {
                         name="remember"
                         valuePropName="checked"
                         wrapperCol={{
-                        offset: 8,
-                        span: 16,
+                        offset: 4,
+                        span: 20,
                         }}
                     >
                         <Checkbox>Remember me</Checkbox>
@@ -110,11 +115,11 @@ const LoginPage = () => {
 
                     <Form.Item
                         wrapperCol={{
-                        offset: 4,
-                        span: 20,
+                        offset: 2,
+                        span: 22,
                         }}
                     >
-                        <div className="form-submit" style={{padding:"0.2rem"}}>
+                        <div className="form-submit" style={{padding:"0.2rem",margin:"0rem auto"}}>
                             <Button type="primary" htmlType="submit" style={{margin:"0.2rem"}}>
                                 Submit
                             </Button>

@@ -10,24 +10,27 @@ const razorpay = new Razorpay({
 
 
 module.exports.createOrder = async(req, res) => {
+	console.log('createOrder route called')
+	console.log(process.env.KEY_ID)
 	const body = req.body
 	const amount = body.amount
-	const currency = body.currency
+	const currency = body.currency;
 
 	const options = {
 		amount: amount * 100,
 		currency,
 		receipt: shortid.generate()
-	}
+	};
 
 	try {
-		const order = await razorpay.orders.create(options)
-		console.log(order)
-		res.json({
-			id: order.id,
-			currency: order.currency,
-			amount: order.amount
-		})
+		const order = await razorpay.orders.create(options);
+		console.log(order);
+		return res.send(order)
+		// return res.json({
+		// 	id: order.id,
+		// 	currency: order.currency,
+		// 	amount: order.amount
+		// });
 	} catch (error) {
 		console.log(error);
 		res.status(400).json(error);
