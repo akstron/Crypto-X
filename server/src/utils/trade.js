@@ -11,7 +11,6 @@ const Order = require('../models/Order');
 const User = require('../models/User');
 const Wallet = require('../models/Wallet');
 const { getSocketId } = require('../store/SocketMap'); 
-const io = require('../server');
 const Coin = require('../models/Coin');
 
 const createOrder = (userId, coinType, price, quantity, orderType) => {
@@ -183,6 +182,7 @@ const updateOrderInDatabase = async (order, exchange) => {
 // Send order completions updates from here to client using socket
 
 const sendOrderNotification = async (order) => {
+    const io = require('../server');
     const socketId = getSocketId(order.userId);
 
     /**
@@ -192,7 +192,8 @@ const sendOrderNotification = async (order) => {
      */
 
     /* If no socket is found, function would throw error */
-    // io.to(socketId).emit('sendOrderNotification', order);
+    io.to(socketId).emit('sendOrderNotification', order);
+    console.log(io);
 }
 
 const orderUpdate = async (order, exchange) => {

@@ -1,10 +1,18 @@
 import React from 'react'
 import { Card,Row,Col,Statistic,Form, InputNumber, Button,Radio} from 'antd';
 import millify from 'millify';
-import moment from 'moment'
-const CoinSummary = ({coin,next}) => {
+import moment from 'moment';
+import LineChart from '../Utils/LineChart'
+const CoinSummary = ({coin,next,setOrderDetails}) => {
 
     const [form] = Form.useForm();
+
+    const coinHistory={
+        data:{
+            change:coin.change,
+            history:coin.history.map((price,id)=>({price:price,timestamp:new Date(new Date().getTime() - (id * 60 * 60 * 1000)).getTime()})),
+        }
+    }
 
     const layout = {
         labelCol: {
@@ -22,7 +30,14 @@ const CoinSummary = ({coin,next}) => {
     };
     
     const onFinish = values => {
-        console.log('Received values of form:', values);
+        const orderDetails={
+            coinType:coin.symbol,
+            quantity:values.noOfCoins,
+            price:values.price,
+            category:values.category,
+        };
+        console.log(orderDetails);
+        setOrderDetails(orderDetails);
         next();
     }
 
@@ -38,24 +53,26 @@ const CoinSummary = ({coin,next}) => {
     return (
         <div>
             <Row>
-                <Col span={12}>
-                    <Card
-                        title={"1. Selected Coin : "+ (coin.name)}
-                        extra={<img className='crypto-image' alt='img' src={coin.iconUrl} height={'35px'}/>}
-                        style={{margin:"1rem auto",width:"fit-content"}}
-                        hoverable>
-
-                            <Row>
-                                <Col span={8}><Statistic title="Price" value={"$"+millify(coin?.price)} /></Col>
-                                <Col span={8} style={{display:"inline"}}><Statistic title="Change" value={millify(coin?.change)+"%"} style={{display:"inline"}}/></Col>
-                                <Col span={8}><Statistic title="Market Cap" value={millify(coin?.marketCap)}/></Col>
-                                <Col span={8}><Statistic title="Volume" value={millify(coin?.volume)}/></Col>
-                                <Col span={8}><Statistic title="All Time High" value={"$"+millify(coin?.allTimeHigh.price)}/></Col>
-                                <Col span={8}><Statistic title="Listed" value={moment(coin?.listedAt*1000).startOf('ss').fromNow()}/></Col>
-                            </Row> 
-                    </Card>    
+                <Col xs={{span:24}} md={{span:12}}>
+                        <Card
+                            title={"1. Selected Coin : "+ (coin.name)}
+                            extra={<img className='crypto-image' alt='img' src={coin.iconUrl} height={'35px'}/>}
+                            style={{margin:"1rem auto",width:"fit-content"}}
+                            hoverable>
+                                <Row>
+                                    <Col span={8}><Statistic title="Price" value={"$"+millify(coin?.price)} /></Col>
+                                    <Col span={8} style={{display:"inline"}}><Statistic title="Change" value={millify(coin?.change)+"%"} style={{display:"inline"}}/></Col>
+                                    <Col span={8}><Statistic title="Market Cap" value={millify(coin?.marketCap)}/></Col>
+                                    <Col span={8}><Statistic title="Volume" value={millify(coin?.volume)}/></Col>
+                                    <Col span={8}><Statistic title="All Time High" value={"$"+millify(coin?.allTimeHigh.price)}/></Col>
+                                    <Col span={8}><Statistic title="Listed" value={moment(coin?.listedAt*1000).startOf('ss').fromNow()}/></Col>
+                                </Row> 
+                        </Card>
+                        <Card>
+                            <LineChart coinHistory={coinHistory} currentPrice={coin.price} coinName={coin.name}/>
+                        </Card>
                 </Col>
-                <Col span={12}>
+                <Col  xs={{span:24}} md={{span:12}}>
                     <Card
                         title={`2. Coins Amount`}
                         hoverable

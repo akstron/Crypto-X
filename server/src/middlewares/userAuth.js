@@ -22,7 +22,7 @@ const isEmailAvailable = async (email) => {
 /* Sending OTP */
 const sendVerificationCode = async (email, code) => {
     const transport = nodemailer.createTransport({
-        service: 'Gmail',
+        service: 'gmail',
         auth: {
             user: process.env.EMAIL,
             pass: process.env.EMAIL_PASSWORD
@@ -81,9 +81,9 @@ module.exports.SignUp = async (req, res) => {
 
         const accountId = mongoose.Types.ObjectId();
 
-        await Account.create({
+        await Account.create([{
             _id: accountId
-        }, {session});
+        }], {session});
 
         await Wallet.create([{
             _id: walletId,

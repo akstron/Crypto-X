@@ -1,5 +1,4 @@
 const express = require('express');
-const paymentGateway = require('../middlewares/paymentGateway');
 const { IsAuthenticated, IsVerified } = require('../middlewares/userAuth');
 const { PopulateWallet, PopulateAccount } = require('../middlewares/userWallet');
 const {CreateOrder, Verification, Contact, AddAccount, FundAccountUsingBankAccount, AddUPI, FundAccountUsingVPA, Payout} = require('../middlewares/paymentGateway');

@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from "react";
 import axios from "axios";
 import millify from 'millify';
-import { Typography,Row,Col, Statistic } from 'antd'
+import { Typography,Row,Col, Statistic,Card,Divider} from 'antd'
 import {Loader} from '../../Components'
 import homeIcon from '../../Images/homepage-icon.png'
 
@@ -42,23 +42,31 @@ const CoinsStat =()=> {
     
     return (
         <>
-            <Title level={2} className='"heading'>
-                <img src={ homeIcon} height={'40px'} alt='' style={{margin:'.5rem'}}/>
-                Crypto Currencies Information
-            </Title>
-            {(coinStat.isFetching)?(
-                <Loader />
-            ):(
-                <>
-                    <Row>
-                        <Col span={12}><Statistic title="Total CryptoCurrencies" value={coinStat.data.totalCoins}/></Col>
-                        <Col span={12}><Statistic title="Total Exchanges" value={millify(coinStat.data.totalExchanges)}/></Col>
-                        <Col span={12}><Statistic title="Total Market Cap" value={millify(coinStat.data.totalMarketCap)}/></Col>
-                        <Col span={12}><Statistic title="Total 24h Volume" value={millify(coinStat.data.total24hVolume)}/></Col>
-                        <Col span={12}><Statistic title="Total Market" value={millify(coinStat.data.totalMarkets)}/></Col>
-                    </Row>                        
-                </>
-            )}
+            <Divider orientation="left">
+                <Title level={2} className='"heading'>
+                    <img src={ homeIcon} height={'40px'} alt='' style={{margin:'.5rem'}}/>
+                    Crypto Currencies Information
+                </Title>
+            </Divider>
+
+            <Card style={{borderRadius:"2rem"}}>
+
+                {(coinStat.isFetching)?(
+                    <Loader />
+                ):(
+                    <>
+                        <Row>
+                            <Col span={12}><Statistic title="Total CryptoCurrencies" value={coinStat.data.totalCoins}/></Col>
+                            <Col span={12}><Statistic title="Total Exchanges" value={millify(coinStat.data.totalExchanges)}/></Col>
+                            <Col span={12}><Statistic title="Total Market Cap" value={millify(coinStat.data.totalMarketCap)}/></Col>
+                            <Col span={12}><Statistic title="Total 24h Volume" value={millify(coinStat.data.total24hVolume)}/></Col>
+                            <Col span={12}><Statistic title="Total Market" value={millify(coinStat.data.totalMarkets)}/></Col>
+                        </Row>                        
+                    </>
+                )}
+                
+            </Card>
+            
         </>
     )
 }
