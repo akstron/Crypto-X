@@ -41,7 +41,7 @@ const getCoinFromWallet = (coinType, wallet) => {
 
 /* While placing an order remove required amount of money or coins from wallet beforehand */
 const addOrderInDatabase = async (order, session) => {
-    // const dbOrder = new Order(order);
+
     const orderArray = await Order.create([order], {session});
     const dbOrder = orderArray[0];
 
@@ -102,12 +102,16 @@ const addOrderInDatabase = async (order, session) => {
     wallet.orders.push(dbOrder._id);
     await wallet.save();
     await dbOrder.save();   
+
+    // throw new Error('Something went wrong!');
 }
 
 /* Add order to linked list */
 const addOrder = async (order, orderMap, session) => {
 
     const {coinType, price} = order;
+
+    await addOrderInDatabase(order, session);
 
     if(!orderMap.has(coinType)) orderMap.set(coinType, new Map());
     const coinMap = orderMap.get(coinType); 
@@ -116,8 +120,6 @@ const addOrder = async (order, orderMap, session) => {
     
     const orderList = coinMap.get(price);
     orderList.pushBack(order);
-
-    await addOrderInDatabase(order, session);
 
     return orderList;
 }
@@ -183,7 +185,7 @@ const updateOrderInDatabase = async (order, exchange, session) => {
     await updateWallet(order, exchange, session);
 }
 
-// Send order completions updates from here to client using socket
+/* Send order completions updates from here to client using socket */
 
 const sendOrderNotification = async (order) => {
     const io = require('../server');
@@ -284,10 +286,6 @@ const performMatch = async (buyList, sellList) => {
 
 /* Method for finding match for buy and sell orders and committing deals */
 
-/**
- * TODO: Make this asynchronours (MAYBE)
- */
-
 const findMatchAndUpdate = async (coinType, price) => {
     if(!coinType || !price){
         throw new Error("Can't find match for null type");
@@ -342,7 +340,7 @@ const createAndAddOrder = async (userId, coinType, price, quantity, orderType) =
         await session.abortTransaction();
         session.endSession();
 
-        throw new Error("Order can't be placed!");
+        throw new Error(e.message);
     }
 }
 
