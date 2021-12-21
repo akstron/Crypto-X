@@ -93,7 +93,7 @@ module.exports.Contact = async(req, res) => {
 module.exports.AddAccount = async (req, res) => {
 	const account = req.account;
 	
-	const {name, account_number, ifsc} = req;
+	const {name, account_number, ifsc} = req.body;
 	account.name = name;
 	account.account_number = account_number;
 	account.ifsc = ifsc;
@@ -140,7 +140,7 @@ module.exports.FundAccountUsingBankAccount = async(req, res) => {
 
 module.exports.AddUPI = async(req, res) => {
 	const account = req.account;
-	const {UPI_id} = req;
+	const {UPI_id} = req.body;
 
 	try{
 		account.UPI_id = UPI_id;
