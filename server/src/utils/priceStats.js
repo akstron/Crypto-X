@@ -31,7 +31,7 @@ module.exports.getPercentChange = async (coinSymbol) => {
                 prevClosePrice: 24hr previous price
             */
 
-            console.info("Price change percent: "+prevDay.priceChangePercent+"%")
+            // console.info("Price change percent: "+prevDay.priceChangePercent+"%")
             resolve({
                 priceChangePercentage: prevDay.priceChangePercent,
                 priceChange: prevDay.priceChange,
