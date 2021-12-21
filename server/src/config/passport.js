@@ -2,8 +2,10 @@ const LocalStrategy = require("passport-local").Strategy;
 const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
+const mongoose = require("mongoose");
 const User = require("../models/User");
 const Wallet = require("../models/Wallet");
+const Account = require('../models/Account');
 
 /**
  * LocalStrategy: Signup and login using email and password
@@ -38,11 +40,6 @@ passport.use(
 /**
  * GoogleStrategy: Login using google account
  */
-
-/**
- * TODO : In Google login create wallet and user using transaction!!!!!!
- */
-
 passport.use(
 	new GoogleStrategy(
 		{
@@ -50,63 +47,51 @@ passport.use(
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET,
 			callbackURL: process.env.REACT_APP_BACKEND+"/login/google/callback",
 		},
-		function (accessToken, refreshToken, profile, done) {
+		async function (accessToken, refreshToken, profile, done) {
 			console.log(profile);
 
-			User.findOne({ googleId: profile.id })
-				.then((user) => {
-					if (!user) {
-						
-						const account = new Account();
-						
-						const wallet = new Wallet({
-							account: accountId
-						});
+			const session = await mongoose.startSession();
 
-						const curUser = new User({
-							googleId: profile.id,
-							firstName: profile._json.given_name,
-							lastName: profile._json.family_name,
-							email: profile._json.email,
-							isVerified: true,
-							wallet: wallet._id,
-						});
+			try{
+				/* Start transaction */
+				session.startTransaction();
 
+				const googleId = profile.id;
+				var user = await User.findOne({googleId});
 
+				if(!user){
+					const accountArray = await Account.create([{}], {session});
+					const account = accountArray[0];
 
-						wallet
-							.save()
-							.then((wallet) => {
-								console.log('Wallet created!');
+					const walletArray = await Wallet.create([{
+						account: account._id
+					}], {session});
 
-							})
-							.catch((e) => {
-								console.log(e);
-							});
+					const wallet = walletArray[0];
 
-						account.save().then((account) => {
-							console.log('Account created!');
-						}).catch((e) => {
-							console.log(e);
-						})
+					const userArray = await User.create([{
+						googleId: profile.id,
+						firstName: profile._json.given_name,
+						lastName: profile._json.family_name,
+						email: profile._json.email,
+						isVerified: true,
+						wallet: wallet._id,
+					}], {session});
 
-						curUser
-							.save()
-							.then((user) => {
-								done(null, user);
-							})
-							.catch((e) => {
-								done(e, null);
-							});
+					user = userArray[0];
+				}
 
-						return;
-					}
+				await session.commitTransaction();
+				session.endSession();
 
-					return done(null, user);
-				})
-				.catch((error) => {
-					return done(error, null);
-				});
+				return done(null, user);
+			}
+			catch(e){
+				console.log(e);
+				await session.abortTransaction();
+				session.endSession();
+				done(e, null);
+			}
 		}
 	)
 );
