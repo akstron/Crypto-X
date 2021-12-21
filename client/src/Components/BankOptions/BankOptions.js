@@ -2,11 +2,12 @@ import React,{useState,useEffect} from 'react'
 import { Typography,Card,Button,Row,Col,Form, Input,Tabs  } from 'antd';
 import { PlusCircleOutlined} from '@ant-design/icons';
 import BankCard from './BankCard'
+import axios from 'axios';
 import bankIcon from '../../Images/bankIcon.png'
 import WalletIcon from '../../Images/wallet.png'
-import axios from 'axios';
+import CardIcon from '../../Images/cardIcon.png'
 
-const { Text,Title } = Typography;
+const { Title } = Typography;
 const { TabPane } = Tabs;
 
 const BankOptions = () => {
@@ -17,9 +18,6 @@ const BankOptions = () => {
         labelCol: { offset: 4,span: 6 },
         wrapperCol: { span: 10 },
     };
-    const tailLayout = {
-        wrapperCol: { offset: 8, span: 16 },
-    };
 
     const addAccount=(name,account_number,ifsc)=>{
         const userRoute = process.env.REACT_APP_BACKEND + '/addAccount';
@@ -27,20 +25,11 @@ const BankOptions = () => {
         console.log(accountDetails);
         
         axios.post(userRoute,accountDetails ,{withCredentials: true}).then(res => {
-            console.log(res.data);
             if(res['data']['status']){
-                // const user=(res['data']['user']);
-                // setBankAccount({
-                //     data:user,
-                //     isFetching:false
-                // });
+                console.log(res.data);
             }
         }).catch(error => {
-            // console.log(error);
-            // setUser({
-            //     data:undefined,
-            //     isFetching:false
-            // });
+            console.log(error);
         })
     }
 
@@ -50,18 +39,10 @@ const BankOptions = () => {
         axios.post(userRoute,{UPI_id:UPI_id} ,{withCredentials: true}).then(res => {
             console.log(res.data);
             if(res['data']['status']){
-                // const user=(res['data']['user']);
-                // setBankAccount({
-                //     data:user,
-                //     isFetching:false
-                // });
+                console.log(res.data);
             }
         }).catch(error => {
-            // console.log(error);
-            // setUser({
-            //     data:undefined,
-            //     isFetching:false
-            // });
+            console.log(error);
         })
     }
 
@@ -77,7 +58,7 @@ const BankOptions = () => {
 
     useEffect(()=>{
         // addUPI("aayushshandilya80@oksbi");
-        addAccount('Aayush Shandilya',2551214321,'SBIN0000388');
+        //addAccount('Aayush Shandilya',2551214321,'SBIN0000388');
     },[])
 
     return (
@@ -104,16 +85,13 @@ const BankOptions = () => {
                                 </Row>
                             
                             <Row>
-                                <Col span={24}><BankCard/></Col>
-                                <Col span={24}><BankCard/></Col>
-                                <Col span={24}><BankCard/></Col>
-                                <Col span={24}><BankCard/></Col>
+                                <Col span={24}><BankCard Name="Aayush" AccountNo={'2596XXXX55'} ifsc="SBIN007258" upiId="aayushshandilya80@oksbi"/></Col>
                             </Row>                            
                         </Col>
                         <Col xs={{span:24}} lg={{span:16}}  style={{padding:".5rem"}}>
                                 <Row style={{borderBottom:".5px dotted black",backgroundColor:"transparent",margin:"0.5rem auto",padding:".5rem 0rem"}}>
                                     <Col span={20}>
-                                        <Title level={4}><img className='crypto-image' alt='img' src={WalletIcon} height={'40px'}/> Add New Methods </Title>
+                                        <Title level={4}><img className='crypto-image' alt='img' src={CardIcon} height={'40px'}/> Add New Methods </Title>
                                     </Col>
                                     <Col span={4} style={{textAlign:"center"}}>
                                         <Button type="primary" shape="circle"><PlusCircleOutlined/></Button>
