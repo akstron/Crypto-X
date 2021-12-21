@@ -1,8 +1,34 @@
-import { Result, Button,Card } from 'antd';
+import React,{useEffect} from 'react'
+import { Result, Button,Card ,message} from 'antd';
+import axios from 'axios';
 
-import React from 'react'
+const OrderCard = ({orderDetails}) => {
 
-const OrderCard = () => {
+    useEffect(()=>{
+        let isComponentMounted = true;    
+        const placeOrder=()=>{
+            const orderRoute = process.env.REACT_APP_BACKEND +'/'+ orderDetails.category;
+            const order={
+                coinType:orderDetails.coinType,
+                price:orderDetails.price,
+                quantity:orderDetails.quantity,
+            }
+            console.log(order)
+            axios.post(orderRoute,order, {withCredentials: true}).then(res => {
+                console.log(res);
+            }).catch(error => {
+                console.log(error.response.data.error);
+                message.error(error.response.data.error)
+            })
+        }
+            if(isComponentMounted){
+            placeOrder();
+        }
+        return () => {
+            isComponentMounted = false;
+        }
+    },[orderDetails]);
+
     return (
         <div>
             <Card
