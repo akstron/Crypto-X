@@ -289,12 +289,27 @@ const createAndAddOrder = async (userId, coinType, price, quantity, orderType) =
     price = parseInt(price);
     quantity = parseInt(quantity);
 
-    /* Create order */
-    const order = createOrder(userId, coinType, price, quantity, orderType);   
-    const orderList = await addOrder(order, (orderType === 'sell' ? sellOrders : buyOrders));
+    const session = await mongoose.startSession();
 
-    await findMatchAndUpdate(coinType, price);
-    return order._id;
+    try{
+        session.startTransaction();
+
+        /* Create order */
+        const order = createOrder(userId, coinType, price, quantity, orderType);   
+        const orderList = await addOrder(order, (orderType === 'sell' ? sellOrders : buyOrders));
+        await findMatchAndUpdate(coinType, price);
+        
+        await session.commitTransaction();
+        session.endSession();
+
+        return order._id;
+    }
+    catch(e){
+        console.log(e);
+
+        await session.abortTransaction();
+        session.endSession();
+    }
 }
 
 
