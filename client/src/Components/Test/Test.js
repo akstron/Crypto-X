@@ -26,6 +26,7 @@ function Test() {
 			alert('Razorpay SDK failed to load. Are you online?')
 			return
 		}
+		console.log(res);
 
 		const headers = {
 			"Content-Type": "application/json"
@@ -35,13 +36,15 @@ function Test() {
 			amount,
 			currency: 'INR'
 		}
+
 		const order = await fetch('http://localhost:8000/createOrder', {
 			 method: 'POST',
+			 credentials:'include',
 			 headers,
 			 body: JSON.stringify(body) 
-			}).then((t) =>{
-    			t.json()
-                console.log(t.data);
+			}).then((res) =>{
+                console.log(res.data);
+				return res.json()
             }
 		)
 
