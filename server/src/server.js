@@ -5,6 +5,7 @@ const session = require('express-session');
 const cors = require('cors');
 const app = express();
 
+
 require('./config/passport');
 require('./config/dbConnection');
 
@@ -54,6 +55,7 @@ const sessionOptions = {
     maxAge: 1000 * 60 * 60 * 24,
     /* Set to false, to allow cookies from http */
     secure: false,
+
   }
 }
 
@@ -83,6 +85,7 @@ app.use(userTradeRouter);
 app.use(express.static(publicDirectoryPath));
 
 app.use(fetchCryptoDataRouter);
+
 app.use(paymentGatewayRouter);
 
 

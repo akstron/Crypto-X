@@ -106,8 +106,8 @@ const LoginPage = ({setUser}) => {
                         name="remember"
                         valuePropName="checked"
                         wrapperCol={{
-                        offset: 8,
-                        span: 16,
+                        offset: 4,
+                        span: 20,
                         }}
                     >
                         <Checkbox>Remember me</Checkbox>
@@ -115,11 +115,11 @@ const LoginPage = ({setUser}) => {
 
                     <Form.Item
                         wrapperCol={{
-                        offset: 4,
-                        span: 20,
+                        offset: 2,
+                        span: 22,
                         }}
                     >
-                        <div className="form-submit" style={{padding:"0.2rem"}}>
+                        <div className="form-submit" style={{padding:"0.2rem",margin:"0rem auto"}}>
                             <Button type="primary" htmlType="submit" style={{margin:"0.2rem"}}>
                                 Submit
                             </Button>
