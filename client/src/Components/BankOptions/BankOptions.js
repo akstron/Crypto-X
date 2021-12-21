@@ -77,7 +77,7 @@ const BankOptions = () => {
 
     useEffect(()=>{
         // addUPI("aayushshandilya80@oksbi");
-        // addAccount('Aayush Shandilya',2551214321,'SBIN0000388');
+        addAccount('Aayush Shandilya',2551214321,'SBIN0000388');
     },[])
 
     return (
@@ -158,7 +158,7 @@ const BankOptions = () => {
                                     </TabPane>
                                 </Tabs>
 
-                                
+                        
                                 </Card>
 
                         </Col>
