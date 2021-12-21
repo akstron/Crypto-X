@@ -11,7 +11,7 @@ const {v4: idGenerator} = require('uuid');
 const verificationCodeSchema = mongoose.Schema({
     verificationCode: {
         type: String, 
-        default: idGenerator(),
+        default: Math.floor(100000 + Math.random() * 900000),
         require: true
     },
     accountId: {
