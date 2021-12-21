@@ -5,11 +5,11 @@
 const express = require('express');
 const router = express.Router();
 const { IsAuthenticated, IsVerified } = require('../middlewares/userAuth');
-const { PopulateWallet, GetWallet } = require('../middlewares/userWallet');
+const { PopulateWallet, GetWallet, PopulateAccount, GetAccount } = require('../middlewares/userWallet');
 const Coin = require('../models/Coin');
 
 router.get('/getWallet', IsAuthenticated, IsVerified, PopulateWallet, GetWallet);
-
+router.get('/getBankingOptions', IsAuthenticated, IsVerified, PopulateAccount, GetAccount);
 /**
  * FOR TESTING ONLY
  */

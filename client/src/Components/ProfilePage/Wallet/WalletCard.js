@@ -81,7 +81,7 @@ const WalletCard = () => {
                             {(wallet.isFetching)?(
                                 <LoadingOutlined style={{margin:"0.8rem"}}/>
                             ):(
-                                <Statistic title="Account Balance ($)" value={wallet?.data?.balance} precision={2} />
+                                <Statistic title="Account Balance ($)" value={wallet?.data?.balance?.$numberDecimal} precision={2} />
                             )}
                         </Col>
                         <Col xs={{span:24}} md={{span:12}}>

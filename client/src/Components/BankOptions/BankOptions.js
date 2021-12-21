@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react'
 import { Typography,Card,Button,Row,Col,Form, Input,Tabs  } from 'antd';
-import { PlusCircleOutlined} from '@ant-design/icons';
+import { PlusCircleOutlined,LoadingOutlined} from '@ant-design/icons';
 import BankCard from './BankCard'
 import axios from 'axios';
 import bankIcon from '../../Images/bankIcon.png'
@@ -12,7 +12,13 @@ const { TabPane } = Tabs;
 
 const BankOptions = () => {
 
-    const [bankAccount,setBankAccount]=useState({bank:undefined,upiId:undefined,isFetching:true});
+    const [bankAccount,setBankAccount]=useState({
+        name:undefined,
+        account_number:undefined,
+        ifsc:undefined,
+        upiId:undefined,
+        isFetching:true
+    });
 
     const layout = {
         labelCol: { offset: 4,span: 6 },
@@ -20,27 +26,34 @@ const BankOptions = () => {
     };
 
     const addAccount=(name,account_number,ifsc)=>{
-        const userRoute = process.env.REACT_APP_BACKEND + '/addAccount';
+        const accountRoute = process.env.REACT_APP_BACKEND + '/addAccount';
         const accountDetails={name:name, account_number:account_number,ifsc:ifsc };
-        console.log(accountDetails);
+        setBankAccount({
+            name:undefined,
+            account_number:undefined,
+            ifsc:undefined,
+            upiId:undefined,
+            isFetching:true,
+        });
         
-        axios.post(userRoute,accountDetails ,{withCredentials: true}).then(res => {
+        axios.post(accountRoute,accountDetails ,{withCredentials: true}).then(res => {
             if(res['data']['status']){
                 console.log(res.data);
             }
+            getBankAccount();
         }).catch(error => {
             console.log(error);
         })
     }
 
     const addUPI=(UPI_id)=>{
-        const userRoute = process.env.REACT_APP_BACKEND + '/addUPI';
-               
-        axios.post(userRoute,{UPI_id:UPI_id} ,{withCredentials: true}).then(res => {
+        const upiRoute = process.env.REACT_APP_BACKEND + '/addUPI';
+        axios.post(upiRoute,{UPI_id:UPI_id} ,{withCredentials: true}).then(res => {
             console.log(res.data);
             if(res['data']['status']){
                 console.log(res.data);
             }
+            getBankAccount();
         }).catch(error => {
             console.log(error);
         })
@@ -56,9 +69,41 @@ const BankOptions = () => {
         addUPI(values.upiid);
     }
 
+    const getBankAccount=()=>{
+        const upiRoute = process.env.REACT_APP_BACKEND + '/getBankingOptions';
+        setBankAccount({
+            name:undefined,
+            account_number:undefined,
+            ifsc:undefined,
+            upiId:undefined,
+            isFetching:true
+        })
+        axios.get(upiRoute,{withCredentials: true}).then(res => {
+            if(res['data']['status']){
+                const bankAc={
+                    name:res.data.account.name,
+                    account_number:res.data.account.account_number,
+                    ifsc:res.data.account.ifsc,
+                    upiId:res.data.account.UPI_id,
+                    isFetching:false
+                };
+                console.log(bankAc);
+                setBankAccount(bankAc);
+            }
+        }).catch(error => {
+            console.log(error);
+            setBankAccount({
+                name:undefined,
+                account_number:undefined,
+                ifsc:undefined,
+                upiId:undefined,
+                isFetching:false
+            })
+        })
+    }
+
     useEffect(()=>{
-        // addUPI("aayushshandilya80@oksbi");
-        //addAccount('Aayush Shandilya',2551214321,'SBIN0000388');
+        getBankAccount();
     },[])
 
     return (
@@ -85,7 +130,13 @@ const BankOptions = () => {
                                 </Row>
                             
                             <Row>
-                                <Col span={24}><BankCard Name="Aayush" AccountNo={'2596XXXX55'} ifsc="SBIN007258" upiId="aayushshandilya80@oksbi"/></Col>
+                                {(bankAccount.isFetching)?(
+                                    <>
+                                        <LoadingOutlined style={{margin:"0.8rem auto",fontSize: "xx-large"}}/>
+                                    </>
+                                ):(
+                                    <Col span={24}><BankCard Name={bankAccount.name} AccountNo={bankAccount.account_number} ifsc={bankAccount.ifsc} upiId={bankAccount.upiId}/></Col>
+                                )}
                             </Row>                            
                         </Col>
                         <Col xs={{span:24}} lg={{span:16}}  style={{padding:".5rem"}}>
