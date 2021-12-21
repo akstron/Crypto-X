@@ -2,7 +2,34 @@
  * Wallet related middlewares
  */
 
-const Wallet = require('../models/Wallet');
+ const Wallet = require('../models/Wallet');
+
+module.exports.PopulateAccount = async(req, res, next) => {
+    var wallet = req.wallet;
+    try{
+        if(!wallet){
+            wallet = await Wallet.findById(req.user.wallet); 
+        }
+
+        if(!wallet){
+            throw new Error('No wallet found!');
+        }
+
+        await wallet.populate({
+            path: 'account'
+        });
+
+        req.account = wallet.account;
+        next();
+    }
+    catch(e){
+        console.log(e);
+        res.status(500).json({
+            status: false,
+            error: 'Internal server error'
+        });
+    }
+}
 
 module.exports.PopulateWallet = async (req, res, next) => {
 
