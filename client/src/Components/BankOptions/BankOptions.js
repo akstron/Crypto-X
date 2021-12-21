@@ -55,8 +55,9 @@ const BankOptions = () => {
                                         <Button type="primary" shape="circle"><PlusCircleOutlined/></Button>
                                     </Col>
                                 </Row>
-                                <Card>
-
+                                <Card
+                                style={{borderRadius:"2rem",margin:".5rem auto",maxWidth:"500px"}}
+                                hoverable >
                                 <Tabs defaultActiveKey="1" >
                                     <TabPane tab="Add Account" key="1">
                                             <Form name="control-hooks" {...layout}>
@@ -71,7 +72,7 @@ const BankOptions = () => {
                                                 </Form.Item>
                                                 <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                                                     <Button type="primary" htmlType="submit">
-                                                        Save
+                                                        Save Account
                                                     </Button>
                                                 </Form.Item>
                                             </Form>
@@ -84,9 +85,9 @@ const BankOptions = () => {
                                             <Form.Item name="upiid" label="UPI ID :" rules={[{ required: true }]}>
                                                 <Input />
                                             </Form.Item>
-                                            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                                            <Form.Item wrapperCol={{ offset: 0, span: 24 }}>
                                                 <Button type="primary" htmlType="submit">
-                                                    Save
+                                                    Save UPI
                                                 </Button>
                                             </Form.Item>
                                         </Form>

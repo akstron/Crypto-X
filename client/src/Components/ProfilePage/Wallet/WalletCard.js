@@ -112,7 +112,7 @@ const WalletCard = () => {
                                 <>
                                     {wallet?.data?.coins.map((coin,id)=>(
                                         <>
-                                            <CoinEntry coinSymbol={coin.coinType} coinQuantity={18.93} key={id}/>
+                                            <CoinEntry coinSymbol={coin.coinType} coinQuantity={coin.quantity} key={id}/>
                                         </>
                                     ))}
                                 </>
