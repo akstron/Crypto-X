@@ -73,12 +73,12 @@ const AmountConfirm = () => {
 		paymentObject.open()
 	}
 
-    const onFinish = (values: any) => {
+    const onFinish = (values) => {
         console.log('Success:', values);
         displayRazorpay();
     };
 
-    const onFinishFailed = (errorInfo: any) => {
+    const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
 

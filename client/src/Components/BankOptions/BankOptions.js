@@ -186,13 +186,9 @@ const BankOptions = () => {
                                         </Form>
                                     </TabPane>
                                 </Tabs>
-
-                        
                                 </Card>
-
                         </Col>
                     </Row>
-                    
                 </div>
             </div>
         </div>

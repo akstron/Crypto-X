@@ -3,6 +3,7 @@ import {Card,Typography,Row,Col,Statistic,Popover,Button} from 'antd';
 import { PlusCircleOutlined,MinusCircleOutlined,LoadingOutlined,ExclamationCircleOutlined } from '@ant-design/icons';
 import walletIcon from '../../../Images/wallet.png'
 import AmountConfirm from './AmountConfirm.jsx'
+import PayoutConfirm from './PayoutConfirm.jsx'
 import CoinEntry from './CoinEntry'
 import axios from 'axios';
 //Fetch Coin Quantity also !!
@@ -48,9 +49,6 @@ const WalletCard = () => {
         })
     }
 
-    const confirm=()=>{
-    }
-
     useEffect(()=>{
         // AddDummyCoin();
         getWalletDetails();
@@ -91,7 +89,9 @@ const WalletCard = () => {
                             </Popover>
                         </Col>
                         <Col xs={{span:24}} md={{span:12}}>
-                            <Button> <MinusCircleOutlined style={{margin:"0rem"}}/>Withdraw</Button>
+                            <Popover content={<PayoutConfirm/>} title={<strong>💰 Select Bank Account </strong>} trigger="click">
+                                <Button> <MinusCircleOutlined style={{margin:"0rem"}}/>Withdraw</Button>
+                            </Popover>
                         </Col>
                     </Row>
                     <hr style={{margin:"0.5rem"}}/>
@@ -99,7 +99,7 @@ const WalletCard = () => {
                         <LoadingOutlined style={{margin:"2rem"}}/>
                     ):(
                         <Row  style={{ marginTop:"1rem",textAlign:"center"}}>
-                            {(wallet?.data?.coins.length==0)?(
+                            {(wallet?.data?.coins.length===0)?(
                                 <>
                                     <Col span={24}>
                                         <ExclamationCircleOutlined />
