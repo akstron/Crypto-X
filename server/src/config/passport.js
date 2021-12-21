@@ -56,7 +56,12 @@ passport.use(
 			User.findOne({ googleId: profile.id })
 				.then((user) => {
 					if (!user) {
-						const wallet = new Wallet();
+						
+						const account = new Account();
+						
+						const wallet = new Wallet({
+							account: accountId
+						});
 
 						const curUser = new User({
 							googleId: profile.id,
@@ -67,14 +72,23 @@ passport.use(
 							wallet: wallet._id,
 						});
 
+
+
 						wallet
 							.save()
 							.then((wallet) => {
 								console.log('Wallet created!');
+
 							})
 							.catch((e) => {
 								console.log(e);
 							});
+
+						account.save().then((account) => {
+							console.log('Account created!');
+						}).catch((e) => {
+							console.log(e);
+						})
 
 						curUser
 							.save()

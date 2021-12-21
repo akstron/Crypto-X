@@ -200,9 +200,9 @@ class CoinTable extends React.Component {
         ):(
           <>
             <Card
-                title={`Crypto Coins`}
+                title={<strong>Crypto Coins</strong>}
                 extra={<img className='crypto-image' alt='img' src={mainLogo} height={'25px'}/>}
-                style={{margin:"1rem auto",width:"fit-content"}}
+                style={{margin:"1rem auto",width:"fit-content",borderRadius:"2rem"}}
                 hoverable>
               <Table 
                 columns={columns} 

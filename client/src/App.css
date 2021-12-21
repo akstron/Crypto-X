@@ -76,6 +76,10 @@ a:hover {
   margin: auto;
 }
 
+.ant-menu {
+  background-color: black !important;
+}
+
 @media screen and (max-width: 1300px) {
   .main {
     margin-left: 50px;
@@ -124,7 +128,7 @@ a:hover {
   }
 
   .ant-menu {
-    position: absolute;
+    /* position: absolute; */
     right: 0px;
   }
   .home-title {
