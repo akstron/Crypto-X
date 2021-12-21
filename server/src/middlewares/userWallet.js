@@ -61,7 +61,7 @@ module.exports.GetWallet = async (req, res) => {
     try{
         await wallet.populate({
             path: 'coins',
-            select: ['coinType', 'costPrice', 'sellPrice']
+            select: ['coinType', 'costPrice', 'sellPrice', 'quantity']
         });
 
         return res.json({
