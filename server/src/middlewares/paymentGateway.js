@@ -94,12 +94,25 @@ module.exports.Contact = async(req, res) => {
 module.exports.AddAccount = async (req, res) => {
 	const account = req.account;
 	
-	const {name, account_number, ifsc} = req.body;
-	account.name = name;
-	account.account_number = account_number;
-	account.ifsc = ifsc;
+	try{
+		const {name, account_number, ifsc} = req.body;
+		account.name = name;
+		account.account_number = account_number;
+		account.ifsc = ifsc;
 
-	await account.save();
+		await account.save();
+
+		res.json({
+			status: true,
+			message: 'Account added successfully!'
+		});
+	}
+	catch(e){
+		res.status(500).json({
+			status: true,
+			error: 'Something went wrong'
+		});
+	}
 }
 
 module.exports.FundAccountUsingBankAccount = async(req, res) => {

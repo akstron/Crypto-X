@@ -19,7 +19,6 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "binance": "^2.0.14",
-    "body-parser": "^1.19.1",
     "coingecko-api": "^1.0.10",
     "connect-mongo": "^4.6.0",
     "cors": "^2.8.5",

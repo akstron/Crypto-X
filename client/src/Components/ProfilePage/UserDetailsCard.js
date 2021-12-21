@@ -1,6 +1,6 @@
 import React from 'react'
 import {Card,Avatar,Statistic,Row,Col,Typography} from 'antd';
-import { UserOutlined} from '@ant-design/icons';
+import { UserOutlined,CheckCircleTwoTone,QuestionCircleTwoTone} from '@ant-design/icons';
 import CardEntry from './CardEntry'
 import profileIcon from '../../Images/profileIcon.png'
  
@@ -9,6 +9,7 @@ const {Text} = Typography;
 const UserDetailsCard = ({User}) => {
     return (
         <div>
+            {console.log(User)}
             <Card 
                 style={{width: "fit-content",
                         margin:"2rem auto",
@@ -28,8 +29,8 @@ const UserDetailsCard = ({User}) => {
                         <Avatar size={64} icon={<UserOutlined />}/>
                     </Col>
                     <CardEntry title={'Name'} value={User.firstName+" "+User.lastName}/>
-                    <CardEntry title={'Email Id'} value={User.emailId}/>
-                    <CardEntry title={'Phone'} value={'+91-6264465475'}/>
+                    <CardEntry title={'Email Id'} value={User.email}/>
+                    <CardEntry title={(User.isVerified)?('Verified User'):('Unverified User')} value={(User.isVerified)?(<CheckCircleTwoTone twoToneColor="#52c41a" />):(<QuestionCircleTwoTone twoToneColor="red"/>)}/>
                 </Row>
             </Card>
         </div>

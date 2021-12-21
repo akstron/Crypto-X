@@ -95,7 +95,17 @@ const AmountConfirm = () => {
         <Form.Item
             label="Amount"
             name="amount"
-            rules={[{ required: true, message: "Amount can't be Zero !" }]}
+            rules={[{ required: true, message: "Amount can't be Zero !" },
+					({ getFieldValue }) => ({
+						validator(_, value) {
+						if (value > 0) {
+							return Promise.resolve();
+						}
+
+						return Promise.reject(new Error('Amount must be greater then 1'));
+						},
+					}),
+			]}
         >
             <InputNumber min={0} defaultValue={0}/>
         </Form.Item>
