@@ -1,14 +1,16 @@
-import React from 'react'
+import React,{useState} from 'react'
 import {Card,Typography,Row,Col,Statistic,Popover,Button} from 'antd';
-import { PlusCircleOutlined,MinusCircleOutlined } from '@ant-design/icons';
-import walletIcon from '../../Images/wallet.png'
+import { PlusCircleOutlined,MinusCircleOutlined,LoadingOutlined,ExclamationCircleOutlined } from '@ant-design/icons';
+import walletIcon from '../../../Images/wallet.png'
 import AmountConfirm from './AmountConfirm.jsx'
+import CoinEntry from './CoinEntry'
 const {Text} = Typography;
 
 const WalletCard = () => {
 
-    const confirm=()=>{
+    const [wallet,setWallet] = useState({data:undefined,isFetching:true});
 
+    const confirm=()=>{
     }
 
     return (
@@ -33,7 +35,11 @@ const WalletCard = () => {
 
                     <Row span={24}  style={{ margin:"1rem auto 0rem auto",width:"fit-content"}}>
                         <Col xs={{span:24}} md={{span:24}}>
-                            <Statistic title="Account Balance ($)" value={128.93} precision={2} />
+                            {(wallet.isFetching)?(
+                                <LoadingOutlined style={{margin:"0.8rem"}}/>
+                            ):(
+                                <Statistic title="Account Balance ($)" value={wallet.balance} precision={2} />
+                            )}
                         </Col>
                         <Col xs={{span:24}} md={{span:12}}>
                             {/* Add Loading Atrribute */} 
@@ -46,26 +52,31 @@ const WalletCard = () => {
                         </Col>
                     </Row>
                     <hr style={{margin:"0.5rem"}}/>
-                    <Row  style={{ marginTop:"1rem"}}>
-                        <Col xs={{span:24}} md={{span:12}}>
-                            <Statistic title="BTC" value={18.93} precision={2} />
-                        </Col>
-                        <Col xs={{span:24}} md={{span:12}}>
-                            <Statistic title="DOGE" value={18.93} precision={2} />
-                        </Col>
-                        <Col xs={{span:24}} md={{span:12}}>
-                            <Statistic title="POL" value={18.93} precision={2} />
-                        </Col>
-                        <Col xs={{span:24}} md={{span:12}}>
-                            <Statistic title="BTC" value={18.93} precision={2} />
-                        </Col>
-                        <Col xs={{span:24}} md={{span:12}}>
-                            <Statistic title="DOGE" value={18.93} precision={2} />
-                        </Col>
-                        <Col xs={{span:24}} md={{span:12}}>
-                            <Statistic title="POL" value={18.93} precision={2} />
-                        </Col>
-                    </Row>
+                    {(!wallet.isFetching)?(
+                         <LoadingOutlined style={{margin:"2rem"}}/>
+                    ):(
+                        <Row  style={{ marginTop:"1rem",textAlign:"center"}}>
+                            {(true)?(
+                                <>
+                                <Col span={24}>
+                                    <ExclamationCircleOutlined />
+                                </Col>
+                                <Col span={24}>
+                                    No Coins in Wallet.
+                                </Col>
+                                </>
+                            ):(
+                                <>
+                                    <CoinEntry coinSymbol={"BTC"} coinQuantity={18.93}/>
+                                    <CoinEntry coinSymbol={"BTC"} coinQuantity={18.93}/>
+                                    <CoinEntry coinSymbol={"BTC"} coinQuantity={18.93}/>
+                                    <CoinEntry coinSymbol={"BTC"} coinQuantity={18.93}/>
+                                </>
+                            )}
+                            
+                        </Row>
+                    )}
+                    
             </Card>
             
         </div>

@@ -3,7 +3,7 @@ import {Typography,Row,Col,Card} from 'antd';
 import ProfileIcon from '../../Images/profile-logo.png'
 
 import UserDetailsCard from './UserDetailsCard'
-import WalletCard from './WalletCard'
+import WalletCard from './Wallet/WalletCard'
 import OrdersCard from './OrdersCard'
 import { UserContext } from '../../App';
 import profileIcon from '../../Images/profileIcon.png'

@@ -18,9 +18,7 @@ const App = () => {
         
         axios.get(userRoute, {withCredentials: true}).then(res => {
             if(res['data']['status']){
-                const user=({firstName:res['data']['user']['firstName'],
-                            lastName:res['data']['user']['lastName'],
-                            emailId:res['data']['user']['email']});
+                const user=(res['data']['user']);
                 setUser({
                     data:user,
                     isFetching:false
