@@ -22,7 +22,7 @@ module.exports.CreateOrder = async(req, res) => {
 	try {
 		const order = await razorpay.orders.create(options)
 		console.log(order)
-		res.json({
+		return res.json({
 			id: order.id,
 			currency: order.currency,
 			amount: order.amount
@@ -31,7 +31,7 @@ module.exports.CreateOrder = async(req, res) => {
 	} catch (error) {
 		console.log(error);
 
-		res.status(400).json({
+		return res.status(400).json({
 			status: false, 
 			error
 		});
