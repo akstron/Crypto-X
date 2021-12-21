@@ -1,14 +1,18 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import { Typography,Card,Button,Row,Col,Form, Input,Tabs  } from 'antd';
 import { PlusCircleOutlined} from '@ant-design/icons';
 import BankCard from './BankCard'
 import bankIcon from '../../Images/bankIcon.png'
 import WalletIcon from '../../Images/wallet.png'
+import axios from 'axios';
 
 const { Text,Title } = Typography;
 const { TabPane } = Tabs;
 
 const BankOptions = () => {
+
+    const [bankAccount,setBankAccount]=useState({data:undefined,isFetching:true});
+
     const layout = {
         labelCol: { offset: 4,span: 6 },
         wrapperCol: { span: 10 },
@@ -16,6 +20,34 @@ const BankOptions = () => {
     const tailLayout = {
         wrapperCol: { offset: 8, span: 16 },
     };
+
+    const addAccount=(name,account_number,ifsc)=>{
+        const userRoute = process.env.REACT_APP_BACKEND + '/addAccount';
+        const accountDetails={name:name, account_number:account_number,ifsc:ifsc };
+        console.log(accountDetails);
+        
+        axios.post(userRoute,accountDetails ,{withCredentials: true}).then(res => {
+            console.log(res.data);
+            if(res['data']['status']){
+                // const user=(res['data']['user']);
+                // setBankAccount({
+                //     data:user,
+                //     isFetching:false
+                // });
+            }
+        }).catch(error => {
+            // console.log(error);
+            // setUser({
+            //     data:undefined,
+            //     isFetching:false
+            // });
+        })
+    }
+
+    useEffect(()=>{
+        addAccount('Aayush Shandilya',2551214321,'SBIN0000388');
+    },[])
+
     return (
         <div>
             <div className="banking-div">
