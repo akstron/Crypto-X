@@ -11,7 +11,7 @@ const { TabPane } = Tabs;
 
 const BankOptions = () => {
 
-    const [bankAccount,setBankAccount]=useState({data:undefined,isFetching:true});
+    const [bankAccount,setBankAccount]=useState({bank:undefined,upiId:undefined,isFetching:true});
 
     const layout = {
         labelCol: { offset: 4,span: 6 },
@@ -44,8 +44,40 @@ const BankOptions = () => {
         })
     }
 
+    const addUPI=(UPI_id)=>{
+        const userRoute = process.env.REACT_APP_BACKEND + '/addUPI';
+               
+        axios.post(userRoute,{UPI_id:UPI_id} ,{withCredentials: true}).then(res => {
+            console.log(res.data);
+            if(res['data']['status']){
+                // const user=(res['data']['user']);
+                // setBankAccount({
+                //     data:user,
+                //     isFetching:false
+                // });
+            }
+        }).catch(error => {
+            // console.log(error);
+            // setUser({
+            //     data:undefined,
+            //     isFetching:false
+            // });
+        })
+    }
+
+    const submitBankAccount=(values)=>{
+        console.log("Adding A/C :",values);
+        addAccount(values.name,values.account,values.ifsc)
+    }
+
+    const submitUPI=(values)=>{
+        console.log("Adding UPI :",values);
+        addUPI(values.upiid);
+    }
+
     useEffect(()=>{
-        addAccount('Aayush Shandilya',2551214321,'SBIN0000388');
+        // addUPI("aayushshandilya80@oksbi");
+        // addAccount('Aayush Shandilya',2551214321,'SBIN0000388');
     },[])
 
     return (
@@ -92,7 +124,7 @@ const BankOptions = () => {
                                 hoverable >
                                 <Tabs defaultActiveKey="1" >
                                     <TabPane tab="Add Account" key="1">
-                                            <Form name="control-hooks" {...layout}>
+                                            <Form name="control-hooks" {...layout} onFinish={submitBankAccount}>
                                                 <Form.Item name="name" label="Name :" rules={[{ required: true }]}>
                                                     <Input />
                                                 </Form.Item>
@@ -110,7 +142,7 @@ const BankOptions = () => {
                                             </Form>
                                     </TabPane>
                                     <TabPane tab="Add UPI" key="2">
-                                        <Form name="control-hooks" {...layout}>
+                                        <Form name="control-hooks" {...layout} onFinish={submitUPI}>
                                             <Form.Item name="name" label="Name :" rules={[{ required: true }]}>
                                                 <Input />
                                             </Form.Item>
