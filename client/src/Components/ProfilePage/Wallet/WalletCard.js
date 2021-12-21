@@ -96,7 +96,7 @@ const WalletCard = () => {
                     </Row>
                     <hr style={{margin:"0.5rem"}}/>
                     {(wallet.isFetching)?(
-                         <LoadingOutlined style={{margin:"2rem"}}/>
+                        <LoadingOutlined style={{margin:"2rem"}}/>
                     ):(
                         <Row  style={{ marginTop:"1rem",textAlign:"center"}}>
                             {(wallet?.data?.coins.length==0)?(

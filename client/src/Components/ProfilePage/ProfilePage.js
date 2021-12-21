@@ -1,14 +1,13 @@
 import React,{useContext} from 'react'
-import {Typography,Row,Col,Card} from 'antd';
+import {Typography,Row,Col} from 'antd';
 import ProfileIcon from '../../Images/profile-logo.png'
 
 import UserDetailsCard from './UserDetailsCard'
 import WalletCard from './Wallet/WalletCard'
-import OrdersCard from './OrdersCard'
+import OrdersCard from './Orders/OrdersCard'
 import { UserContext } from '../../App';
-import profileIcon from '../../Images/profileIcon.png'
 
-const {Text,Title} =Typography
+const {Title} =Typography
 
 const ProfilePage = () => {
 
