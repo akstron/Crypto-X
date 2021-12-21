@@ -11,6 +11,7 @@
  const User = require('../models/User');
  const Wallet = require('../models/Wallet');
  const { getSocketId } = require('../store/SocketMap'); 
+ const Coin = require('../models/Coin');
  
  const createOrder = (userId, coinType, price, quantity, orderType) => {
  
@@ -25,9 +26,19 @@
          orderType
      };
  
-     console.log(currentOrder);
+     // console.log(currentOrder);
  
      return currentOrder;
+ }
+ 
+ const getCoinFromWallet = (coinType, wallet) => {
+ 
+     var coin = null;
+     wallet.coins.forEach((currentCoin) => {
+         if(currentCoin.coinType === coinType) coin = currentCoin;
+     });
+ 
+     return coin;
  }
  
  /* While placing an order remove required amount of money or coins from wallet beforehand */
@@ -45,6 +56,10 @@
      }
  
      if(order.orderType === 'buy'){
+ 
+         /**
+          * TODO : change status code according to this
+          */
      
          const totalMoneySpent = order.price * order.quantity;
          if(totalMoneySpent > wallet.balance){
@@ -52,23 +67,37 @@
          }
  
          wallet.balance -= totalMoneySpent;
-  
      }
      else {
-         if(!(order.coinType in wallet.coins)){
+         /**
+          * Change this
+          */
+ 
+         await wallet.populate({
+             path: 'coins',
+             select: ['coinType', 'quantity', 'costPrice', 'sellPrice']
+         });
+ 
+         console.log(wallet);
+ 
+         const coin = getCoinFromWallet(order.coinType, wallet);
+ 
+         if(!coin){
+             throw new Error('Insufficient coins in wallet!!');
+         }
+ 
+         if(coin.quantity < order.quantity){
              throw new Error('Insufficient coins in wallet');
          }
  
-         if(wallet.coins[order.coinType] < order.quantity){
-             throw new Error('Insufficient coins in wallet');
-         }
+         if(coin.quantity !== 0)coin.costPrice = (coin.quantity - order.quantity) * coin.costPrice/coin.quantity;
+         coin.quantity -= order.quantity;
+         coin.sellPrice += order.quantity * order.price;
  
-         wallet.coins[order.coinType] -= order.quantity;
-         wallet.markModified('coins');
- 
-         console.log(wallet.coins);
+         await coin.save();
      }
- 
+     
+     wallet.orders.push(dbOrder._id);
      await wallet.save();
      await dbOrder.save();   
  }
@@ -107,15 +136,30 @@
          throw new Error('No wallet found!');
      }
  
+     await wallet.populate({
+         path: 'coins',
+         select: ['coinType', 'quantity', 'costPrice', 'sellPrice']
+     });
+ 
+     var coin = getCoinFromWallet(order.coinType, wallet);
+ 
+     if(!coin){
+         coin = new Coin({
+             walletId: wallet._id,
+             coinType: order.coinType,
+         });
+ 
+         wallet.coins.push(coin._id);
+     }
+ 
      if(order.orderType === 'buy'){
-         if(!(order.coinType in wallet.coins)){
-             wallet.coins[order.coinType] = 0;
-         }
  
-         console.log('Coins update');
+         coin.quantity += exchange;
  
-         wallet.coins[order.coinType] += exchange;
-         wallet.markModified('coins');
+         /* Update investment */
+         coin.costPrice += exchange * order.price;
+ 
+         await coin.save();
      }
      else {
          wallet.balance += exchange * order.price;
@@ -133,17 +177,23 @@
  
      await Order.findByIdAndUpdate(_id, order);
      await updateWallet(order, exchange);
- 
  }
  
-  // Send order completions updates from here to client using socket
-  
+ // Send order completions updates from here to client using socket
+ 
  const sendOrderNotification = async (order) => {
-    const io = require('../server');
-    const socketId = getSocketId(order.userId);
-
-    /* If no socket is found, function would throw error */
-    io.to(socketId).emit('sendOrderNotification', order);
+     const io = require('../server');
+     const socketId = getSocketId(order.userId);
+ 
+     /**
+      * TODO!!!!!!!!!!!!!!!!
+      * CHECK WHY IO IS THROWING ERROR AGAIN AND AGAIN
+      * COMMENTING IT AT PRESENT
+      */
+ 
+     /* If no socket is found, function would throw error */
+      
+      io.to(socketId).emit('sendOrderNotification', order);
  }
  
  const orderUpdate = async (order, exchange) => {
@@ -219,7 +269,7 @@
  
      if(!buyOrders.has(coinType)) return;
      if(!sellOrders.has(coinType)) return;
-     
+ 
      const buyMap = buyOrders.get(coinType);
      const sellMap = sellOrders.get(coinType);
  
@@ -233,7 +283,7 @@
  }
  
  const createAndAddOrder = async (userId, coinType, price, quantity, orderType) => {
-     if(!userId || !coinType || !price || !quantity){
+     if(!userId || !coinType || !price || !quantity || !orderType){
          throw new Error('Null values not accepted!');
      }
  
@@ -245,6 +295,7 @@
      const orderList = await addOrder(order, (orderType === 'sell' ? sellOrders : buyOrders));
  
      await findMatchAndUpdate(coinType, price);
+     return order._id;
  }
  
  
