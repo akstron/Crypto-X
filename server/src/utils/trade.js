@@ -12,6 +12,7 @@ const User = require('../models/User');
 const Wallet = require('../models/Wallet');
 const { getSocketId } = require('../store/SocketMap'); 
 const Coin = require('../models/Coin');
+const { parse } = require('uuid');
 
 const createOrder = (userId, coinType, price, quantity, orderType) => {
 
@@ -66,7 +67,7 @@ const addOrderInDatabase = async (order, session) => {
             throw new Error('Insufficient amount in wallet');
         }
 
-        wallet.balance -= totalMoneySpent;
+        wallet.balance = parseFloat(wallet.balance) - totalMoneySpent;
     }
     else {
         await wallet.populate({
@@ -92,8 +93,9 @@ const addOrderInDatabase = async (order, session) => {
          * TODO: update below
          */
 
-        coin.costPrice = (coin.quantity - order.quantity) * coin.costPrice/coin.quantity;
-        coin.quantity -= order.quantity;
+        coin.costPrice = (parseFloat(coin.quantity) - order.quantity) * 
+        parseFloat(coin.costPrice)/parseFloat(coin.quantity);
+        coin.quantity = parseFloat(coin.quantity) - order.quantity;
         coin.sellPrice = parseFloat(coin.sellPrice) + order.quantity * order.price;
 
         await coin.save();
@@ -102,8 +104,6 @@ const addOrderInDatabase = async (order, session) => {
     wallet.orders.push(dbOrder._id);
     await wallet.save();
     await dbOrder.save();   
-
-    // throw new Error('Something went wrong!');
 }
 
 /* Add order to linked list */
@@ -160,15 +160,14 @@ const updateWallet = async (order, exchange, session) => {
 
     if(order.orderType === 'buy'){
 
-        coin.quantity += exchange;
+        coin.quantity = parseFloat(coin.quantity) + exchange;
 
         /* Update investment */
-        coin.costPrice += exchange * order.price;
-
+        coin.costPrice = parseFloat(coin.costPrice) + exchange * order.price;
         await coin.save();
     }
     else {
-        wallet.balance += exchange * order.price;
+        wallet.balance = parseFloat(wallet.balance) + exchange * order.price;
     }
 
     await wallet.save();
@@ -186,16 +185,9 @@ const updateOrderInDatabase = async (order, exchange, session) => {
 }
 
 /* Send order completions updates from here to client using socket */
-
 const sendOrderNotification = async (order) => {
     const io = require('../server');
     const socketId = getSocketId(order.userId);
-
-    /**
-     * TODO!!!!!!!!!!!!!!!!
-     * CHECK WHY IO IS THROWING ERROR AGAIN AND AGAIN
-     * COMMENTING IT AT PRESENT
-     */
 
     /* If no socket is found, function would throw error */
     io.to(socketId).emit('sendOrderNotification', order);
@@ -313,8 +305,12 @@ const createAndAddOrder = async (userId, coinType, price, quantity, orderType) =
         throw new Error('Null values not accepted!');
     }
 
-    price = parseInt(price);
-    quantity = parseInt(quantity);
+    /**
+     * TODO : Make checks whether float is passed!!!!
+     */
+
+    price = parseFloat(price);
+    quantity = parseFloat(quantity);
 
     const session = await mongoose.startSession();
 

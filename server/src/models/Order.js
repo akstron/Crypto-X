@@ -30,17 +30,17 @@ const orderSchema = mongoose.Schema({
     },
 
     price: {
-        type: Number,
+        type: mongoose.Types.Decimal128,
         require: true
     },
 
     quantity: {
-        type: Number,
+        type: mongoose.Types.Decimal128,
         require: true,
     },
 
     completed: {
-        type: Number,
+        type: mongoose.Types.Decimal128,
         require: true,
     }   
 }, 

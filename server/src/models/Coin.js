@@ -11,7 +11,7 @@ const coinSchema = mongoose.Schema({
     },
 
     quantity: {
-        type: Number,
+        type: mongoose.Types.Decimal128,
         require: true,
         default: 0
     },
