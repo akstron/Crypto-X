@@ -320,17 +320,12 @@ const createAndAddOrder = async (userId, coinType, price, quantity, orderType) =
 
     const session = await mongoose.startSession();
 
-<<<<<<< HEAD
     try{
-=======
-    try {
->>>>>>> main
         session.startTransaction();
 
         /* Create order */
         const order = createOrder(userId, coinType, price, quantity, orderType);   
         const orderList = await addOrder(order, (orderType === 'sell' ? sellOrders : buyOrders), session);
-<<<<<<< HEAD
        
         await session.commitTransaction();
         session.endSession();
@@ -346,18 +341,8 @@ const createAndAddOrder = async (userId, coinType, price, quantity, orderType) =
 
         await session.abortTransaction();
         session.endSession();
-=======
 
-        await findMatchAndUpdate(coinType, price);
-        return order._id;
-    }
-    catch(e){
-        await session.abortTransaction();
-        session.endSession();
-        console.log(e);
-
-        throw new Error(e.message);
->>>>>>> main
+        throw new Error("Order can't be placed!");
     }
 }
 
