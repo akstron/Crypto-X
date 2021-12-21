@@ -103,7 +103,7 @@ const addOrderInDatabase = async (order) => {
 }
 
 /* Add order to linked list */
-const addOrder = async (order, orderMap) => {
+const addOrder = async (order, orderMap, session) => {
 
     const {coinType, price} = order;
 
@@ -115,7 +115,7 @@ const addOrder = async (order, orderMap) => {
     const orderList = coinMap.get(price);
     orderList.pushBack(order);
 
-    await addOrderInDatabase(order);
+    await addOrderInDatabase(order, session);
 
     return orderList;
 }
@@ -290,12 +290,25 @@ const createAndAddOrder = async (userId, coinType, price, quantity, orderType) =
     price = parseInt(price);
     quantity = parseInt(quantity);
 
-    /* Create order */
-    const order = createOrder(userId, coinType, price, quantity, orderType);   
-    const orderList = await addOrder(order, (orderType === 'sell' ? sellOrders : buyOrders));
+    const session = await mongoose.startSession();
 
-    await findMatchAndUpdate(coinType, price);
-    return order._id;
+    try {
+        session.startTransaction();
+
+        /* Create order */
+        const order = createOrder(userId, coinType, price, quantity, orderType);   
+        const orderList = await addOrder(order, (orderType === 'sell' ? sellOrders : buyOrders), session);
+
+        await findMatchAndUpdate(coinType, price);
+        return order._id;
+    }
+    catch(e){
+        await session.abortTransaction();
+        session.endSession();
+        console.log(e);
+
+        throw new Error(e.message);
+    }
 }
 
 
