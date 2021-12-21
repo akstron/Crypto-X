@@ -94,7 +94,7 @@ const addOrderInDatabase = async (order, session) => {
 
         coin.costPrice = (coin.quantity - order.quantity) * coin.costPrice/coin.quantity;
         coin.quantity -= order.quantity;
-        coin.sellPrice += order.quantity * order.price;
+        coin.sellPrice = parseFloat(coin.sellPrice) + order.quantity * order.price;
 
         await coin.save();
     }
