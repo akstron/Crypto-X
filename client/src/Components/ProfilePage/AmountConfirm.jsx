@@ -42,9 +42,12 @@ const AmountConfirm = () => {
 		const order = await fetch('http://localhost:8000/createOrder', {
 			 method: 'POST',
 			 headers,
+			 credentials:'include',
 			 body: JSON.stringify(body) 
-			}).then((t) =>
-			console.log(t)
+			}).then((res) =>{
+				console.log(res.data);
+				return res.json()
+			}
 		)
 
 		console.log(order)
