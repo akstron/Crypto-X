@@ -26,8 +26,6 @@ const createOrder = (userId, coinType, price, quantity, orderType) => {
         orderType
     };
 
-    // console.log(currentOrder);
-
     return currentOrder;
 }
 
@@ -42,15 +40,17 @@ const getCoinFromWallet = (coinType, wallet) => {
 }
 
 /* While placing an order remove required amount of money or coins from wallet beforehand */
-const addOrderInDatabase = async (order) => {
-    const dbOrder = new Order(order);
+const addOrderInDatabase = async (order, session) => {
 
-    const user = await User.findById(order.userId);
+    const orderArray = await Order.create([order], {session});
+    const dbOrder = orderArray[0];
+
+    const user = await User.findById(order.userId).session(session);
     if(!user){
         throw new Error('No user found!!');
     }
 
-    const wallet = await Wallet.findById(user.wallet);
+    const wallet = await Wallet.findById(user.wallet).session(session);
     if(!wallet){
         throw new Error('No wallet found!');
     }
@@ -69,16 +69,10 @@ const addOrderInDatabase = async (order) => {
         wallet.balance -= totalMoneySpent;
     }
     else {
-        /**
-         * Change this
-         */
-
         await wallet.populate({
             path: 'coins',
             select: ['coinType', 'quantity', 'costPrice', 'sellPrice']
         });
-
-        console.log(wallet);
 
         const coin = getCoinFromWallet(order.coinType, wallet);
 
@@ -86,13 +80,21 @@ const addOrderInDatabase = async (order) => {
             throw new Error('Insufficient coins in wallet!!');
         }
 
+        if(coin.quantity === 0){
+            throw new Error('No coins available');
+        }
+
         if(coin.quantity < order.quantity){
             throw new Error('Insufficient coins in wallet');
         }
 
-        if(coin.quantity !== 0)coin.costPrice = (coin.quantity - order.quantity) * coin.costPrice/coin.quantity;
+        /**
+         * TODO: update below
+         */
+
+        coin.costPrice = (coin.quantity - order.quantity) * coin.costPrice/coin.quantity;
         coin.quantity -= order.quantity;
-        coin.sellPrice += order.quantity * order.price;
+        coin.sellPrice = parseFloat(coin.sellPrice) + order.quantity * order.price;
 
         await coin.save();
     }
@@ -100,12 +102,16 @@ const addOrderInDatabase = async (order) => {
     wallet.orders.push(dbOrder._id);
     await wallet.save();
     await dbOrder.save();   
+
+    // throw new Error('Something went wrong!');
 }
 
 /* Add order to linked list */
 const addOrder = async (order, orderMap, session) => {
 
     const {coinType, price} = order;
+
+    await addOrderInDatabase(order, session);
 
     if(!orderMap.has(coinType)) orderMap.set(coinType, new Map());
     const coinMap = orderMap.get(coinType); 
@@ -115,8 +121,6 @@ const addOrder = async (order, orderMap, session) => {
     const orderList = coinMap.get(price);
     orderList.pushBack(order);
 
-    await addOrderInDatabase(order, session);
-
     return orderList;
 }
 
@@ -125,13 +129,13 @@ const getMinimum = (first, second) => {
     return (first < second ? first : second);
 }
 
-const updateWallet = async (order, exchange) => {
-    const user = await User.findById(order.userId);
+const updateWallet = async (order, exchange, session) => {
+    const user = await User.findById(order.userId).session(session);
     if(!user){
         throw new Error('No user found!!');
     }
 
-    const wallet = await Wallet.findById(user.wallet);
+    const wallet = await Wallet.findById(user.wallet).session(session);
     if(!wallet){
         throw new Error('No wallet found!');
     }
@@ -144,10 +148,12 @@ const updateWallet = async (order, exchange) => {
     var coin = getCoinFromWallet(order.coinType, wallet);
 
     if(!coin){
-        coin = new Coin({
+        const coinArray = Coin.create([{
             walletId: wallet._id,
             coinType: order.coinType,
-        });
+        }], {session});
+
+        coin = coinArray[0];
 
         wallet.coins.push(coin._id);
     }
@@ -172,14 +178,14 @@ const updateWallet = async (order, exchange) => {
  * TODO: Don't use this update function frequently
  * Make a bulk update
  */
-const updateOrderInDatabase = async (order, exchange) => {
+const updateOrderInDatabase = async (order, exchange, session) => {
     const { _id } = order;
 
-    await Order.findByIdAndUpdate(_id, order);
-    await updateWallet(order, exchange);
+    await Order.findByIdAndUpdate(_id, order).session(session);
+    await updateWallet(order, exchange, session);
 }
 
-// Send order completions updates from here to client using socket
+/* Send order completions updates from here to client using socket */
 
 const sendOrderNotification = async (order) => {
     const io = require('../server');
@@ -196,10 +202,10 @@ const sendOrderNotification = async (order) => {
     console.log(io);
 }
 
-const orderUpdate = async (order, exchange) => {
+const orderUpdate = async (order, exchange, session) => {
 
     console.log('Updating order...');
-    await updateOrderInDatabase(order, exchange);
+    await updateOrderInDatabase(order, exchange, session);
     await sendOrderNotification(order);
 }
 
@@ -232,8 +238,31 @@ const performMatch = async (buyList, sellList) => {
         remainingBuyOrder = buyOrder.quantity - buyOrder.completed;
         remainingSellOrder = sellOrder.quantity - sellOrder.completed;
 
-        await orderUpdate(sellOrder, minimumExchange);
-        await orderUpdate(buyOrder, minimumExchange);
+
+        /* Start a mongodb session for matching */    
+        const session = await mongoose.startSession();
+
+        try{
+            session.startTransaction();
+
+            await orderUpdate(sellOrder, minimumExchange, session);
+            await orderUpdate(buyOrder, minimumExchange, session);
+
+            await session.commitTransaction();
+            session.endSession();    
+        }
+        catch(e){
+            console.log(e);
+            
+            await session.commitTransaction();
+            session.endSession();
+
+            buyOrder.completed -= minimumExchange;
+            sellOrder.completed -= minimumExchange;    
+
+            /* Should we continue or break ?? */
+            break;
+        }
 
         /**
          * TODO: Put commited deal in database
@@ -252,13 +281,10 @@ const performMatch = async (buyList, sellList) => {
             currentBuyer = buyList.head;
         }
     }
+
 }
 
 /* Method for finding match for buy and sell orders and committing deals */
-
-/**
- * TODO: Make this asynchronours (MAYBE)
- */
 
 const findMatchAndUpdate = async (coinType, price) => {
     if(!coinType || !price){
@@ -292,20 +318,27 @@ const createAndAddOrder = async (userId, coinType, price, quantity, orderType) =
 
     const session = await mongoose.startSession();
 
-    try {
+    try{
         session.startTransaction();
 
         /* Create order */
         const order = createOrder(userId, coinType, price, quantity, orderType);   
         const orderList = await addOrder(order, (orderType === 'sell' ? sellOrders : buyOrders), session);
+       
+        await session.commitTransaction();
+        session.endSession();
 
-        await findMatchAndUpdate(coinType, price);
+        findMatchAndUpdate(coinType, price).then((res) => {
+            console.log(res);
+        }).catch((e) => console.log(e));
+
         return order._id;
     }
     catch(e){
+        console.log(e);
+
         await session.abortTransaction();
         session.endSession();
-        console.log(e);
 
         throw new Error(e.message);
     }
