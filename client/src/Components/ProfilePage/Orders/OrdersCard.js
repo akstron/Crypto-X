@@ -96,7 +96,6 @@ const OrdersCard = () => {
                         </>
                     )}
             </Card>
-            
         </div>
     )
 }
