@@ -1,15 +1,17 @@
 import React from 'react'
-import { Typography,Card,Button,Row,Col,Form, Input } from 'antd';
+import { Typography,Card,Button,Row,Col,Form, Input,Tabs  } from 'antd';
 import { PlusCircleOutlined} from '@ant-design/icons';
 import BankCard from './BankCard'
 import bankIcon from '../../Images/bankIcon.png'
 import WalletIcon from '../../Images/wallet.png'
 
 const { Text,Title } = Typography;
+const { TabPane } = Tabs;
+
 const BankOptions = () => {
     const layout = {
-        labelCol: { offset: 4,span: 4 },
-        wrapperCol: { span: 12 },
+        labelCol: { offset: 4,span: 6 },
+        wrapperCol: { span: 10 },
     };
     const tailLayout = {
         wrapperCol: { offset: 8, span: 16 },
@@ -53,12 +55,47 @@ const BankOptions = () => {
                                         <Button type="primary" shape="circle"><PlusCircleOutlined/></Button>
                                     </Col>
                                 </Row>
+                                <Card>
 
-                                <Form name="control-hooks" {...layout}>
-                                    <Form.Item name="note" label="Note" rules={[{ required: true }]}>
-                                        <Input />
-                                    </Form.Item>
-                                </Form>
+                                <Tabs defaultActiveKey="1" >
+                                    <TabPane tab="Add Account" key="1">
+                                            <Form name="control-hooks" {...layout}>
+                                                <Form.Item name="name" label="Name :" rules={[{ required: true }]}>
+                                                    <Input />
+                                                </Form.Item>
+                                                <Form.Item name="account" label="Account No:" rules={[{ required: true }]}>
+                                                    <Input />
+                                                </Form.Item>
+                                                <Form.Item name="ifsc" label="IFSC Code:" rules={[{ required: true }]}>
+                                                    <Input />
+                                                </Form.Item>
+                                                <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                                                    <Button type="primary" htmlType="submit">
+                                                        Save
+                                                    </Button>
+                                                </Form.Item>
+                                            </Form>
+                                    </TabPane>
+                                    <TabPane tab="Add UPI" key="2">
+                                        <Form name="control-hooks" {...layout}>
+                                            <Form.Item name="name" label="Name :" rules={[{ required: true }]}>
+                                                <Input />
+                                            </Form.Item>
+                                            <Form.Item name="upiid" label="UPI ID :" rules={[{ required: true }]}>
+                                                <Input />
+                                            </Form.Item>
+                                            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                                                <Button type="primary" htmlType="submit">
+                                                    Save
+                                                </Button>
+                                            </Form.Item>
+                                        </Form>
+                                    </TabPane>
+                                </Tabs>
+
+                                
+                                </Card>
+
                         </Col>
                     </Row>
                     

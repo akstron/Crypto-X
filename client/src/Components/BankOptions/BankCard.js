@@ -13,8 +13,7 @@ const BankCard = () => {
                 <Row>
                     <CardEntry title={"Name :"} value={'Aayush Shandilya'}/>
                     <CardEntry title={"A/C No:"} value={'2596XXXX55'}/>
-                    <CardEntry title={"Expiry:"} value={'02/25'}/>
-                    <CardEntry title={"CCV"} value={'XXX'}/>
+                    <CardEntry title={"IFSC :"} value={'SBIN007258'}/>
                 </Row>
             </Card>
         </div>
