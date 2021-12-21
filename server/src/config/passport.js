@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const passport = require("passport");
 const User = require("../models/User");
 const Wallet = require("../models/Wallet");
+const Account = require('../models/Account');
 
 /**
  * LocalStrategy: Signup and login using email and password
@@ -60,7 +61,7 @@ passport.use(
 						const account = new Account();
 						
 						const wallet = new Wallet({
-							account: accountId
+							account: account._id
 						});
 
 						const curUser = new User({
