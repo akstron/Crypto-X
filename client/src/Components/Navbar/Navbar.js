@@ -4,7 +4,8 @@ import { Button,Menu,Typography,Avatar } from 'antd';
 import { Link } from "react-router-dom";
 import { HomeOutlined, ProfileOutlined,DollarOutlined,UserAddOutlined, 
         LoginOutlined,BulbOutlined,ShoppingOutlined,LogoutOutlined,
-        NotificationOutlined,UserOutlined,MenuOutlined,BankOutlined} from '@ant-design/icons';
+        NotificationOutlined,UserOutlined,MenuOutlined,BankOutlined,
+        TeamOutlined} from '@ant-design/icons';
 import icon from '../../Images/main-logo.png'
 
 // !important Change Back to App
@@ -90,16 +91,23 @@ const Navbar = () => {
                                 <Link to='/ManageNotification'> Notify Me </Link>
                             </Menu.Item>
 
-                            <Menu.Item key="8" icon={<LogoutOutlined />}>
+                            <Menu.Item key="8" icon={<TeamOutlined />}>
+                                <Link to='/AboutUs'> About Us </Link>
+                            </Menu.Item>
+
+                            <Menu.Item key="9" icon={<LogoutOutlined />}>
                                 <Link to='/' onClick={logOut}>LogOut</Link>
                             </Menu.Item>
                         </>
                     ):(
                         <>
-                            <Menu.Item key="7" icon={<UserAddOutlined />}>
+                            <Menu.Item key="7" icon={<TeamOutlined />}>
+                                <Link to='/AboutUs'> About Us </Link>
+                            </Menu.Item>
+                            <Menu.Item key="8" icon={<UserAddOutlined />}>
                                 <Link to='/Signup'>Sign-Up</Link>
                             </Menu.Item>
-                            <Menu.Item key="8" icon={<LoginOutlined />}>
+                            <Menu.Item key="9" icon={<LoginOutlined />}>
                                 <Link to='/Login' on>Login</Link>
                             </Menu.Item>
                         </>
