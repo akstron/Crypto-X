@@ -61,7 +61,7 @@ module.exports.PopulateWallet = async (req, res, next) => {
         }
 
         req.wallet = wallet;
-        console.log('request wallet hai ki', req.wallet)
+        //console.log('request wallet hai ki', req.wallet)
         return next();
     }
     catch(e){

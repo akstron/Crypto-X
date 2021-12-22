@@ -1,7 +1,9 @@
 require('dotenv').config();
 const shortid = require('shortid')
 const Razorpay = require('razorpay')
-const request = require('request')
+const request = require('request');
+const { response } = require('express');
+const payOrderMap = require('../store/PaymentOrderMap');
 
 const razorpay = new Razorpay({
 	key_id: process.env.KEY_ID,
@@ -12,7 +14,7 @@ module.exports.CreateOrder = async(req, res) => {
 	const body = req.body
 	const amount = body.amount
 	const currency = body.currency;
-
+    
 	const options = {
 		amount: amount * 100,
 		currency,
@@ -20,8 +22,11 @@ module.exports.CreateOrder = async(req, res) => {
 	};
 
 	try {
+		const wallet = req.wallet;
 		const order = await razorpay.orders.create(options)
 		console.log(order)
+		payOrderMap.set(order.id, wallet);
+		
 		return res.json({
 			id: order.id,
 			currency: order.currency,
@@ -39,9 +44,9 @@ module.exports.CreateOrder = async(req, res) => {
 }
 
 module.exports.Verification = async(req, res) => {
-	
-	const amount = parseFloat(req.body.amount);
-	const wallet = req.wallet;
+	console.log(req.body.payload.payment.entity)
+
+	//const wallet = req.wallet;
 	const secret = process.env.WEBHOOOK_KEY;
 	const crypto = require('crypto')
 
@@ -53,11 +58,16 @@ module.exports.Verification = async(req, res) => {
 
 	if (digest === req.headers['x-razorpay-signature']) {
 		console.log('request is legit')
-
+		const orderId = req.body.payload.payment.entity.order_id;
 		/* Add money to wallet */
-		wallet.balance = parseFloat(wallet.balance) + amount;
-		await wallet.save();
-		console.log(req.amount);
+		if(payOrderMap.has(orderId)){
+			const wallet = payOrderMap.get(orderId);
+			const amount = req.body.payload.payment.entity.amount/100;
+			wallet.balance = parseFloat(wallet.balance) + amount;
+			await wallet.save();
+			payOrderMap.delete(orderId);
+		}
+		
 
 	} else {
 		// fake requsest
@@ -90,7 +100,7 @@ module.exports.AddAccount = async (req, res) => {
 		account.account_number = account_number;
 		account.ifsc = ifsc;
 	
-		const response = await fundAccountUsingBankAccount(account);
+		await fundAccountUsingBankAccount(account);
 		await account.save();
 
 		return res.json({
@@ -126,7 +136,9 @@ const fundAccountUsingBankAccount = async (account) => {
 		//TODO: store fund_account_id for bank account in database
 		// fund_account_id_bank_account
 
-		account.bank_fund_account_id = response.fund_account_id;
+		account.bank_fund_account_id = JSON.parse(response).id
+		
+		console.log(account.bank_fund_account_id)
 		await account.save();
 
 		return response;
@@ -149,9 +161,9 @@ module.exports.AddUPI = async(req, res) => {
 
 	try{
 
+		account.UPI_id = UPI_id;
 		await fundAccountUsingVPA(account);
 
-		account.UPI_id = UPI_id;
 		await account.save();
 
 		return res.json({
@@ -183,7 +195,7 @@ const fundAccountUsingVPA = async(account) => {
 
 		// fund_account_id_vpa
 
-		account.vpa_fund_account_id = response.fund_account_id;
+		account.vpa_fund_account_id = JSON.parse(response).id;
 		await account.save();
 
 		return response;
@@ -191,22 +203,27 @@ const fundAccountUsingVPA = async(account) => {
 	}catch(error){
 		console.log(error);
 
-		return res.status(400).json({
-			status: false,
-			error
-		});
+		return error;
 	}
 }
 
 module.exports.Payout = async(req, res) => {
 	try{
-		console.log(req)
 		const wallet = req.wallet;
 		console.log('2nd   ', wallet)
 
 		// NOT DONE YET!
 		//TODO: require fund_account_id (according to mode)
-		const {fund_account_id, amount, currency, mode, purpose} = req.body
+		const {amount, currency, mode, purpose} = req.body
+		var fund_account_id;
+		console.log(req.account)
+		
+		if(mode === 'IMPS'){
+			fund_account_id = req.account.bank_fund_account_id
+		}else{
+			fund_account_id = req.account.vpa_fund_account_id;
+		}
+		
 		const userId = req.user.id
 		const data = {
 			fund_account_id,
@@ -216,11 +233,11 @@ module.exports.Payout = async(req, res) => {
 			purpose,
 			reference_id: userId
 		}
-
-		const payoutAmount = parseFloat(response.amount)/100; 
+		
+		console.log(data)
 
 		// Check given amount is available or not
-		if(wallet.balance < payoutAmount){
+		if(wallet.balance < data.amount){
 			return res.status(400).json({
 				status: false,
 				error: 'Insufficient balance in wallet!'
@@ -228,7 +245,8 @@ module.exports.Payout = async(req, res) => {
 		}
 
 		const response = await createPayout(data);
-
+		console.log(response)
+		const payoutAmount = parseFloat(JSON.parse(response).amount)/100; 
 		wallet.balance = parseFloat(wallet.balance) - payoutAmount;
 		await wallet.save();
 
@@ -337,7 +355,13 @@ const createPayout = async(payoutInfo) => {
 		}
 	};
 
-	const response = await doRequest(options);
-	console.log(response)
-	return response
+	console.log(options)
+	try{
+		const response = await doRequest(options);
+		console.log(response)
+		return response
+	}catch(error){
+		return error
+	}
+	
 }
