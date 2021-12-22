@@ -11,13 +11,13 @@ const razorpay = new Razorpay({
 module.exports.CreateOrder = async(req, res) => {
 	const body = req.body
 	const amount = body.amount
-	const currency = body.currency
+	const currency = body.currency;
 
 	const options = {
 		amount: amount * 100,
 		currency,
 		receipt: shortid.generate()
-	}
+	};
 
 	try {
 		const order = await razorpay.orders.create(options)
@@ -93,13 +93,14 @@ module.exports.Contact = async(req, res) => {
 
 module.exports.AddAccount = async (req, res) => {
 	const account = req.account;
-	
+
 	try{
 		const {name, account_number, ifsc} = req.body;
 		account.name = name;
 		account.account_number = account_number;
 		account.ifsc = ifsc;
-
+	
+		await fundAccountUsingBankAccount(account);
 		await account.save();
 
 		res.json({
@@ -113,12 +114,12 @@ module.exports.AddAccount = async (req, res) => {
 			error: 'Something went wrong'
 		});
 	}
+
 }
 
-module.exports.FundAccountUsingBankAccount = async(req, res) => {
+const fundAccountUsingBankAccount = async (account) => {
 
 	try{
-		const account = req.account;
 
 		///TODO: require all below things from database
 		const {name, contact_id, account_number, ifsc} = account;
@@ -156,6 +157,8 @@ module.exports.AddUPI = async(req, res) => {
 	const account = req.account;
 	const {UPI_id} = req.body;
 
+	await fundAccountUsingVPA(account);
+
 	try{
 		account.UPI_id = UPI_id;
 		await account.save();
@@ -174,9 +177,8 @@ module.exports.AddUPI = async(req, res) => {
 	}
 }
 
-module.exports.FundAccountUsingVPA = async(req, res) => {
+const fundAccountUsingVPA = async(account) => {
 	try{
-		const account = req.account;
 
 		// TODO: require all below things form database
 		const {contact_id, UPI_id} = account;
@@ -213,7 +215,7 @@ module.exports.Payout = async(req, res) => {
 		const wallet = req.wallet;
 
 		// NOT DONE YET!
-		//TODO: require fund_account_id (according to map)
+		//TODO: require fund_account_id (according to mode)
 		const {fund_account_id, amount, currency, mode, purpose} = req.body
 		const userId = req.user.id
 		const data = {
@@ -363,7 +365,7 @@ const createPayout = async(payoutInfo) => {
 	};
 	
 	var data = {
-	  account_number: '2323230023678523',
+	  account_number: process.env.RAZORPAY_PAYOUT_AC_NO,
 	  fund_account_id,
 	  amount: amount*100,
 	  currency,
