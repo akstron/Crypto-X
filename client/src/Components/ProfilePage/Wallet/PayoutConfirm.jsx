@@ -1,5 +1,5 @@
 import React ,{useEffect,useState}from 'react'
-import { Select,Form, Button,InputNumber} from 'antd';
+import { Select,Form, Button,InputNumber,message} from 'antd';
 import axios from 'axios';
 
 const { Option } = Select;
@@ -56,6 +56,24 @@ const PayoutConfirm = () => {
     function onFinish(values) {
         console.log(values);
         setPaying(true);
+
+        const payoutRoute = process.env.REACT_APP_BACKEND + '/payout';
+
+        const payoutReq={
+            mode:(bankAccount.account_number)?('NEFT'):('UPI'),
+            amount:values.amount,
+        }
+        axios.post(payoutRoute,payoutReq,{withCredentials: true}).then(res => {
+            console.log(res.data);
+            setPaying(false);
+            message.success("Withdrawal  successfull")
+
+        }).catch(error => {
+            console.log(error);
+            setPaying(false);
+            message.error(error.toString());
+
+        })
     }
 
     useEffect(()=>{
