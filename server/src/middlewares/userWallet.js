@@ -4,7 +4,7 @@
 
  const Wallet = require('../models/Wallet');
 
-module.exports.GetAccount = async(req, res) => {
+ module.exports.GetAccount = async(req, res) => {
     const account = req.account;
 
     const accountObj = {

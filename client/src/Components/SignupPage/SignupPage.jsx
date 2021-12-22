@@ -1,4 +1,4 @@
-import React from 'react';
+import React ,{useState} from 'react';
 import {Form, Input, Button,message } from 'antd';
 import { Typography,Card} from 'antd';
 import { useHistory } from 'react-router-dom';
@@ -42,6 +42,7 @@ const tailFormItemLayout = {
 };
 
 const SignupPage = () => {
+  const [signing,setSigning]=useState(false);
   const [form] = Form.useForm();
 
   const history = useHistory();
@@ -52,18 +53,18 @@ const SignupPage = () => {
   const onFinish = (values) => {
     console.log('Received values of form: ', values);
     const userDetails = {firstName:values.firstname,lastName:values.lastname,email:values.email,password:values.password};
-    console.log(userDetails);
-    
+    setSigning(true);    
     const route = process.env.REACT_APP_BACKEND + '/signup';
     axios.post(route, userDetails, {withCredentials: true}).then(res => {
-        console.log(res);
-        if(res['data']['status']){
+      setSigning(false);    
+      if(res['data']['status']){
             console.log(userDetails);
             loginToHome();
         }
     }).catch(error => {
         console.log(error);
-        message.error(error.toString());
+        setSigning(false);    
+        message.error(error.response.data.error);
     })
   };
 
@@ -172,7 +173,7 @@ const SignupPage = () => {
       </Form.Item>
 
       <Form.Item {...tailFormItemLayout}>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" loading={signing}>
           Register
         </Button>
       </Form.Item>

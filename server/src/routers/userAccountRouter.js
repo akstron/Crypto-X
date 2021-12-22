@@ -10,7 +10,6 @@ const Coin = require('../models/Coin');
 
 router.get('/getWallet', IsAuthenticated, IsVerified, PopulateWallet, GetWallet);
 router.get('/getBankingOptions', IsAuthenticated, IsVerified, PopulateAccount, GetAccount);
-
 /**
  * FOR TESTING ONLY
  */

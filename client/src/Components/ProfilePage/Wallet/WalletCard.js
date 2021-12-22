@@ -3,6 +3,7 @@ import {Card,Typography,Row,Col,Statistic,Popover,Button} from 'antd';
 import { PlusCircleOutlined,MinusCircleOutlined,LoadingOutlined,ExclamationCircleOutlined } from '@ant-design/icons';
 import walletIcon from '../../../Images/wallet.png'
 import AmountConfirm from './AmountConfirm.jsx'
+import PayoutConfirm from './PayoutConfirm.jsx'
 import CoinEntry from './CoinEntry'
 import axios from 'axios';
 //Fetch Coin Quantity also !!
@@ -15,10 +16,10 @@ const WalletCard = () => {
     const AddDummyCoin=()=>{
         const route = process.env.REACT_APP_BACKEND + '/addCoins';
         const coin={
-            "coinType" : "BTC",
-            "costPrice" : 50, 
+            "coinType" : "DOGE",
+            "costPrice" : 10, 
             "sellPrice" : 18,
-            "quantity" : 1.52
+            "quantity" : 5
         }
         axios.post(route, coin, {withCredentials: true}).then(res => {
             console.log(res);
@@ -46,9 +47,6 @@ const WalletCard = () => {
                 isFetching:false
             });
         })
-    }
-
-    const confirm=()=>{
     }
 
     useEffect(()=>{
@@ -81,7 +79,15 @@ const WalletCard = () => {
                             {(wallet.isFetching)?(
                                 <LoadingOutlined style={{margin:"0.8rem"}}/>
                             ):(
-                                <Statistic title="Account Balance ($)" value={wallet?.data?.balance} precision={2} />
+                                <>
+                                     {(wallet?.data)?(
+                                        <Statistic title="Account Balance ($)" value={wallet?.data?.balance?.$numberDecimal} precision={2} />
+                                     ):(
+                                        <>
+                                            Not Verified !
+                                        </>
+                                     )}
+                                </>
                             )}
                         </Col>
                         <Col xs={{span:24}} md={{span:12}}>
@@ -91,34 +97,45 @@ const WalletCard = () => {
                             </Popover>
                         </Col>
                         <Col xs={{span:24}} md={{span:12}}>
-                            <Button> <MinusCircleOutlined style={{margin:"0rem"}}/>Withdraw</Button>
+                            <Popover content={<PayoutConfirm/>} title={<strong>💰 Select Bank Account </strong>} trigger="click">
+                                <Button> <MinusCircleOutlined style={{margin:"0rem"}}/>Withdraw</Button>
+                            </Popover>
                         </Col>
                     </Row>
                     <hr style={{margin:"0.5rem"}}/>
                     {(wallet.isFetching)?(
                         <LoadingOutlined style={{margin:"2rem"}}/>
                     ):(
-                        <Row  style={{ marginTop:"1rem",textAlign:"center"}}>
-                            {(wallet?.data?.coins.length==0)?(
-                                <>
-                                    <Col span={24}>
-                                        <ExclamationCircleOutlined />
-                                    </Col>
-                                    <Col span={24}>
-                                        No Coins in Wallet.
-                                    </Col>
-                                </>
+                        <>
+                            {(wallet?.data)?(
+                                <Row  style={{ marginTop:"1rem",textAlign:"center"}}>
+                                    {(wallet?.data?.coins.length===0)?(
+                                        <>
+                                            <Col span={24}>
+                                                <ExclamationCircleOutlined />
+                                            </Col>
+                                            <Col span={24}>
+                                                No Coins in Wallet.
+                                            </Col>
+                                        </>
+                                    ):(
+                                        <>
+                                            {wallet?.data?.coins.map((coin,id)=>(
+                                                <>
+                                                    <CoinEntry coinSymbol={coin.coinType} coinQuantity={coin.quantity.$numberDecimal} key={id}/>
+                                                </>
+                                            ))}
+                                        </>
+                                    )}
+                                    
+                                </Row>
                             ):(
                                 <>
-                                    {wallet?.data?.coins.map((coin,id)=>(
-                                        <>
-                                            <CoinEntry coinSymbol={coin.coinType} coinQuantity={coin.quantity} key={id}/>
-                                        </>
-                                    ))}
+                                    Not Verified !
                                 </>
                             )}
                             
-                        </Row>
+                        </>
                     )}
                     
             </Card>

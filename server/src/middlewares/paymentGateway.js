@@ -161,7 +161,6 @@ module.exports.AddUPI = async(req, res) => {
 
 	try{
 		account.UPI_id = UPI_id;
-
 		await account.save();
 
 		return res.json({
