@@ -48,7 +48,7 @@ const OrdersCard = () => {
 
                     <Row>
                         <Col xs={{span:24}} md={{span:4}}  style={{textAlign:"center"}} >
-                            <img  alt='img' src={orderIcon} height={'45px'} style={{display: "inline",margin:".2rem"}}/>
+                            <img  alt='img' src={orderIcon} height={'45px'} style={{display: "inline",margin:".2rem 2rem"}}/>
                         </Col>
                         <Col xs={{span:24}} md={{span:20}}  style={{textAlign:"center"}} >
                             <Text strong style={{margin:".2rem",fontSize:"x-large"}}> Orders </Text>
@@ -60,39 +60,48 @@ const OrdersCard = () => {
                         <LoadingOutlined style={{margin:"2rem"}}/>
                     ):(
                         <>
-                            {(orders?.data?.length==0)?(
+                            {(orders?.data)?(
                                 <>
-                                    <Col span={24}>
-                                        <ExclamationCircleOutlined />
-                                    </Col>
-                                    <Col span={24}>
-                                        No Orders Placed Yet !
-                                    </Col>
+                                    {(orders?.data?.length==0)?(
+                                        <>
+                                            <Col span={24}>
+                                                <ExclamationCircleOutlined />
+                                            </Col>
+                                            <Col span={24}>
+                                                No Orders Placed Yet !
+                                            </Col>
+                                        </>
+                                    ):(
+                                        <>
+                                            {orders?.data.map((order,id)=>(
+                                                <>
+                                                    <Row span={24} >
+                                                        <Col xs={{span:24}} md={{span:6}}>
+                                                            <Statistic title="Coin" value={order.coinType} precision={2} />
+                                                        </Col>
+                                                        <Col xs={{span:24}} md={{span:9}}>
+                                                            <Statistic title="Quantity" value={order.quantity.$numberDecimal} precision={2} />
+                                                        </Col>
+                                                        <Col xs={{span:24}} md={{span:9}}>
+                                                            <Statistic title="Amount($)" value={(order.price.$numberDecimal)*(order.quantity.$numberDecimal)} precision={2} valueStyle={(order.orderType=="sell")?({color: 'red'}):({color: '#3f8600'})}/>
+                                                        </Col>
+                                                        <Col span={24}>
+                                                            <Progress percent={(order.completed.$numberDecimal*100)/(order.quantity.$numberDecimal)} size="small" />
+                                                        </Col>
+                                                    </Row>
+                                                    <hr style={{margin:"0.5rem"}}/>
+
+                                                </>
+                                            ))}
+                                    </>
+                                    )}    
                                 </>
                             ):(
                                 <>
-                                    {orders?.data.map((order,id)=>(
-                                        <>
-                                            <Row span={24} >
-                                                <Col xs={{span:24}} md={{span:6}}>
-                                                    <Statistic title="Coin" value={order.coinType} precision={2} />
-                                                </Col>
-                                                <Col xs={{span:24}} md={{span:9}}>
-                                                    <Statistic title="Quantity" value={order.quantity} precision={2} />
-                                                </Col>
-                                                <Col xs={{span:24}} md={{span:9}}>
-                                                    <Statistic title="Amount($)" value={order.price} precision={2} valueStyle={(order.orderType=="sell")?({color: 'red'}):({color: '#3f8600'})}/>
-                                                </Col>
-                                                <Col span={24}>
-                                                    <Progress percent={order.completed*100} size="small" />
-                                                </Col>
-                                            </Row>
-                                            <hr style={{margin:"0.5rem"}}/>
-
-                                        </>
-                                    ))}
-                            </>
+                                    Not Verified !
+                                </>
                             )}
+                            
                         </>
                     )}
             </Card>

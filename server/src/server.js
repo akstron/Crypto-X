@@ -55,7 +55,6 @@ const sessionOptions = {
     maxAge: 1000 * 60 * 60 * 24,
     /* Set to false, to allow cookies from http */
     secure: false,
-
   }
 }
 
