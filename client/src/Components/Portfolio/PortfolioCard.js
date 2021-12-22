@@ -1,7 +1,7 @@
 import React from 'react'
 import {Row,Col,Card,Statistic} from 'antd';
 import { Link } from 'react-router-dom';
-import {ArrowUpOutlined} from '@ant-design/icons';
+import {ArrowUpOutlined,ArrowDownOutlined} from '@ant-design/icons';
 import millify from 'millify';
 
 
@@ -24,7 +24,7 @@ const PortfolioCard = ({coinGrowth}) => {
                                     {/* <Col span={12}><Statistic title="Net Worth ($)" value={millify(1256)}/></Col> */}
                                     <Col span={12}><Statistic title="Quantity ($)" value={millify(coin.quantity)}/></Col>
                                     <Col span={12}><Statistic title="Total Sale ($)" value={millify(coin.sellPrice)}/></Col>
-                                    <Col span={12}><Statistic title="Growth" value={coin.percentGrowth} precision={2} valueStyle={{ color: '#3f8600' }} prefix={<ArrowUpOutlined />} suffix="%"/></Col>
+                                    <Col span={12}><Statistic title="Growth" value={coin.percentGrowth} precision={2} valueStyle={(coin.percentGrowth>0)?({ color: '#3f8600' }):({color: 'red'})} prefix={(coin.percentGrowth>0)?(<ArrowUpOutlined/>):(<ArrowDownOutlined/>)} suffix="%"/></Col>
                                 </Row>  
                                 </Card>                      
                             </Link>

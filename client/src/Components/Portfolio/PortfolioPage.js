@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react'
 import { Typography,Divider,Row,Col,Statistic } from 'antd';
-import { ArrowUpOutlined,LoadingOutlined,ExclamationCircleOutlined} from '@ant-design/icons';
+import { ArrowUpOutlined,ArrowDownOutlined,LoadingOutlined,ExclamationCircleOutlined} from '@ant-design/icons';
 
 import portfolioIcon from '../../Images/portfolioIcon.png';
 import coinIcon from '../../Images/money-bag.png';
@@ -97,13 +97,13 @@ const Test = () => {
                                 <Col xs={{span:24}} md={{span:12}} xl={{span:6}}><Statistic title="Total Investment ($)" value={millify(portfolio.data.totalCostPrice)}/></Col>
                                 {/* <Col xs={{span:24}} md={{span:12}} xl={{span:6}}><Statistic title="Net Worth ($)" value={millify(portfolio.data.1256)}/></Col> */}
                                 <Col xs={{span:24}} md={{span:12}} xl={{span:6}}><Statistic title="Total Sale ($)" value={millify(portfolio.data.totalSellPrice)}/></Col>
-                                <Col xs={{span:24}} md={{span:12}} xl={{span:6}}><Statistic title="Growth" value={portfolio.data.totalPercentGrowth} precision={2} valueStyle={{ color: '#3f8600' }} prefix={<ArrowUpOutlined />} suffix="%"/></Col>
+                                <Col xs={{span:24}} md={{span:12}} xl={{span:6}}><Statistic title="Growth" value={portfolio.data.totalPercentGrowth} precision={2} valueStyle={(portfolio.data.totalPercentGrowth>0)?({ color: '#3f8600' }):({color: 'red'})} prefix={(portfolio.data.totalPercentGrowth>0)?(<ArrowUpOutlined/>):(<ArrowDownOutlined/>)} suffix="%"/></Col>
                             </Row>    
                         </>
                     )}
                     
                 </div>
-                <div className="portfolio-coins">
+                <div className="portfolio-coins" style={{textAlign:"center"}}>
                     
                     <Divider orientation="left">
                         <Title level={4}>
