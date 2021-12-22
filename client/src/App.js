@@ -35,6 +35,7 @@ const App = () => {
     }
 
     useEffect(()=>{
+        
         let isComponentMounted = true;    
         if(isComponentMounted){
             getUser();

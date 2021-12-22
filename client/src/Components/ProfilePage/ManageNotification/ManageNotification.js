@@ -1,11 +1,10 @@
 import React,{useState,useEffect} from 'react'
-import {Form,Select,InputNumber,Card,Button,Typography,Divider} from 'antd'
+import {Form,Select,InputNumber,Card,Button} from 'antd'
 import axios from 'axios'
 
 import notificationIcon from '../../../Images/NotifyMe/notificationsIcon.png'
 
 const { Option } = Select;
-const {Title} =Typography
 
 const ManageNotification = () => {
     
