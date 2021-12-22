@@ -1,28 +1,33 @@
+/**
+ * Model for user's wallet
+ * 
+ * Coins: Info about coins user have and its quantity
+ * Transaction: Transaction history
+ * costPrice: current money invested in buying coins
+ * balance: money available in INR
+ */
+
 const mongoose = require('mongoose');
 
 const walletSchema = mongoose.Schema({
-    coins: {
-        type: Object
-        /*
-            symbol: no. of coins
-        */
-    }, 
+    
+    coins: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Coin' 
+    }],
 
-    transaction: {
-        type: Object
-        /*
-            symbol: transaction array
-        */
+    orders: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Order'
+    }],
+
+    account: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Account'
     },
 
-    costPrice: {
-        type: Number,
-        require: true,
-        default: 0
-    }, 
-
     balance: {
-        type: Number, 
+        type: mongoose.Types.Decimal128, 
         require: true,
         default: 0
     }

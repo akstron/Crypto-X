@@ -1,8 +1,14 @@
 const express = require('express');
-const paymentGateway = require('../middlewares/paymentGateway');
 const { IsAuthenticated, IsVerified } = require('../middlewares/userAuth');
+const { PopulateWallet, PopulateAccount } = require('../middlewares/userWallet');
+const {CreateOrder, Verification, Contact, AddAccount, FundAccountUsingBankAccount, AddUPI, FundAccountUsingVPA, Payout} = require('../middlewares/paymentGateway');
 const router = express.Router();
 
-router.post('/payment', IsAuthenticated, IsVerified, paymentGateway.payment);
+router.post('/createOrder',  CreateOrder);
+router.post('/verification', PopulateWallet, Verification);
+router.post('/createContact', IsAuthenticated, IsVerified, PopulateAccount, Contact);
+router.post('/addAccount', IsAuthenticated, IsVerified, PopulateAccount, AddAccount)
+router.post('/addUPI', IsAuthenticated, IsVerified, PopulateAccount, AddUPI);
+router.post('/payout', IsAuthenticated, IsVerified, PopulateWallet, Payout);
 
 module.exports = router;

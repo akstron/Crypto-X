@@ -1,14 +1,21 @@
 {
-  "name": "server",
+  "name": "crypto-server",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "server for baniya-trade.netify.com",
+  "main": "src/server.js",
   "scripts": {
-    "dev": "nodemon src/server.js"
+    "dev": "nodemon src/server.js",
+    "test": "node src/server.js",
+    "start": "node src/server.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akstron/Crypto-X.git"
+  },
+  "keywords": [
+    "trading",
+    "website"
+  ],
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "binance": "^2.0.14",
@@ -26,13 +33,23 @@
     "passport": "^0.5.0",
     "passport-google-oauth": "^2.0.0",
     "passport-local": "^1.0.0",
-    "redstone-api": "^0.4.6",
+    "razorpay": "^2.8.0",
+    "redstone-api": "^0.4.3",
+    "request": "^2.88.2",
+    "shortid": "^2.2.16",
     "socket.io": "^4.2.0",
     "stripe": "^8.183.0",
     "uuid": "^8.3.2",
-    "validator": "^13.6.0"
+    "validator": "^13.6.0",
+    "web-push": "^3.4.5"
   },
   "devDependencies": {
     "nodemon": "^2.0.13"
-  }
+  },
+  "author": "Aayush",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/akstron/Crypto-X/issues"
+  },
+  "homepage": "https://github.com/akstron/Crypto-X#readme"
 }

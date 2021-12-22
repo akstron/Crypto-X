@@ -5,11 +5,12 @@
 const nodemailer = require('nodemailer');
 const passport = require('passport');
 const mongoose = require('mongoose');
-const {v4: idGenerator} = require('uuid');
 
 const User = require('../models/User');
 const VerificationCode = require('../models/VerificationCode');
 const Wallet = require('../models/Wallet');
+const Coin = require('../models/Coin');
+const Account = require('../models/Account');
 
 /* Utility function for checking mail in database */
 const isEmailAvailable = async (email) => {
@@ -21,7 +22,7 @@ const isEmailAvailable = async (email) => {
 /* Sending OTP */
 const sendVerificationCode = async (email, code) => {
     const transport = nodemailer.createTransport({
-        service: 'Gmail',
+        service: 'gmail',
         auth: {
             user: process.env.EMAIL,
             pass: process.env.EMAIL_PASSWORD
@@ -43,6 +44,7 @@ const sendVerificationCode = async (email, code) => {
     })
 }
 
+/* SignUp middlewaer */
 module.exports.SignUp = async (req, res) => {
     const {email, password, firstName, lastName} = req.body;
 
@@ -64,13 +66,29 @@ module.exports.SignUp = async (req, res) => {
         /* When creating objects with new in session, automatic _id is not generated */        
 
         const walletId = mongoose.Types.ObjectId();
+        const coinId = mongoose.Types.ObjectId();
+        
+        /*Remove initial coins in wallet afterwards */
+
+        await Coin.create([{
+            _id: coinId,
+            walletId,
+            coinType: 'BTC',
+            quantity: 2,
+            costPrice: 10,
+            sellPrice: 0
+        }], {session});
+
+        const accountId = mongoose.Types.ObjectId();
+
+        await Account.create([{
+            _id: accountId
+        }], {session});
 
         await Wallet.create([{
             _id: walletId,
-            coins: {
-                BTC: 2,
-                DOGE: 100,
-            }
+            coins: [coinId], 
+            account: accountId
         }], {session});
 
         const userId = mongoose.Types.ObjectId();
@@ -85,19 +103,22 @@ module.exports.SignUp = async (req, res) => {
             watchList: []
         }], {session});
 
-        // throw new Error('hel');
 
         const vc = await VerificationCode.create([{
             accountId: userId
         }], {session});
         
+        console.log('Before verification code');
         await sendVerificationCode(email, vc[0].verificationCode);
+
+        console.log('After verification code');
 
         await session.commitTransaction();
         session.endSession();
 
         return res.json({
             status: true,
+            message: 'Signed up successfully'
         });
 
     } catch(e){
@@ -174,6 +195,11 @@ module.exports.VerifyUser = async (req, res) => {
 
 module.exports.LogIn = (req, res, next) => {
     passport.authenticate('local', (error, user, info) => {
+
+        console.log('session below');
+        console.log(req.session);
+   
+
         if (error) { 
             return res.status(500).json({
                 status: false,

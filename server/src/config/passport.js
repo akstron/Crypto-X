@@ -2,8 +2,10 @@ const LocalStrategy = require("passport-local").Strategy;
 const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
+const mongoose = require("mongoose");
 const User = require("../models/User");
 const Wallet = require("../models/Wallet");
+const Account = require('../models/Account');
 
 /**
  * LocalStrategy: Signup and login using email and password
@@ -14,11 +16,13 @@ passport.use(
 		User.findByEmail(email)
 			.then((user) => {
 				if (!user) {
-					return done(null, false, { message: "Wrong email or password.fsdf" });
+					return done(null, false, { message: "Wrong email or password" });
 				}
 
 				bcrypt.compare(password, user.password, (error, isMatch) => {
-					if (error) throw error;
+					if (error) {
+						return done(error, false, null);
+					}
 					if (isMatch) {
 						return done(null, user);
 					} else {
@@ -36,60 +40,58 @@ passport.use(
 /**
  * GoogleStrategy: Login using google account
  */
-
 passport.use(
 	new GoogleStrategy(
 		{
 			clientID: process.env.GOOGLE_CLIENT_ID,
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-			callbackURL: "http://localhost:8000/login/google/callback",
+			callbackURL: process.env.REACT_APP_BACKEND+"/login/google/callback",
 		},
-		function (accessToken, refreshToken, profile, done) {
+		async function (accessToken, refreshToken, profile, done) {
 			console.log(profile);
 
-			User.findOne({ googleId: profile.id })
-				.then((user) => {
-					if (!user) {
-						const wallet = new Wallet({
-							coins: {
-								BTC: 2,
-								DOGE: 100,
-							},
-						});
+			const session = await mongoose.startSession();
 
-						const curUser = new User({
-							googleId: profile.id,
-							firstName: profile._json.given_name,
-							lastName: profile._json.family_name,
-							email: profile._json.email,
-							isVerified: true,
-							wallet: wallet._id,
-						});
+			try{
+				/* Start transaction */
+				session.startTransaction();
 
-						wallet
-							.save()
-							.then((wallet) => {})
-							.catch((e) => {
-								console.log(e);
-							});
+				const googleId = profile.id;
+				var user = await User.findOne({googleId});
 
-						curUser
-							.save()
-							.then((user) => {
-								done(null, user);
-							})
-							.catch((e) => {
-								done(e, null);
-							});
+				if(!user){
+					const accountArray = await Account.create([{}], {session});
+					const account = accountArray[0];
 
-						return;
-					}
+					const walletArray = await Wallet.create([{
+						account: account._id
+					}], {session});
 
-					return done(null, user);
-				})
-				.catch((error) => {
-					return done(error, null);
-				});
+					const wallet = walletArray[0];
+
+					const userArray = await User.create([{
+						googleId: profile.id,
+						firstName: profile._json.given_name,
+						lastName: profile._json.family_name,
+						email: profile._json.email,
+						isVerified: true,
+						wallet: wallet._id,
+					}], {session});
+
+					user = userArray[0];
+				}
+
+				await session.commitTransaction();
+				session.endSession();
+
+				return done(null, user);
+			}
+			catch(e){
+				console.log(e);
+				await session.abortTransaction();
+				session.endSession();
+				done(e, null);
+			}
 		}
 	)
 );

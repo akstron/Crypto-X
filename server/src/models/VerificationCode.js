@@ -1,14 +1,17 @@
-const mongoose = require('mongoose');
-const {v4: idGenerator} = require('uuid');
-
 /**
  * Model to maintain verification code for email verification
+ * 
+ * verificationCode: Generated verification code
+ * accountId: User id for which the verificationCode isi required
  */
+
+const mongoose = require('mongoose');
+const {v4: idGenerator} = require('uuid');
 
 const verificationCodeSchema = mongoose.Schema({
     verificationCode: {
         type: String, 
-        default: idGenerator(),
+        default: Math.floor(100000 + Math.random() * 900000),
         require: true
     },
     accountId: {

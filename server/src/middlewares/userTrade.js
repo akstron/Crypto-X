@@ -1,47 +1,108 @@
 /**
  * Middlewares related to Trading 
+ * 
+ * Author: Alok Kumar Singh
  */
 
-const {v4: idGererator} = require('uuid');
 const mongoose = require('mongoose');
 const Wallet = require('../models/Wallet');
-const Bank = require('../models/Bank');
 const {getCurrentPrice} = require('../utils/priceStats');
 const {getPercentChange} = require('../utils/priceStats');
+const {createAndAddOrder} = require('../utils/trade');
+const {addSocketId} = require('../store/SocketMap');
 
+const {getActiveOrders, getOrders} = require('../utils/orders');
 
-const updateBank = (coins, updates) => {
-    for(const [key, value] of Object.entries(updates)){
-        if(key in coins){
-            coins[key] += value * -1;
-        } 
-        else {
-            coins[key] = value * -1;
-        }
+module.exports.GetActiveOrders = async (req, res) => {
+    try{
+        const activeOrders = await getActiveOrders(req.wallet);
+        return res.json({
+            status: true,
+            activeOrders
+        });
+    }
+    catch(e){
+        console.log(e);
+        return res.status(500).json({
+            status: false,
+            error: 'Internal server error'
+        })
     }
 }
 
-const addTransaction = (coins, updates, rate) => {
-    for(const [key, value] of Object.entries(updates)){
-        if(key in coins){
-            coins[key].push({
-                id: idGererator(), 
-                coins: value,
-                rate
-            });
-        }
-        else{
-           coins[key] = [{
-                id: idGererator(),
-                coins: value,
-                rate
-           }];
-        }
+module.exports.GetOrders = async (req , res) => {
+    try{
+        const orders = await getOrders(req.wallet);
+        return res.json({
+            status: true,
+            orders
+        });
+    }
+    catch(e){
+        console.log(e);
+        return res.status(500).json({
+            status: false,
+            error: 'Internal server error'
+        })
+    }
+
+}
+
+/**
+ * TODO: Remove socket Id
+ * TODO: Test socket update functionality
+ */
+
+module.exports.Sell = async (req, res) => {
+    const user = req.user;
+    const {price, quantity, coinType} = req.body;
+    const { socketId } = req.session;
+    addSocketId(user._id, socketId);
+
+    try{
+        const orderId = await createAndAddOrder(user._id, coinType, price, quantity, 'sell');
+        
+        return res.json({
+            status: true,
+            orderId
+        });
+    }
+    catch(e){
+        console.log('error:', e);
+
+        return res.status(500).json({
+            status: false,
+            error: e.message
+        });
+    }
+}
+
+module.exports.Buy = async (req, res) => {
+    const user = req.user;
+    const {price, quantity, coinType} = req.body;
+    const { socketId } = req.session;
+    addSocketId(user._id, socketId);
+    
+    try{
+        const orderId = await createAndAddOrder(user._id, coinType, price, quantity, 'buy');
+
+        return res.json({
+            status: true,
+            orderId
+        });
+    }
+    catch(e){
+
+        console.log('error:', e);
+        return res.status(500).json({
+            status: false,
+            error: e.message
+        });
     }
 }
 
 /**
- * TODO: Add checks whether account reaches below zero
+ * TODO: Remove transaction
  */
 
 module.exports.Transaction = async (req, res) => {
@@ -96,10 +157,9 @@ module.exports.Transaction = async (req, res) => {
 }
 
 module.exports.DailyPortfolio = async (req, res) => {
-    const user = req.user;
+    const wallet = req.wallet;
 
     try{
-        const wallet = await Wallet.findById(user.wallet);
         if(!wallet){
             return res.json({
                 status: false,
@@ -107,17 +167,45 @@ module.exports.DailyPortfolio = async (req, res) => {
             });
         }
 
-        const coins = wallet.coins;
-        const portfolio = {};
+        await wallet.populate({
+            path: 'coins',
+            select: ['coinType', 'costPrice', 'sellPrice', 'quantity']
+        });
 
-        for(const [coinSymbol, value] of Object.entries(coins)){
-            const {priceChange, priceChangePercentage} = await getPercentChange(coinSymbol);
-            portfolio[coinSymbol] = {};
+        console.log(wallet);
 
-            portfolio[coinSymbol].priceChangePercentage = priceChangePercentage;
-            portfolio[coinSymbol].priceChange = priceChange;
-            portfolio[coinSymbol].numberOfCoins = value;
-            portfolio[coinSymbol].profit = value * priceChange;
+        const portfolio = {
+            coins: [],
+            totalPercentGrowth: 0, 
+            totalCostPrice: 0, 
+            totalSellPrice: 0
+        };
+
+        /*
+                /getPortfolio : 
+                Cost Price , 
+                Sell Price , 
+                Current Value, 
+                Growth%( ye us coin k growth hi kr dena )
+        */
+
+        for (var i = 0; i < wallet.coins.length; i++){
+            
+            const coin = wallet.coins[i];
+            const obj = {};
+            obj.costPrice = parseFloat(coin.costPrice);
+            obj.sellPrice = parseFloat(coin.sellPrice);
+            obj.quantity = parseFloat(coin.quantity);
+            obj.coinType = coin.coinType;
+
+            const {priceChange} = await getPercentChange(coin.coinType);
+            const costPricePerCoin = parseFloat(coin.costPrice)/parseFloat(coin.quantity);
+            obj.percentGrowth = priceChange/costPricePerCoin * 100;
+            portfolio.coins.push(obj);
+
+            portfolio.totalPercentGrowth = portfolio.totalPercentGrowth + obj.percentGrowth;
+            portfolio.totalCostPrice = portfolio.totalCostPrice + parseFloat(coin.costPrice);
+            portfolio.totalSellPrice = portfolio.totalSellPrice + parseFloat(coin.sellPrice);
         }
 
         return res.json({
