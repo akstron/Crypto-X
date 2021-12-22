@@ -1,7 +1,7 @@
 require('dotenv').config();
 const shortid = require('shortid')
 const Razorpay = require('razorpay')
-const request = require('request')
+const {doRequest} = require('../utils/payment');
 
 const razorpay = new Razorpay({
 	key_id: process.env.KEY_ID,
@@ -255,45 +255,6 @@ module.exports.Payout = async(req, res) => {
 			error
 		});
 	}
-}
-
-const doRequest = (options) => {
-	return new Promise(function (resolve, reject) {
-		request(options, function (error, res, body) {
-		  if (!error && res.statusCode == 200) {
-			resolve(body);
-		  } else {
-			reject(error);
-		  }
-		});
-	});
-}
-const createContact = async (user) => {
-
-	const headers = {
-		'Content-Type': 'application/json'
-	};
-	
-	const data = {
-	  name: user.name,
-	  email: user.email,
-	  type: 'customer',
-	  reference_id: user.id
-	};
-	
-	const options = {
-		url: 'https://api.razorpay.com/v1/contacts',
-		method: 'POST',
-		headers: headers,
-		body: JSON.stringify(data),
-		auth: {
-			'user': process.env.KEY_ID,
-			'pass': process.env.KEY_SECRET
-		}
-	};
-	
-	const response = await doRequest(options);
-	return response
 }
 
 const createFundAccountUsingBankAccount = async ({contact_id, name, ifsc, account_number, account_type}) => {
