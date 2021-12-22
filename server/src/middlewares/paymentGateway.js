@@ -1,7 +1,7 @@
 require('dotenv').config();
 const shortid = require('shortid')
 const Razorpay = require('razorpay')
-const {doRequest} = require('../utils/payment');
+const request = require('request')
 
 const razorpay = new Razorpay({
 	key_id: process.env.KEY_ID,
@@ -69,26 +69,16 @@ module.exports.Verification = async(req, res) => {
 	});
 }
 
-module.exports.Contact = async(req, res) => {
-	try{
-		const account = req.account;
-		const response = await createContact(req.user);
-		
-		console.log(response.contact_id);
-		account.contact_id = response.contact_id;
-		await account.save();
-
-		res.json({
-			status: true,
-			message: 'Contact id added successfully!'
+const doRequest = (options) => {
+	return new Promise(function (resolve, reject) {
+		request(options, function (error, res, body) {
+		  if (!error) {
+			resolve(body);
+		  } else {
+			reject(error);
+		  }
 		});
-
-		// res.send(response)     // response will be contact
-		// TODO: store contact_id
-
-	}catch(error){
-		console.log(error)	
-	}
+	});
 }
 
 module.exports.AddAccount = async (req, res) => {
@@ -100,13 +90,13 @@ module.exports.AddAccount = async (req, res) => {
 		account.account_number = account_number;
 		account.ifsc = ifsc;
 	
-		await fundAccountUsingBankAccount(account);
+		const response = await fundAccountUsingBankAccount(account);
 		await account.save();
 
-		res.json({
+		return res.json({
 			status: true,
-			message: 'Account added successfully!'
-		});
+			message: 'Bank account have been successfully created'
+		})
 	}
 	catch(e){
 		res.status(500).json({
@@ -139,10 +129,8 @@ const fundAccountUsingBankAccount = async (account) => {
 		account.bank_fund_account_id = response.fund_account_id;
 		await account.save();
 
-		res.json({
-			status: true,
-			message: 'Bank fund account id added successfully!'
-		});
+		return response;
+		
 
 	}catch(error){
 		console.log(error);
@@ -157,9 +145,12 @@ module.exports.AddUPI = async(req, res) => {
 	const account = req.account;
 	const {UPI_id} = req.body;
 
-	await fundAccountUsingVPA(account);
+	
 
 	try{
+
+		await fundAccountUsingVPA(account);
+
 		account.UPI_id = UPI_id;
 		await account.save();
 
@@ -195,10 +186,7 @@ const fundAccountUsingVPA = async(account) => {
 		account.vpa_fund_account_id = response.fund_account_id;
 		await account.save();
 
-		return res.json({
-			status: true,
-			message: 'VPA fund account id saved!'
-		});
+		return response;
 
 	}catch(error){
 		console.log(error);
@@ -212,7 +200,9 @@ const fundAccountUsingVPA = async(account) => {
 
 module.exports.Payout = async(req, res) => {
 	try{
+		console.log(req)
 		const wallet = req.wallet;
+		console.log('2nd   ', wallet)
 
 		// NOT DONE YET!
 		//TODO: require fund_account_id (according to mode)

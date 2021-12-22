@@ -6,9 +6,8 @@ const router = express.Router();
 
 router.post('/createOrder',  CreateOrder);
 router.post('/verification', PopulateWallet, Verification);
-router.post('/createContact', IsAuthenticated, IsVerified, PopulateAccount, Contact);
 router.post('/addAccount', IsAuthenticated, IsVerified, PopulateAccount, AddAccount)
 router.post('/addUPI', IsAuthenticated, IsVerified, PopulateAccount, AddUPI);
-router.post('/payout', IsAuthenticated, IsVerified, PopulateWallet, Payout);
+router.post('/payout', IsAuthenticated, IsVerified, PopulateWallet, AddUPI);
 
 module.exports = router;

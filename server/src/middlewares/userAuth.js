@@ -90,9 +90,9 @@ module.exports.SignUp = async (req, res) => {
         /**
          * CREATE CONTACT CALL
          */
-
-		const {contact_id} = await createContact(userArray[0]);
-        console.log(contact_id);
+		const response = await createContact(userArray[0]);
+        const contact_id = JSON.parse(response).id;
+        console.log('contact_id',contact_id);
         
         await Account.create([{
             _id: accountId,
@@ -105,7 +105,7 @@ module.exports.SignUp = async (req, res) => {
         }], {session});
         
         console.log('Before verification code');
-        await sendVerificationCode(email, vc[0].verificationCode);
+        //await sendVerificationCode(email, vc[0].verificationCode);
 
         console.log('After verification code');
 

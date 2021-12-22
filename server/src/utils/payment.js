@@ -3,7 +3,7 @@ const request = require('request');
 const doRequest = (options) => {
 	return new Promise(function (resolve, reject) {
 		request(options, function (error, res, body) {
-		  if (!error && res.statusCode == 200) {
+		  if (!error) {
 			resolve(body);
 		  } else {
 			reject(error);
@@ -21,9 +21,9 @@ module.exports.createContact = async (user) => {
 	/**
      * NO FIELD LIKE user.name
      */
-    
+    const name = user.firstName + ' ' + user.lastName;
     const data = {
-	  name: user.name,
+	  name,
 	  email: user.email,
 	  type: 'customer',
 	  reference_id: user.id
@@ -41,8 +41,8 @@ module.exports.createContact = async (user) => {
 	};
 	
 	const response = await doRequest(options);
-
-	console.log(response);
-
+	console.log('response', response);
 	return response
+	
+	
 }
