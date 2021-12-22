@@ -59,7 +59,7 @@ const ManageNotification = () => {
 			<Card
 				title={<strong>
 							<img className='signup-image' alt='img' src={notificationIcon} height={'25px'} />
-							  &nbsp; Receive notifications 
+							  &nbsp; Receive Notifications 
 						</strong>}
 				style={{width: "fit-content",
                         margin:".5rem auto",
@@ -70,10 +70,10 @@ const ManageNotification = () => {
 			<Form
 				name="NotificationForm"
 				labelCol={{
-					span: 12,
+					span: 10,
 				}}
 				wrapperCol={{
-					span: 12,
+					span: 14,
 				}}
 				initialValues={{
 					remember: true,
@@ -100,27 +100,32 @@ const ManageNotification = () => {
 						{cryptosList?.data?.map((currency) => <Option value={currency.name}>{currency.name}</Option>)}
 					</Select>
 				</Form.Item>
+
 				<Form.Item
-					label="Min Value"
-					name="minValue"
+					label="Type :"
+					name="type"
 					rules={[
 					{
 						required: true,
-						message: 'Please enter a value !',
+						message: 'Please select Type !',
 					},
 					]}>
-					<InputNumber/>
+					<Select default={'greaterThen'}>
+						<Option value={'lessThen'}>Less Then</Option>
+						<Option value={'greaterThen'}>Greater Then</Option>
+					</Select>
 				</Form.Item>
+
 				<Form.Item
-					label="Max Value"
-					name="maxValue"
+					label="Value"
+					name="value"
 					rules={[
 					{
 						required: true,
 						message: 'Please enter a value !',
 					},
 					]}>
-					<InputNumber/>
+					<InputNumber min={0} defaultValue={0}/>
 				</Form.Item>
 				<Form.Item 
 					wrapperCol={{
