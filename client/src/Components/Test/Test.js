@@ -43,7 +43,6 @@ function Test() {
 			 headers,
 			 body: JSON.stringify(body) 
 			}).then((res) =>{
-                console.log(res.data);
 				return res.json()
             }
 		)
@@ -52,7 +51,7 @@ function Test() {
 
 		const options = {
 			key: _DEV_ ? 'rzp_test_xyXW0WOgNrvhPp' : 'PRODUCTION_KEY',
-			currency: order.currency,
+			currency: 'INR',
 			amount: order.amount.toString(),
 			order_id: order.id,
 			name: 'crypto-x',

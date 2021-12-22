@@ -5,7 +5,6 @@ const session = require('express-session');
 const cors = require('cors');
 const app = express();
 
-
 require('./config/passport');
 require('./config/dbConnection');
 
@@ -65,6 +64,7 @@ io.use((socket, next) => {
   sessionMiddleware(socket.request, socket.request.res || {}, next);
 });
 
+
 app.use(cors(corsOptions));
 app.use(sessionMiddleware);
 
@@ -85,7 +85,6 @@ app.use(userTradeRouter);
 app.use(express.static(publicDirectoryPath));
 
 app.use(fetchCryptoDataRouter);
-
 app.use(paymentGatewayRouter);
 
 

@@ -121,6 +121,8 @@ const addOrder = async (order, orderMap, session) => {
     const orderList = coinMap.get(price);
     orderList.pushBack(order);
 
+    await addOrderInDatabase(order, session);
+
     return orderList;
 }
 
