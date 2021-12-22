@@ -4,7 +4,8 @@ import axios from 'axios'
 
 const { Option } = Select;
 
-const Test = () => {
+const ManageNotification = () => {
+    
     const [cryptosList, setcryptosList] = useState({data:undefined,isFetching:true});
 
 	const getCoinsDetailsAPI=(count)=>{
@@ -123,4 +124,4 @@ const Test = () => {
 	)
 }
 
-export default Test
+export default ManageNotification

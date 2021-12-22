@@ -2,7 +2,9 @@ import React,{ useContext,useState,useEffect } from 'react'
 import axios from 'axios';
 import { Button,Menu,Typography,Avatar } from 'antd';
 import { Link } from "react-router-dom";
-import { HomeOutlined, ProfileOutlined,DollarOutlined,UserAddOutlined, LoginOutlined,BulbOutlined,ShoppingOutlined,LogoutOutlined,UserOutlined,MenuOutlined,BankOutlined} from '@ant-design/icons';
+import { HomeOutlined, ProfileOutlined,DollarOutlined,UserAddOutlined, 
+        LoginOutlined,BulbOutlined,ShoppingOutlined,LogoutOutlined,
+        NotificationOutlined,UserOutlined,MenuOutlined,BankOutlined} from '@ant-design/icons';
 import icon from '../../Images/main-logo.png'
 
 // !important Change Back to App
@@ -84,9 +86,13 @@ const Navbar = () => {
                                 </Menu.Item>
                             </SubMenu>
 
-                                <Menu.Item key="7" icon={<LogoutOutlined />}>
-                                    <Link to='/' onClick={logOut}>LogOut</Link>
-                                </Menu.Item>
+                            <Menu.Item key="7" icon={<NotificationOutlined />}>
+                                <Link to='/ManageNotification'> Notify Me </Link>
+                            </Menu.Item>
+
+                            <Menu.Item key="8" icon={<LogoutOutlined />}>
+                                <Link to='/' onClick={logOut}>LogOut</Link>
+                            </Menu.Item>
                         </>
                     ):(
                         <>
