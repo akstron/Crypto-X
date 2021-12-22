@@ -141,6 +141,10 @@ const SignupPage = () => {
             required: true,
             message: 'Please input your password!',
           },
+          {
+              pattern:  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{7,}$/,
+              message: 'Wrong format',
+          },
         ]}
         hasFeedback
       >
