@@ -88,9 +88,6 @@ const App = () => {
                                         <Route path="/BankOptions">
                                             {(User.data)?(<BankOptions/>):(<Redirect to='/Login'/>)}
                                         </Route>
-                                        <Route path="/ManageNotification">
-                                            {(User.data)?(<ManageNotification/>):(<Redirect to='/Login'/>)}
-                                        </Route>
                                         <Route path="/OTP/:emailId">
                                             <OTPPage/>
                                         </Route>

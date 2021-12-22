@@ -1,8 +1,11 @@
 import React,{useState,useEffect} from 'react'
-import {Form,Select,InputNumber,Card,Button} from 'antd'
+import {Form,Select,InputNumber,Card,Button,Typography,Divider} from 'antd'
 import axios from 'axios'
 
+import notificationIcon from '../../../Images/NotifyMe/notificationsIcon.png'
+
 const { Option } = Select;
+const {Title} =Typography
 
 const ManageNotification = () => {
     
@@ -49,8 +52,20 @@ const ManageNotification = () => {
 
 	return (
 		<>
+			{/* <Title><img className='signup-image' alt='img' src={notificationIcon} height={'45px'} /> Notify Me </Title>
+			<Divider/> */}
+
+
 			<Card
-				style={{ width:"fit-content",margin:".2rem auto"}}>
+				title={<strong>
+							<img className='signup-image' alt='img' src={notificationIcon} height={'25px'} />
+							  &nbsp; Receive notifications 
+						</strong>}
+				style={{width: "fit-content",
+                        margin:".5rem auto",
+                        borderRadius:"2rem",
+						textAlign: "center"}}
+				hoverable>
 
 			<Form
 				name="NotificationForm"
@@ -78,8 +93,7 @@ const ManageNotification = () => {
 					]}>
 					<Select
 							showSearch
-                            className="select-news"
-                            placeholder="Select a Crypto"
+                            placeholder="Select a Coin"
                             optionFilterProp="children"
 							loading={cryptosList.isFetching}
 							filterOption={(input, option) => option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}>
