@@ -40,6 +40,7 @@ module.exports.CreateOrder = async(req, res) => {
 
 module.exports.Verification = async(req, res) => {
 	
+	const amount = parseFloat(req.body.amount);
 	const wallet = req.wallet;
 	const secret = process.env.WEBHOOOK_KEY;
 	const crypto = require('crypto')
@@ -54,9 +55,9 @@ module.exports.Verification = async(req, res) => {
 		console.log('request is legit')
 
 		/* Add money to wallet */
-		wallet.balance += req.body.payload.payment.entity.amount;
+		wallet.balance = parseFloat(wallet.balance) + amount;
 		await wallet.save();
-		console.log(req.body.payload.payment.entity.amount);
+		console.log(req.amount);
 
 	} else {
 		// fake requsest
@@ -92,14 +93,28 @@ module.exports.Contact = async(req, res) => {
 
 module.exports.AddAccount = async (req, res) => {
 	const account = req.account;
-	
-	const {name, account_number, ifsc} = req.body;
-	account.name = name;
-	account.account_number = account_number;
-	account.ifsc = ifsc;
 
-	await fundAccountUsingBankAccount(account);
-	await account.save();
+	try{
+		const {name, account_number, ifsc} = req.body;
+		account.name = name;
+		account.account_number = account_number;
+		account.ifsc = ifsc;
+	
+		await fundAccountUsingBankAccount(account);
+		await account.save();
+
+		res.json({
+			status: true,
+			message: 'Account added successfully!'
+		});
+	}
+	catch(e){
+		res.status(500).json({
+			status: true,
+			error: 'Something went wrong'
+		});
+	}
+
 }
 
 const fundAccountUsingBankAccount = async (account) => {
@@ -146,7 +161,6 @@ module.exports.AddUPI = async(req, res) => {
 
 	try{
 		account.UPI_id = UPI_id;
-
 		await account.save();
 
 		return res.json({
@@ -213,7 +227,7 @@ module.exports.Payout = async(req, res) => {
 			reference_id: userId
 		}
 
-		const payoutAmount = response.amount/100; 
+		const payoutAmount = parseFloat(response.amount)/100; 
 
 		// Check given amount is available or not
 		if(wallet.balance < payoutAmount){
@@ -225,7 +239,7 @@ module.exports.Payout = async(req, res) => {
 
 		const response = await createPayout(data);
 
-		wallet.balance -= payoutAmount;
+		wallet.balance = parseFloat(wallet.balance) - payoutAmount;
 		await wallet.save();
 
 		return res.json({

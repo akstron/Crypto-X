@@ -38,7 +38,7 @@ npm start
 
 - ReactJS
 - NodeJs and Express
-- React-bootstrap
+- Antd and React-bootstrap
 - MongoDB and Mongoose
 - Socket
 - API (Like Binance,coingecko)

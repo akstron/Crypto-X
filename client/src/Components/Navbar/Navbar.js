@@ -57,7 +57,6 @@ const Navbar = () => {
             </div>
             {activeMenu && (
                 <Menu theme='dark' style={{backgroundColor:'black',width: 256}} 
-                    defaultSelectedKeys={['1']}
                     mode="inline">
                     <Menu.Item key="1" icon={<HomeOutlined/>}>
                         <Link to='/'>Home</Link>

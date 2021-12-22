@@ -21,9 +21,9 @@ const _DEV_ = document.domain === 'localhost'
 const AmountConfirm = () => {
 
 	const [name, setName] = useState('Saurabh')
+    const [paying,setPaying]=useState(false);
 
-
-    async function displayRazorpay() {
+    async function displayRazorpay(amount) {
 		const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js')
 
 		if (!res) {
@@ -34,7 +34,6 @@ const AmountConfirm = () => {
 		const headers = {
 			"Content-Type": "application/json"
 		};
-		const amount = 50;
 		const body = {
 			amount,
 			currency: 'INR'
@@ -73,12 +72,14 @@ const AmountConfirm = () => {
 		paymentObject.open()
 	}
 
-    const onFinish = (values: any) => {
+    const onFinish = (values) => {
         console.log('Success:', values);
-        displayRazorpay();
+		setPaying(true);
+        displayRazorpay(values.amount);
+		setPaying(false);
     };
 
-    const onFinishFailed = (errorInfo: any) => {
+    const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
 
@@ -95,13 +96,23 @@ const AmountConfirm = () => {
         <Form.Item
             label="Amount"
             name="amount"
-            rules={[{ required: true, message: "Amount can't be Zero !" }]}
+            rules={[{ required: true, message: "Amount can't be Zero !" },
+					({ getFieldValue }) => ({
+						validator(_, value) {
+						if (value > 0) {
+							return Promise.resolve();
+						}
+
+						return Promise.reject(new Error('Amount must be greater then 1'));
+						},
+					}),
+			]}
         >
-            <InputNumber min={0} defaultValue={0}/>
+            <InputNumber min={0} defaultValue={0} disaBLED={paying}/>
         </Form.Item>
 
         <Form.Item>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" loading={paying}>
                 <PlusCircleOutlined style={{margin:"0rem"}}/> Add
             </Button>
         </Form.Item>

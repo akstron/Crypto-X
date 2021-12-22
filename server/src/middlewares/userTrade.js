@@ -157,10 +157,9 @@ module.exports.Transaction = async (req, res) => {
 }
 
 module.exports.DailyPortfolio = async (req, res) => {
-    const user = req.user;
+    const wallet = req.wallet;
 
     try{
-        const wallet = await Wallet.findById(user.wallet);
         if(!wallet){
             return res.json({
                 status: false,
@@ -168,17 +167,45 @@ module.exports.DailyPortfolio = async (req, res) => {
             });
         }
 
-        const coins = wallet.coins;
-        const portfolio = {};
+        await wallet.populate({
+            path: 'coins',
+            select: ['coinType', 'costPrice', 'sellPrice', 'quantity']
+        });
 
-        for(const [coinSymbol, value] of Object.entries(coins)){
-            const {priceChange, priceChangePercentage} = await getPercentChange(coinSymbol);
-            portfolio[coinSymbol] = {};
+        console.log(wallet);
 
-            portfolio[coinSymbol].priceChangePercentage = priceChangePercentage;
-            portfolio[coinSymbol].priceChange = priceChange;
-            portfolio[coinSymbol].numberOfCoins = value;
-            portfolio[coinSymbol].profit = value * priceChange;
+        const portfolio = {
+            coins: [],
+            totalPercentGrowth: 0, 
+            totalCostPrice: 0, 
+            totalSellPrice: 0
+        };
+
+        /*
+                /getPortfolio : 
+                Cost Price , 
+                Sell Price , 
+                Current Value, 
+                Growth%( ye us coin k growth hi kr dena )
+        */
+
+        for (var i = 0; i < wallet.coins.length; i++){
+            
+            const coin = wallet.coins[i];
+            const obj = {};
+            obj.costPrice = parseFloat(coin.costPrice);
+            obj.sellPrice = parseFloat(coin.sellPrice);
+            obj.quantity = parseFloat(coin.quantity);
+            obj.coinType = coin.coinType;
+
+            const {priceChange} = await getPercentChange(coin.coinType);
+            const costPricePerCoin = parseFloat(coin.costPrice)/parseFloat(coin.quantity);
+            obj.percentGrowth = priceChange/costPricePerCoin * 100;
+            portfolio.coins.push(obj);
+
+            portfolio.totalPercentGrowth = portfolio.totalPercentGrowth + obj.percentGrowth;
+            portfolio.totalCostPrice = portfolio.totalCostPrice + parseFloat(coin.costPrice);
+            portfolio.totalSellPrice = portfolio.totalSellPrice + parseFloat(coin.sellPrice);
         }
 
         return res.json({

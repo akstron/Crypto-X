@@ -13,7 +13,7 @@ const router = express.Router();
  */
 
 router.put('/transaction', IsAuthenticated, IsVerified, Transaction);
-router.get('/portfolio', IsAuthenticated, IsVerified, DailyPortfolio);
+router.get('/getPortfolio', IsAuthenticated, IsVerified, PopulateWallet, DailyPortfolio);
 router.post('/sell', IsAuthenticated, IsVerified, Sell);
 router.post('/buy', IsAuthenticated, IsVerified, Buy);
 router.get('/getActiveOrders', IsAuthenticated, IsVerified, PopulateWallet, GetActiveOrders);

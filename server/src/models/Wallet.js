@@ -27,7 +27,7 @@ const walletSchema = mongoose.Schema({
     },
 
     balance: {
-        type: Number, 
+        type: mongoose.Types.Decimal128, 
         require: true,
         default: 0
     }

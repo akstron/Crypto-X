@@ -4,6 +4,22 @@
 
  const Wallet = require('../models/Wallet');
 
+ module.exports.GetAccount = async(req, res) => {
+    const account = req.account;
+
+    const accountObj = {
+        name: account.name,
+        account_number: account.account_number,
+        ifsc: account.ifsc,
+        UPI_id: account.UPI_id
+    };
+
+    res.json({
+        status: true,
+        account: accountObj
+    });
+}
+
 module.exports.PopulateAccount = async(req, res, next) => {
     var wallet = req.wallet;
     try{
@@ -61,7 +77,7 @@ module.exports.GetWallet = async (req, res) => {
     try{
         await wallet.populate({
             path: 'coins',
-            select: ['coinType', 'costPrice', 'sellPrice']
+            select: ['coinType', 'costPrice', 'sellPrice', 'quantity']
         });
 
         return res.json({
