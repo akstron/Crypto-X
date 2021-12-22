@@ -1,6 +1,6 @@
 import React,{useEffect,useState} from 'react'
 import {Card,Typography,Row,Col,Statistic,Progress} from 'antd';
-import { PlusCircleOutlined,MinusCircleOutlined,LoadingOutlined,ExclamationCircleOutlined } from '@ant-design/icons';
+import { LoadingOutlined,ExclamationCircleOutlined } from '@ant-design/icons';
 import orderIcon from '../../../Images/orderIcon.png';
 import axios from 'axios';
 
