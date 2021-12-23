@@ -60,8 +60,10 @@ const PayoutConfirm = () => {
         const payoutRoute = process.env.REACT_APP_BACKEND + '/payout';
 
         const payoutReq={
-            mode:(bankAccount.account_number)?('NEFT'):('UPI'),
+            mode:(bankAccount.account_number)?('IMPS'):('UPI'),
             amount:values.amount,
+            purpose:'payout',
+            currency: 'INR'
         }
         axios.post(payoutRoute,payoutReq,{withCredentials: true}).then(res => {
             console.log(res.data);

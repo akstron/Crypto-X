@@ -11,6 +11,7 @@ const VerificationCode = require('../models/VerificationCode');
 const Wallet = require('../models/Wallet');
 const Coin = require('../models/Coin');
 const Account = require('../models/Account');
+const {createContact} = require('../utils/payment');
 
 /* Utility function for checking mail in database */
 const isEmailAvailable = async (email) => {
@@ -66,34 +67,17 @@ module.exports.SignUp = async (req, res) => {
         /* When creating objects with new in session, automatic _id is not generated */        
 
         const walletId = mongoose.Types.ObjectId();
-        const coinId = mongoose.Types.ObjectId();
-        
-        /*Remove initial coins in wallet afterwards */
-
-        await Coin.create([{
-            _id: coinId,
-            walletId,
-            coinType: 'BTC',
-            quantity: 2,
-            costPrice: 10,
-            sellPrice: 0
-        }], {session});
-
         const accountId = mongoose.Types.ObjectId();
-
-        await Account.create([{
-            _id: accountId
-        }], {session});
 
         await Wallet.create([{
             _id: walletId,
-            coins: [coinId], 
+            coins: [], 
             account: accountId
         }], {session});
 
         const userId = mongoose.Types.ObjectId();
 
-        const user = await User.create([{
+        const userArray = await User.create([{
             _id: userId,
             email,
             password,
@@ -103,13 +87,25 @@ module.exports.SignUp = async (req, res) => {
             watchList: []
         }], {session});
 
+        /**
+         * CREATE CONTACT CALL
+         */
+		const response = await createContact(userArray[0]);
+        const contact_id = JSON.parse(response).id;
+        console.log('contact_id',contact_id);
+        
+        await Account.create([{
+            _id: accountId,
+            contact_id
+        }], {session});
+
 
         const vc = await VerificationCode.create([{
             accountId: userId
         }], {session});
         
         console.log('Before verification code');
-        await sendVerificationCode(email, vc[0].verificationCode);
+        //await sendVerificationCode(email, vc[0].verificationCode);
 
         console.log('After verification code');
 
@@ -126,7 +122,7 @@ module.exports.SignUp = async (req, res) => {
         /* Abort transaction in case of error */
         await session.abortTransaction();
         session.endSession();
-        console.log(e);
+        console.log('error: ' + e);
 
         res.status(500).json({
             status: false,
