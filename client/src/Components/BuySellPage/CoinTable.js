@@ -108,7 +108,7 @@ class CoinTable extends React.Component {
         title:'Select',
         key:'id',
         render:payload=>{
-          return <input type="radio" value={payload.id} name="coins" onClick={this.handleCoinSelect}></input>
+          return <input type="radio" value={payload.id} name="coins" onClick={this.handleCoinSelect} key={payload.id}></input>
         }
       },
       {
