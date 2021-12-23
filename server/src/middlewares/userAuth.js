@@ -47,7 +47,7 @@ const sendVerificationCode = async (email, code) => {
 
 /* SignUp middlewaer */
 module.exports.SignUp = async (req, res) => {
-    const {email, password, firstName, lastName} = req.body;
+    const {email, password, firstName, lastName, referralCode} = req.body;
 
     console.log(req.body);
     const session = await mongoose.startSession();
@@ -69,10 +69,23 @@ module.exports.SignUp = async (req, res) => {
         const walletId = mongoose.Types.ObjectId();
         const accountId = mongoose.Types.ObjectId();
 
+        var balance = 0;
+
+        const referralUser = await User.findOne({referralCode}).session(session);
+        if(referralUser){
+            balance = 100;
+   
+            const walletId = referralUser.wallet;
+            const referralWallet = await Wallet.findById(walletId).session(session);
+            referralWallet.balance = parseFloat(referralWallet.balance) + 100;
+            await referralWallet.save();
+        }
+
         await Wallet.create([{
             _id: walletId,
             coins: [], 
-            account: accountId
+            account: accountId, 
+            balance
         }], {session});
 
         const userId = mongoose.Types.ObjectId();
@@ -105,7 +118,7 @@ module.exports.SignUp = async (req, res) => {
         }], {session});
         
         console.log('Before verification code');
-        //await sendVerificationCode(email, vc[0].verificationCode);
+        await sendVerificationCode(email, vc[0].verificationCode);
 
         console.log('After verification code');
 
