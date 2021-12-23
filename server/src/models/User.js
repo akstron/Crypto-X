@@ -5,6 +5,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const validator = require('validator')
+const {v4: idGenerator} = require('uuid');
 
 const userSchema = mongoose.Schema({
     email: {
@@ -55,7 +56,7 @@ const userSchema = mongoose.Schema({
     isEligible: {
         type: Boolean,
         require: true,
-        default: false
+        default: true
     },
 
     watchList: [{
@@ -70,9 +71,14 @@ const userSchema = mongoose.Schema({
     }, 
 
     /* Social login ids */
-
     googleId: {
         type: String
+    },
+
+    referralCode: {
+        type: String,
+        default: idGenerator(),
+        require: true
     }
 }, 
 {
