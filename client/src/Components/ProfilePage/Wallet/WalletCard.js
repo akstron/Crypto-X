@@ -50,7 +50,7 @@ const WalletCard = () => {
     }
 
     useEffect(()=>{
-         AddDummyCoin();
+        // AddDummyCoin();
         getWalletDetails();
     },[])
 
