@@ -111,8 +111,6 @@ const addOrder = async (order, orderMap, session) => {
 
     const {coinType, price} = order;
 
-    await addOrderInDatabase(order, session);
-
     if(!orderMap.has(coinType)) orderMap.set(coinType, new Map());
     const coinMap = orderMap.get(coinType); 
     
