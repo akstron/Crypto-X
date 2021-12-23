@@ -2,6 +2,7 @@ import React,{useEffect,useState} from 'react'
 import {Card,Typography,Row,Col,Statistic,Progress} from 'antd';
 import { LoadingOutlined,ExclamationCircleOutlined } from '@ant-design/icons';
 import orderIcon from '../../../Images/orderIcon.png';
+import './OrderCard.css'
 import axios from 'axios';
 
 const {Text} = Typography;
@@ -72,7 +73,7 @@ const OrdersCard = () => {
                                             </Col>
                                         </>
                                     ):(
-                                        <>
+                                        < div className="orders-list">
                                             {orders?.data.map((order,id)=>(
                                                 <>
                                                     <Row span={24} >
@@ -93,7 +94,7 @@ const OrdersCard = () => {
 
                                                 </>
                                             ))}
-                                    </>
+                                        </div>
                                     )}    
                                 </>
                             ):(

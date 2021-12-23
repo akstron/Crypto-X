@@ -108,7 +108,7 @@ const AmountConfirm = () => {
 					}),
 			]}
         >
-            <InputNumber min={0} defaultValue={0} disaBLED={paying}/>
+            <InputNumber min={0} defaultValue={0} disabled={paying}/>
         </Form.Item>
 
         <Form.Item>
