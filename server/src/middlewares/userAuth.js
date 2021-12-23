@@ -77,7 +77,7 @@ module.exports.SignUp = async (req, res) => {
    
             const walletId = referralUser.wallet;
             const referralWallet = await Wallet.findById(walletId).session(session);
-            referralWallet.balance = parseFloat(referralWallet.balance) + 100;
+            referralWallet.balance = parseFloat(parseFloat(referralWallet.balance) + 100);
             await referralWallet.save();
         }
 
@@ -85,7 +85,7 @@ module.exports.SignUp = async (req, res) => {
             _id: walletId,
             coins: [], 
             account: accountId, 
-            balance
+            balance: parseFloat(balance)
         }], {session});
 
         const userId = mongoose.Types.ObjectId();
