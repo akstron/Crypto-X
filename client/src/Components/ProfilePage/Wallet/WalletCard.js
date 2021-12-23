@@ -16,7 +16,7 @@ const WalletCard = () => {
     const AddDummyCoin=()=>{
         const route = process.env.REACT_APP_BACKEND + '/addCoins';
         const coin={
-            "coinType" : "DOGE",
+            "coinType" : "BTC",
             "costPrice" : 10, 
             "sellPrice" : 18,
             "quantity" : 5
