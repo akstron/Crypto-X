@@ -86,7 +86,7 @@ const OrdersCard = () => {
                                                             <Statistic title="Amount($)" value={(order.price.$numberDecimal)*(order.quantity.$numberDecimal)} precision={2} valueStyle={(order.orderType=="sell")?({color: 'red'}):({color: '#3f8600'})}/>
                                                         </Col>
                                                         <Col span={24}>
-                                                            <Progress percent={(order.completed.$numberDecimal*100)/(order.quantity.$numberDecimal)} size="small" />
+                                                            <Progress percent={Math.ceil((order.completed.$numberDecimal*100)/(order.quantity.$numberDecimal))} size="small" />
                                                         </Col>
                                                     </Row>
                                                     <hr style={{margin:"0.5rem"}}/>

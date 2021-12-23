@@ -2,9 +2,12 @@ import React,{useState,useEffect} from 'react'
 import {Form,Select,InputNumber,Card,Button} from 'antd'
 import axios from 'axios'
 
+import notificationIcon from '../../../Images/NotifyMe/notificationsIcon.png'
+
 const { Option } = Select;
 
-const Test = () => {
+const ManageNotification = () => {
+    
     const [cryptosList, setcryptosList] = useState({data:undefined,isFetching:true});
 
 	const getCoinsDetailsAPI=(count)=>{
@@ -48,16 +51,28 @@ const Test = () => {
 
 	return (
 		<>
+			{/* <Title><img className='signup-image' alt='img' src={notificationIcon} height={'45px'} /> Notify Me </Title>
+			<Divider/> */}
+
+
 			<Card
-				style={{ width:"fit-content",margin:".2rem auto"}}>
+				title={<strong>
+							<img className='signup-image' alt='img' src={notificationIcon} height={'25px'} />
+							  &nbsp; Receive Notifications 
+						</strong>}
+				style={{width: "fit-content",
+                        margin:".5rem auto",
+                        borderRadius:"2rem",
+						textAlign: "center"}}
+				hoverable>
 
 			<Form
 				name="NotificationForm"
 				labelCol={{
-					span: 12,
+					span: 10,
 				}}
 				wrapperCol={{
-					span: 12,
+					span: 14,
 				}}
 				initialValues={{
 					remember: true,
@@ -77,35 +92,39 @@ const Test = () => {
 					]}>
 					<Select
 							showSearch
-                            className="select-news"
-                            placeholder="Select a Crypto"
+                            placeholder="Select a Coin"
                             optionFilterProp="children"
 							loading={cryptosList.isFetching}
 							filterOption={(input, option) => option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}>
 						{cryptosList?.data?.map((currency) => <Option value={currency.name}>{currency.name}</Option>)}
 					</Select>
 				</Form.Item>
+
 				<Form.Item
-					label="Min Value"
-					name="minValue"
+					label="Type :"
+					name="type"
 					rules={[
 					{
 						required: true,
-						message: 'Please enter a value !',
+						message: 'Please select Type !',
 					},
 					]}>
-					<InputNumber/>
+					<Select default={'greaterThen'}>
+						<Option value={'lessThen'}>Less Then</Option>
+						<Option value={'greaterThen'}>Greater Then</Option>
+					</Select>
 				</Form.Item>
+
 				<Form.Item
-					label="Max Value"
-					name="maxValue"
+					label="Value"
+					name="value"
 					rules={[
 					{
 						required: true,
 						message: 'Please enter a value !',
 					},
 					]}>
-					<InputNumber/>
+					<InputNumber min={0} defaultValue={0}/>
 				</Form.Item>
 				<Form.Item 
 					wrapperCol={{
@@ -123,4 +142,4 @@ const Test = () => {
 	)
 }
 
-export default Test
+export default ManageNotification

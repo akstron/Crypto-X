@@ -2,7 +2,10 @@ import React,{ useContext,useState,useEffect } from 'react'
 import axios from 'axios';
 import { Button,Menu,Typography,Avatar } from 'antd';
 import { Link } from "react-router-dom";
-import { HomeOutlined, ProfileOutlined,DollarOutlined,UserAddOutlined, LoginOutlined,BulbOutlined,ShoppingOutlined,LogoutOutlined,UserOutlined,MenuOutlined,BankOutlined} from '@ant-design/icons';
+import { HomeOutlined, ProfileOutlined,DollarOutlined,UserAddOutlined, 
+        LoginOutlined,BulbOutlined,ShoppingOutlined,LogoutOutlined,
+        NotificationOutlined,UserOutlined,MenuOutlined,BankOutlined,
+        TeamOutlined} from '@ant-design/icons';
 import icon from '../../Images/main-logo.png'
 
 // !important Change Back to App
@@ -73,27 +76,33 @@ const Navbar = () => {
                                 <Menu.Item key="4" icon={<UserOutlined />}>
                                     <Link to='/Profile'>Profile</Link>
                                 </Menu.Item>
-                                <Menu.Item key="8" icon={<ProfileOutlined />}>
+                                <Menu.Item key="5" icon={<ProfileOutlined />}>
                                     <Link to='/Portfolio'>Portfolio</Link>
                                 </Menu.Item>
-                                <Menu.Item key="5" icon={<BankOutlined />}>
+                                <Menu.Item key="6" icon={<BankOutlined />}>
                                     <Link to='/BankOptions'>Payment Options</Link>
                                 </Menu.Item>
-                                <Menu.Item key="6" icon={<ShoppingOutlined />}>
+                                <Menu.Item key="7" icon={<ShoppingOutlined />}>
                                     <Link to='/BuySell'>BuySell</Link>
                                 </Menu.Item>
                             </SubMenu>
+                            <Menu.Item key="8" icon={<TeamOutlined />}>
+                                <Link to='/AboutUs'> About Us </Link>
+                            </Menu.Item>
 
-                                <Menu.Item key="7" icon={<LogoutOutlined />}>
-                                    <Link to='/' onClick={logOut}>LogOut</Link>
-                                </Menu.Item>
+                            <Menu.Item key="9" icon={<LogoutOutlined />}>
+                                <Link to='/' onClick={logOut}>LogOut</Link>
+                            </Menu.Item>
                         </>
                     ):(
                         <>
-                            <Menu.Item key="7" icon={<UserAddOutlined />}>
+                            <Menu.Item key="10" icon={<TeamOutlined />}>
+                                <Link to='/AboutUs'> About Us </Link>
+                            </Menu.Item>
+                            <Menu.Item key="11" icon={<UserAddOutlined />}>
                                 <Link to='/Signup'>Sign-Up</Link>
                             </Menu.Item>
-                            <Menu.Item key="8" icon={<LoginOutlined />}>
+                            <Menu.Item key="12" icon={<LoginOutlined />}>
                                 <Link to='/Login' on>Login</Link>
                             </Menu.Item>
                         </>

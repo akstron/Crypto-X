@@ -17,6 +17,7 @@
     "website"
   ],
   "dependencies": {
+    "axios": "^0.24.0",
     "bcryptjs": "^2.4.3",
     "binance": "^2.0.14",
     "coingecko-api": "^1.0.10",

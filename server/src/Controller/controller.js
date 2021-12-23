@@ -4,7 +4,7 @@ const fetchMarketChartRange = require("../utils/fetchMarketChartRange");
 exports.fetchHistory = (req, res) => {
     if(!req.query.date || !req.query.coin){
       return res.send({
-        error: 'Please provide corredt data'
+        error: 'Please provide correct data'
       })
     }
     

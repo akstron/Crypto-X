@@ -111,8 +111,6 @@ const addOrder = async (order, orderMap, session) => {
 
     const {coinType, price} = order;
 
-    await addOrderInDatabase(order, session);
-
     if(!orderMap.has(coinType)) orderMap.set(coinType, new Map());
     const coinMap = orderMap.get(coinType); 
     
@@ -188,9 +186,11 @@ const updateOrderInDatabase = async (order, exchange, session) => {
 
 /* Send order completions updates from here to client using socket */
 const sendOrderNotification = async (order) => {
+    
     const io = require('../server');
+    console.log('io', io);
     const socketId = getSocketId(order.userId);
-
+    
     /* If no socket is found, function would throw error */
     io.to(socketId).emit('sendOrderNotification', order);
     console.log(io);

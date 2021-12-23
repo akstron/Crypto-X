@@ -86,7 +86,6 @@ app.use(express.static(publicDirectoryPath));
 app.use(fetchCryptoDataRouter);
 app.use(paymentGatewayRouter);
 
-
 // when any client gets connected with server
 io.on('connection', (socket) =>{
   console.log('New websocket connection');

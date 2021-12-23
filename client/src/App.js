@@ -3,11 +3,28 @@ import {BrowserRouter,Route,Switch,Redirect} from 'react-router-dom'
 import {Layout} from 'antd';
 import axios from 'axios';
 import {Navbar,HomePage,MarketPage,NewsPage,SignupPage,LoginPage,CryptoDetails,
-            BuySellPage, Loader,Test,ProfilePage,OTPPage,BankOptions ,NotFound,PortfolioPage} from './Components';
+            BuySellPage, Loader,Test,ProfilePage,OTPPage,BankOptions ,NotFound,
+            PortfolioPage,AboutUsPage} from './Components';
 import './App.css';
+
+import io from 'socket.io-client'
+
+const socket=io(process.env.REACT_APP_BACKEND,{
+    transports:['websocket','polling']
+});
 
 // ToDo:: 1. add isError attribute to User useState
 export const UserContext = createContext();
+export const AppSocketContext=createContext();
+
+const socketConnect=()=>{
+    // socket.on('currentData',market=>{
+    //     console.log(market);
+    // });
+    socket.on("sendOrderNotification",order=>{
+        console.log(order);
+    })
+}
 
 const App = () => {
 
@@ -34,9 +51,11 @@ const App = () => {
     }
 
     useEffect(()=>{
+        
         let isComponentMounted = true;    
         if(isComponentMounted){
             getUser();
+            socketConnect();
         }
         return () => {
             isComponentMounted = false;
@@ -45,6 +64,7 @@ const App = () => {
 
   return (
         <UserContext.Provider value={User}>
+        <AppSocketContext.Provider value={socket}>
             <BrowserRouter basename='/'>
             {(User.isFetching)?(
                 <Loader/>
@@ -90,6 +110,9 @@ const App = () => {
                                         <Route path="/OTP/:emailId">
                                             <OTPPage/>
                                         </Route>
+                                        <Route path="/AboutUs">
+                                            <AboutUsPage/>
+                                        </Route>
                                         <Route path="/test">
                                             <Test/>
                                         </Route>
@@ -103,6 +126,7 @@ const App = () => {
                 </div>
             )}
             </BrowserRouter>
+        </AppSocketContext.Provider>
         </UserContext.Provider>
 
     )
