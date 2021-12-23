@@ -12,7 +12,7 @@ const PortfolioCard = ({coinGrowth}) => {
         <div>
             <Row gutter={[32,32]} className='crypto-card-container'>
                     {coinGrowth?.map((coin,id)=>(
-                        <Col key={id} xs={24} sm={12} lg={6} className='crypto-card'>
+                        <Col key={id} xs={24} sm={12} lg={8} className='crypto-card'>
                             <Link to={`/crypto/${coin.id}`}>
                                 <Card
                                     title={`${coin.coinType}`}

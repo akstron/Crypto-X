@@ -52,7 +52,7 @@ const SignupPage = () => {
 
   const onFinish = (values) => {
     console.log('Received values of form: ', values);
-    const userDetails = {firstName:values.firstname,lastName:values.lastname,email:values.email,password:values.password};
+    const userDetails = {firstName:values.firstname,lastName:values.lastname,email:values.email,password:values.password,referal:values.referal};
     setSigning(true);    
     const route = process.env.REACT_APP_BACKEND + '/signup';
     axios.post(route, userDetails, {withCredentials: true}).then(res => {
@@ -174,6 +174,20 @@ const SignupPage = () => {
         style={{width:"fit-content"}}
       >
         <Input.Password />
+      </Form.Item>
+
+      <Form.Item
+        name="referal"
+        label="Referal :"
+        rules={[
+          {
+              pattern:  /^\w*$/,
+              message: 'Invalid Code',
+          },
+        ]}
+        hasFeedback
+      >
+        <Input />
       </Form.Item>
 
       <Form.Item {...tailFormItemLayout}>
