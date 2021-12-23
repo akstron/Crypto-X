@@ -3,7 +3,8 @@ const socketMap = new Map();
 const addSocketId = (userId, socketId) => {
     console.log('userId.. ', userId);
     console.log('socketId.. ', socketId);
-    if(!userId || !socketId)
+    if(!userId || !socketId) return;
+    
     socketMap.set(userId, socketId);
     console.log('socketId printing...', socketMap.get(userId))
 }
