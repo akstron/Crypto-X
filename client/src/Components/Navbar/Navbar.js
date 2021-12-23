@@ -4,7 +4,7 @@ import { Button,Menu,Typography,Avatar } from 'antd';
 import { Link } from "react-router-dom";
 import { HomeOutlined, ProfileOutlined,DollarOutlined,UserAddOutlined, 
         LoginOutlined,BulbOutlined,ShoppingOutlined,LogoutOutlined,
-        NotificationOutlined,UserOutlined,MenuOutlined,BankOutlined,
+        UserOutlined,MenuOutlined,BankOutlined,
         TeamOutlined} from '@ant-design/icons';
 import icon from '../../Images/main-logo.png'
 
