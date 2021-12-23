@@ -58,6 +58,8 @@ module.exports.Sell = async (req, res) => {
     const {price, quantity, coinType} = req.body;
     const { socketId } = req.session;
     addSocketId(user._id, socketId);
+    // console.log(req.session);
+    console.log('socketId in sell: ', socketId);
 
     try{
         const orderId = await createAndAddOrder(user._id, coinType, price, quantity, 'sell');
