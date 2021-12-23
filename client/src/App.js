@@ -10,7 +10,8 @@ import './App.css';
 import io from 'socket.io-client'
 
 const socket=io(process.env.REACT_APP_BACKEND,{
-    transports:['websocket','polling']
+    transports:['websocket','polling'],
+    upgrade: false
 });
 
 // ToDo:: 1. add isError attribute to User useState

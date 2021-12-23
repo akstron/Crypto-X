@@ -12,7 +12,12 @@ const path = require('path');
 const http = require('http');
 const socketio = require('socket.io');
 const server = http.createServer(app);
-const io = socketio(server);
+const io = require('socket.io')(server, { 
+      log: false
+    , "close timeout": 60
+    , "heartbeat timeout": 60
+    , "heartbeat interval": 20
+})
 
 const userAuthRouter = require('./routers/userAuthRouter');
 const userUtilityRouter = require('./routers/userControlsRouter');

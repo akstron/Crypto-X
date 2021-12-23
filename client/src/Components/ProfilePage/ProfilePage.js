@@ -1,6 +1,6 @@
 import React,{useContext} from 'react'
 import {Typography,Row,Col} from 'antd';
-import UserDetailsCard from './UserDetailsCard'
+import UserDetailsCard from './UserDetails/UserDetailsCard'
 import ManageNotification from './ManageNotification/ManageNotification'
 
 import ProfileIcon from '../../Images/profile-logo.png'

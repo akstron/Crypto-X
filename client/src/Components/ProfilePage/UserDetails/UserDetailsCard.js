@@ -1,8 +1,8 @@
 import React from 'react'
-import {Card,Avatar,Statistic,Row,Col,Typography} from 'antd';
+import {Card,Avatar,Row,Col,Typography} from 'antd';
 import { UserOutlined,CheckCircleTwoTone,QuestionCircleTwoTone} from '@ant-design/icons';
-import CardEntry from './CardEntry'
-import profileIcon from '../../Images/profileIcon.png'
+import CardEntry from '../CardEntry'
+import profileIcon from '../../../Images/profileIcon.png'
  
 const {Text} = Typography;
 
