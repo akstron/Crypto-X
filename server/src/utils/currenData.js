@@ -1,5 +1,5 @@
 const Binance = require('node-binance-api');
-const {notify} = require('./sendPushNotification')
+const notify = require('./sendPushNotification')
 
 const binance = new Binance().options({
     APIKEY: '<key>',
@@ -16,8 +16,7 @@ const currentData = (callback) => {
             symbol,
             price
         }     
-
-        // notify(symbol, price);
+        //notify(symbol, price);
         //console.log(response);  
 
         callback(response); 
