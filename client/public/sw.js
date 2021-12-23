@@ -18,7 +18,15 @@ this.addEventListener("install",(event)=>{
 })
 
 this.addEventListener("fetch",(event)=>{
+
     if(!navigator.onLine){
+        if(event.request.url === "http://localhost:3000/static/js/main.chunk.js"){
+            event.waitUntil(
+                this.registration.showNotification("Baniya-Trade",{
+                    body:"Looks like we just lost you. Please check your connection.",
+                })
+            )
+        }
         event.respondWith(
             caches.match(event.request).then((resp)=>{
                 if(resp){
