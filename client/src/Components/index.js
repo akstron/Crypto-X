@@ -14,4 +14,5 @@ export { default as OTPPage } from '../Components/OTPPage/OTPPage';
 export { default as PortfolioPage } from '../Components/Portfolio/PortfolioPage';
 export { default as BankOptions } from '../Components/BankOptions/BankOptions';
 export { default as AboutUsPage} from '../Components/AboutUs/AboutUsPage';
+export { default as OfflinePage} from '../Components/OfflinePage/OfflinePage';
 export { default as Test } from './Test/Test';

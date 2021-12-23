@@ -18,8 +18,8 @@ const WalletCard = () => {
         const coin={
             "coinType" : "BTC",
             "costPrice" : 10, 
-            "sellPrice" : 18,
-            "quantity" : 5
+            "sellPrice" : 10,
+            "quantity" : 3
         }
         axios.post(route, coin, {withCredentials: true}).then(res => {
             console.log(res);

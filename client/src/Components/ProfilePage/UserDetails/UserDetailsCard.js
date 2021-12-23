@@ -1,8 +1,10 @@
 import React from 'react'
-import {Card,Avatar,Statistic,Row,Col,Typography} from 'antd';
+import {Card,Avatar,Row,Col,Typography,Popover,Button} from 'antd';
 import { UserOutlined,CheckCircleTwoTone,QuestionCircleTwoTone} from '@ant-design/icons';
-import CardEntry from './CardEntry'
-import profileIcon from '../../Images/profileIcon.png'
+
+import KYCForm from './KYCForm'
+import CardEntry from '../CardEntry'
+import profileIcon from '../../../Images/profileIcon.png'
  
 const {Text} = Typography;
 
@@ -30,7 +32,16 @@ const UserDetailsCard = ({User}) => {
                     </Col>
                     <CardEntry title={'Name'} value={User.firstName+" "+User.lastName}/>
                     <CardEntry title={'Email Id'} value={User.email}/>
-                    <CardEntry title={(User.isVerified)?('Verified User'):('Unverified User')} value={(User.isVerified)?(<CheckCircleTwoTone twoToneColor="#52c41a" />):(<QuestionCircleTwoTone twoToneColor="red"/>)}/>
+                    <Popover content={<KYCForm/>} title={<strong>📝 Update KYC</strong>} trigger="hover">
+                        <Col xs={{span:24}} md={{span:12}} style={{width: "fit-content",margin:".2rem auto",textAlign:"center"}}>
+                            <Col xs={{span:24}} md={{span:12}}>
+                                <Text style={{color:"grey",margin:".2rem"}}>{(User.isVerified)?('Verified User'):('Unverified User')}</Text>
+                            </Col>
+                            <Text strong style={{margin:".2rem auto",fontSize:"medium",textAlign:"center"}}>
+                                {(User.isVerified)?(<CheckCircleTwoTone twoToneColor="#52c41a" />):(<QuestionCircleTwoTone twoToneColor="red"/>)}    
+                            </Text>
+                        </Col>
+                    </Popover>
                 </Row>
             </Card>
         </div>

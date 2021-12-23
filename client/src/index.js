@@ -2,10 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom/cjs/react-router-dom.min';
 import App from './App';
+import {OfflinePage} from './Components'
+import swDev from './ServiceWorker/swDev'
 import 'antd/dist/antd.css';
 
 ReactDOM.render(
-    <Router>        
-        <App style={{}}/>
+    <Router>
+        {(navigator.onLine)?(
+            <App/>
+        ):(
+            <OfflinePage/>
+        )}       
     </Router>
 ,document.getElementById('root'));
+swDev();
