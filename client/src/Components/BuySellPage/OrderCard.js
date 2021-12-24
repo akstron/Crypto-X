@@ -19,7 +19,7 @@ const OrderCard = ({order}) => {
 
         const socketOrdersConnect=()=>{
             socket.on('sendOrderNotification',(order)=>{
-                console.log(order);
+                console.log('order status... ', order);
             })
         }
         if(isComponentMounted){
