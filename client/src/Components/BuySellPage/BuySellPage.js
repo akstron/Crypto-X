@@ -1,14 +1,29 @@
-import { Typography,Steps, Button, message} from 'antd';
 import React,{useState,useEffect}from 'react'
+import { useLocation } from 'react-router-dom';
+
+import { Typography,Steps} from 'antd';
 import buyIcon from '../../Images/buy-logo.png'
 import CoinSummary from './CoinSummary'
 import CoinTable from './CoinTable';
 import OrderCard from './OrderCard';
+import {Loader} from '../../Components'
+
 import axios from 'axios';
 
 const {Title} =Typography
 
-const BuySellPage = () => {
+const BuySellPage = (props) => {
+  
+  const query = new URLSearchParams(useLocation().search);
+
+  const [parameters,setParameters]=useState({
+    selectedCoin:query.get("selectedCoin"),
+    orderId:query.get("orderId"),
+    orderType:query.get("orderType"),
+    coinPrice:query.get("coinPrice"),
+    coinQuantity:query.get("coinQuantity"),
+    completed:query.get("completed")
+  })
 
   const [current, setCurrent] = useState(0);
   const [coinsData,setCoinsData] = useState({data:undefined,isFetching:true});
@@ -17,10 +32,6 @@ const BuySellPage = () => {
 
   const next = () => {
     setCurrent(current + 1);
-  };
-
-  const prev = () => {
-    setCurrent(current - 1);
   };
 
   const { Step } = Steps;
@@ -36,13 +47,12 @@ const BuySellPage = () => {
     },
     {
       title: 'Order Details',
-      content: <OrderCard orderDetails={orderDetails}/>,
+      content: <OrderCard order={orderDetails}/>,
     },
   ];
 
   useEffect(()=>{
         let isComponentMounted = true;
-
         const getCoinsDetailsAPI=(count)=>{
             const options = {
                 method: 'GET',
@@ -63,12 +73,32 @@ const BuySellPage = () => {
             });
         }
         if(isComponentMounted) getCoinsDetailsAPI(100);
-
         return (() => {
             isComponentMounted = false;
         })
-
     },[]);
+
+    useEffect(()=>{
+      if(!coinsData.isFetching){
+        if(parameters.selectedCoin!==undefined){
+          const coin=coinsData.data.filter((coin)=>(coin.symbol===parameters.selectedCoin));
+          if(coin.length>0) setSelectedCoin(coin[0]);
+          if(parameters.orderId!==undefined){
+            setOrderDetails({
+              orderId:parameters.orderId,
+              coinType:parameters.selectedCoin,
+              quantity:parameters.coinQuantity,
+              price:parameters.coinPrice,
+              orderType:parameters.orderType,
+              completed:parameters.completed,
+            })
+            setCurrent(2);
+          }else {
+            setCurrent(1);
+          }
+        }
+      }
+    },[parameters,coinsData])
 
   return (
     <>
@@ -80,33 +110,16 @@ const BuySellPage = () => {
         ))}
       </Steps>
       <hr/>
-      
-      <div className="steps-content">{steps[current].content}</div>
-      {/* <div className="steps-action" style={{margin:".5rem auto",textAlign: "center",padding:".5rem"}}>
-        {current < steps.length - 1 && (
-          (current==0 && !selectedCoin)?(
-            <>
-                <Button type="danger" onClick={() => {
-                  message.error('Select a coin first !',1);
-                }}>Next</Button>
-            </>
-          ):(
-            <Button type="primary" onClick={() => next()}>
-              Next
-            </Button>
-          )
-        )}
-        {current === steps.length - 1 && (
-          <Button type="primary" onClick={() => message.success('Processing complete!')}>
-            Done
-          </Button>
-        )}
-        {current > 0 && (
-          <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
-            Previous
-          </Button>
-        )}
-      </div> */}
+      {(coinsData.isFetching)?(
+        <>
+          <Loader/>
+        </>
+      ):(
+        <>
+
+          <div className="steps-content">{steps[current].content}</div>
+        </>
+      )}
     </>
   );
 };

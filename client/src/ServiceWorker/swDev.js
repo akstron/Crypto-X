@@ -21,7 +21,6 @@ export default async function swDev(){
 
     let  swUrl =`${process.env.PUBLIC_URL}/sw.js`
     let sw = await navigator.serviceWorker.register(swUrl).then((response)=>{
-        console.log("Respone in swDev.js",response)
         return response.pushManager.getSubscription().then(function(subscription){
             return response.pushManager.subscribe({
                 userVisibleOnly:true,
@@ -29,6 +28,4 @@ export default async function swDev(){
             })
         })
     })
-
-    console.log("SW:",sw);
 }
