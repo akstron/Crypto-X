@@ -4,6 +4,6 @@ const {subscribe} = require('../utils/pushNotificationSubscription')
 const {storeNotification} = require('../utils/storePushNotification')
 const router = express.Router();
 
-router.post('/subscribe', IsAuthenticated, IsVerified, subscribe);
+router.post('/subscribe', subscribe);
 router.post('/storeNotification', IsAuthenticated, IsVerified, storeNotification);
 module.exports = router;

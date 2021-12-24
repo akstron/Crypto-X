@@ -25,7 +25,7 @@ const Navbar = () => {
         await axios.post(userRoute, {},{withCredentials: true}).then(res => {
             console.log(res);
             console.log("Log Out Clicked !");
-            window.location.reload(false);
+            // window.location.reload(false);
         }).catch(error => {
             console.log(error);
         })
