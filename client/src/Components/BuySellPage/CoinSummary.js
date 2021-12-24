@@ -42,7 +42,7 @@ const CoinSummary = ({coin,setOrderDetails,next}) => {
             quantity:orderDetails.quantity,
         }
         axios.post(orderRoute,order, {withCredentials: true}).then(res => {
-            console.log(res);
+            //console.log(res);
             message.success("Order Placed !");
             setOrdering(false);
             const orderId=(res.data.orderId);
@@ -65,7 +65,7 @@ const CoinSummary = ({coin,setOrderDetails,next}) => {
             price:values.price,
             category:values.category,
         };
-        console.log(orderDetails);
+        //console.log(orderDetails);
         placeOrder(orderDetails);
     }
 

@@ -1,11 +1,13 @@
 const express = require("express");
 const webpush = require("web-push");
+const subscribeMap = require('../store/subscriptionMap');
 
 const app = express();
 
 const publicVapidKey = process.env.SERVICE_WORKER_PUBLIC_KEY;
 const privateVapidKey = process.env.SERVICE_WORKER_PRIVATE_KEY;
 
+console.log(webpush)
 webpush.setVapidDetails(
   "mailto:test@test.com",
   publicVapidKey,
@@ -13,7 +15,8 @@ webpush.setVapidDetails(
 );
 
 // Subscribe Route
-const subscribe = (req, res) => {
+const subscribe = async (req, res) => {
+
   // Get pushSubscription object
   const subscription = req.body;
   console.log(subscribption)
