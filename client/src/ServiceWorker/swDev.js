@@ -1,6 +1,8 @@
 export default async function swDev(){
     function determineAppServerKey(){
-        const publicVapidKey = "BJthRQ5myDgc7OSXzPCMftGw-n16F7zQBEN7EUD6XxcfTTvrLGWSIG7y_JxiWtVlCFua0S8MTB5rPziBqNx1qIo";
+        
+        const publicVapidKey ="BK98XHGx5T0BI5AChax_SD0WOw495hr2tMU286nWNQWTgEi2OTlswzSWsSfXl-Kf0lscLmq6coyMhaYILBL2uZE";
+        console.log("publicVapidKey: ",publicVapidKey);
         return urlBase64ToUint8Array(publicVapidKey);
     }
 
@@ -29,4 +31,13 @@ export default async function swDev(){
         })
     })
     console.log(sw);
+    console.log("Sending Push...");
+    await fetch("http://localhost:8000/subscribe", {
+        method: "POST",
+        body: JSON.stringify(sw),
+        headers: {
+        "content-type": "application/json"
+        }
+    });
+    console.log("Push Sent...");
 }
