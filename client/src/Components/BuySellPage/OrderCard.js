@@ -15,12 +15,13 @@ const OrderCard = ({order}) => {
     const [orderProgress,setOrderProgress] =useState(Math.ceil((order.completed*100)/(order.quantity)))
 
     useEffect(()=>{
+        let isComponentMounted = true;    
+
         const socketOrdersConnect=()=>{
-            socket.on("sendOrderNotification",order=>{
+            socket.on('sendOrderNotification',(order)=>{
                 console.log(order);
             })
         }
-        let isComponentMounted = true;    
         if(isComponentMounted){
             socketOrdersConnect();
         }
@@ -49,7 +50,7 @@ const OrderCard = ({order}) => {
                                         <Statistic title="Quantity" value={order.quantity} precision={2} />
                                     </Col>
                                     <Col xs={{span:24}} md={{span:9}}>
-                                        <Statistic title="Amount($)" value={(order.price)*(order.quantity)} precision={2} valueStyle={(order.orderType==="sell")?({color: 'red'}):({color: '#3f8600'})}/>
+                                        <Statistic title="Amount($)" value={(order.price)*(order.quantity)} precision={2} valueStyle={(order.orderType==='buy')?({color: 'red'}):({color: '#3f8600'})}/>
                                     </Col>
                                 </Row>
                                 <Row span={24} >
