@@ -68,6 +68,7 @@ const App = () => {
   return (
         <UserContext.Provider value={User}>
             <AppSocketContext.Provider value={socket}>
+                {console.log(process.env.REACT_APP_BACKEND)}
                 <BrowserRouter basename='/'>
                 {(User.isFetching)?(
                     <Loader/>
