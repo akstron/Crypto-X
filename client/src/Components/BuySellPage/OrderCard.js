@@ -1,23 +1,33 @@
-import React,{useEffect,useState} from 'react'
+import React,{useEffect,useState,useContext} from 'react'
 import { Result, Button,Card ,Row,Col,Statistic,Typography,Progress} from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
 import { Link } from "react-router-dom";
+
+import { AppSocketContext } from '../../App';
+
 
 const {Title,Text} =Typography
 
 const OrderCard = ({order}) => {
 
+    const socket = useContext(AppSocketContext);
+
     const [orderProgress,setOrderProgress] =useState(Math.ceil((order.completed*100)/(order.quantity)))
 
     useEffect(()=>{
+        const socketOrdersConnect=()=>{
+            socket.on("sendOrderNotification",order=>{
+                console.log(order);
+            })
+        }
         let isComponentMounted = true;    
         if(isComponentMounted){
-            
+            socketOrdersConnect();
         }
         return () => {
             isComponentMounted = false;
         }
-    },[]);
+    },[socket]);
 
     return (
         <div>
