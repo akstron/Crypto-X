@@ -6,6 +6,7 @@ import {Navbar,HomePage,MarketPage,NewsPage,SignupPage,LoginPage,CryptoDetails,
             BuySellPage, Loader,Test,ProfilePage,OTPPage,BankOptions ,NotFound,
             PortfolioPage,AboutUsPage} from './Components';
 import './App.css';
+import swRegister from './ServiceWorker/swRegister'
 
 import io from 'socket.io-client'
 
@@ -41,6 +42,7 @@ const App = () => {
                     data:user,
                     isFetching:false
                 });
+                swRegister();
             }
         }).catch(error => {
             console.log(error);

@@ -193,7 +193,7 @@ const sendOrderNotification = async (order) => {
     console.log('socketId..  ', socketId);
     
     /* If no socket is found, function would throw error */
-    io.to(socketId).emit('sendOrderNotification', 'hiiiiiiiiiii');
+    io.to(socketId).emit('sendOrderNotification', order);
     console.log(io);
 }
 
