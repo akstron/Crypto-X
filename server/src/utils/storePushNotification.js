@@ -12,5 +12,5 @@ module.exports.storeNotification = (req, res) => {
     }
     //console.log('storeNotification userId .. ', data);
     addNotification(data);
-    res.status(200);
+    return res.status(200).json({});
 }
