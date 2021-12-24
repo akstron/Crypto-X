@@ -60,7 +60,6 @@ const OrderCard = ({order}) => {
                         <Link to='/profile'><Button type="primary">Go to Orders</Button></Link>
                 </Result>
             </Card>
-            
         </div>
     )
 }

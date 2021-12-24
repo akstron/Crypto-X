@@ -80,10 +80,10 @@ const BuySellPage = (props) => {
 
     useEffect(()=>{
       if(!coinsData.isFetching){
-        if(parameters.selectedCoin!==undefined){
+        if(parameters.selectedCoin!==null){
           const coin=coinsData.data.filter((coin)=>(coin.symbol===parameters.selectedCoin));
           if(coin.length>0) setSelectedCoin(coin[0]);
-          if(parameters.orderId!==undefined){
+          if(parameters.orderId!==null){
             setOrderDetails({
               orderId:parameters.orderId,
               coinType:parameters.selectedCoin,
@@ -102,6 +102,7 @@ const BuySellPage = (props) => {
 
   return (
     <>
+      {console.log(parameters)}
       <Title level={3} style={{margin:".5rem",padding:".5rem"}}><img className='login-image' alt='img' src={buyIcon} height={'35px'} /> Buy / Sell  Coins </Title>
       <hr/>
       <Steps current={current} style={{margin:".5rem"}}>
@@ -116,7 +117,6 @@ const BuySellPage = (props) => {
         </>
       ):(
         <>
-
           <div className="steps-content">{steps[current].content}</div>
         </>
       )}
