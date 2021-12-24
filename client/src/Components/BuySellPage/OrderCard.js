@@ -1,23 +1,34 @@
-import React,{useEffect,useState} from 'react'
+import React,{useEffect,useState,useContext} from 'react'
 import { Result, Button,Card ,Row,Col,Statistic,Typography,Progress} from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
 import { Link } from "react-router-dom";
+
+import { AppSocketContext } from '../../App';
+
 
 const {Title,Text} =Typography
 
 const OrderCard = ({order}) => {
 
+    const socket = useContext(AppSocketContext);
+
     const [orderProgress,setOrderProgress] =useState(Math.ceil((order.completed*100)/(order.quantity)))
 
     useEffect(()=>{
         let isComponentMounted = true;    
+
+        const socketOrdersConnect=()=>{
+            socket.on('sendOrderNotification',(order)=>{
+                console.log('order status... ', order);
+            })
+        }
         if(isComponentMounted){
-            
+            socketOrdersConnect();
         }
         return () => {
             isComponentMounted = false;
         }
-    },[]);
+    },[socket]);
 
     return (
         <div>
@@ -39,7 +50,7 @@ const OrderCard = ({order}) => {
                                         <Statistic title="Quantity" value={order.quantity} precision={2} />
                                     </Col>
                                     <Col xs={{span:24}} md={{span:9}}>
-                                        <Statistic title="Amount($)" value={(order.price)*(order.quantity)} precision={2} valueStyle={(order.orderType==="sell")?({color: 'red'}):({color: '#3f8600'})}/>
+                                        <Statistic title="Amount($)" value={(order.price)*(order.quantity)} precision={2} valueStyle={(order.orderType==='buy')?({color: 'red'}):({color: '#3f8600'})}/>
                                     </Col>
                                 </Row>
                                 <Row span={24} >
@@ -60,7 +71,6 @@ const OrderCard = ({order}) => {
                         <Link to='/profile'><Button type="primary">Go to Orders</Button></Link>
                 </Result>
             </Card>
-            
         </div>
     )
 }

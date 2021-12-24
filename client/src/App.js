@@ -22,9 +22,9 @@ const socketConnect=()=>{
     // socket.on('currentData',market=>{
     //     console.log(market);
     // });
-    socket.on("sendOrderNotification",order=>{
-        console.log(order);
-    })
+    // socket.on("sendOrderNotification",order=>{
+    //     console.log(order);
+    // })
 }
 
 const App = () => {

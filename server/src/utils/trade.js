@@ -190,9 +190,10 @@ const sendOrderNotification = async (order) => {
     const io = require('../server');
     console.log('io', io);
     const socketId = getSocketId(order.userId);
+    console.log('socketId..  ', socketId);
     
     /* If no socket is found, function would throw error */
-    io.to(socketId).emit('sendOrderNotification', order);
+    io.to(socketId).emit('sendOrderNotification', 'hiiiiiiiiiii');
     console.log(io);
 }
 

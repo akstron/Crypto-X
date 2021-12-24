@@ -5,7 +5,7 @@ import moment from 'moment';
 import LineChart from '../Utils/LineChart'
 import axios from 'axios';
 
-const CoinSummary = ({coin}) => {
+const CoinSummary = ({coin,setOrderDetails,next}) => {
 
     const [ordering,setOrdering]=useState(false);
 
@@ -42,11 +42,15 @@ const CoinSummary = ({coin}) => {
             quantity:orderDetails.quantity,
         }
         axios.post(orderRoute,order, {withCredentials: true}).then(res => {
-            console.log(res);
+            //console.log(res);
             message.success("Order Placed !");
             setOrdering(false);
             const orderId=(res.data.orderId);
-            //Redirect -> Step 3
+            setOrderDetails({
+                ...orderDetails,
+                orderId:orderId,
+            })
+            next();
         }).catch(error => {
             console.log(error.response.data.error);
             message.error(error.response.data.error)
@@ -61,7 +65,7 @@ const CoinSummary = ({coin}) => {
             price:values.price,
             category:values.category,
         };
-        console.log(orderDetails);
+        //console.log(orderDetails);
         placeOrder(orderDetails);
     }
 
