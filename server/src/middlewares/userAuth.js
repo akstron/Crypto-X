@@ -205,7 +205,7 @@ module.exports.VerifyUser = async (req, res) => {
 module.exports.LogIn = (req, res, next) => {
     passport.authenticate('local', (error, user, info) => {
 
-        console.log('session below');
+        console.log('session below\n');
         console.log(req.session);
    
 
@@ -230,6 +230,8 @@ module.exports.LogIn = (req, res, next) => {
                     error
                }); 
             }
+
+            console.log(req.session);
 
           return res.status(202).json({
                 "user": req.user,
