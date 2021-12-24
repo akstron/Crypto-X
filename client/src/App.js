@@ -65,69 +65,69 @@ const App = () => {
 
   return (
         <UserContext.Provider value={User}>
-        <AppSocketContext.Provider value={socket}>
-            <BrowserRouter basename='/'>
-            {(User.isFetching)?(
-                <Loader/>
-            ):(
-                <div className='app' style={{backgroundColor:"rgb(240,242,245)"}}>       
-                    <div className="navbar">
-                        <Navbar/>
+            <AppSocketContext.Provider value={socket}>
+                <BrowserRouter basename='/'>
+                {(User.isFetching)?(
+                    <Loader/>
+                ):(
+                    <div className='app' style={{backgroundColor:"rgb(240,242,245)"}}>       
+                        <div className="navbar">
+                            <Navbar/>
+                        </div>
+                        <div className="main" >
+                            <Layout>
+                                <div className="routes">
+                                        <Switch>
+                                            <Route exact path="/">
+                                                <HomePage/>
+                                            </Route>
+                                            <Route path="/Market">
+                                                <MarketPage/>
+                                            </Route>
+                                            <Route path="/crypto/:coinId">
+                                                <CryptoDetails />
+                                            </Route>                                
+                                            <Route path="/News">
+                                                <NewsPage/>
+                                            </Route>
+                                            <Route path="/Signup">
+                                                {(!User.data)?(<SignupPage/>):(<Redirect to='/'/>)}
+                                            </Route>
+                                            <Route path="/Login">
+                                                {(!User.data)?(<LoginPage setUser={setUser}/>):(<Redirect to='/'/>)}
+                                            </Route>
+                                            <Route path="/BuySell">
+                                                {(User.data)?(<BuySellPage/>):(<Redirect to='/Login'/>)}
+                                            </Route>
+                                            <Route path="/Profile">
+                                                {(User.data)?(<ProfilePage/>):(<Redirect to='/Login'/>)}
+                                            </Route>
+                                            <Route path="/Portfolio">
+                                                {(User.data)?(<PortfolioPage/>):(<Redirect to='/Login'/>)}
+                                            </Route>
+                                            <Route path="/BankOptions">
+                                                {(User.data)?(<BankOptions/>):(<Redirect to='/Login'/>)}
+                                            </Route>
+                                            <Route path="/OTP/:emailId">
+                                                <OTPPage/>
+                                            </Route>
+                                            <Route path="/AboutUs">
+                                                <AboutUsPage/>
+                                            </Route>
+                                            <Route path="/test">
+                                                <Test/>
+                                            </Route>
+                                            <Route>
+                                                <NotFound/>
+                                            </Route>
+                                        </Switch>
+                                </div>
+                            </Layout>
+                        </div>
                     </div>
-                    <div className="main" >
-                        <Layout>
-                            <div className="routes">
-                                    <Switch>
-                                        <Route exact path="/">
-                                            <HomePage/>
-                                        </Route>
-                                        <Route path="/Market">
-                                            <MarketPage/>
-                                        </Route>
-                                        <Route path="/crypto/:coinId">
-                                            <CryptoDetails />
-                                        </Route>                                
-                                        <Route path="/News">
-                                            <NewsPage/>
-                                        </Route>
-                                        <Route path="/Signup">
-                                            {(!User.data)?(<SignupPage/>):(<Redirect to='/'/>)}
-                                        </Route>
-                                        <Route path="/Login">
-                                            {(!User.data)?(<LoginPage setUser={setUser}/>):(<Redirect to='/'/>)}
-                                        </Route>
-                                        <Route path="/BuySell">
-                                            {(User.data)?(<BuySellPage/>):(<Redirect to='/Login'/>)}
-                                        </Route>
-                                        <Route path="/Profile">
-                                            {(User.data)?(<ProfilePage/>):(<Redirect to='/Login'/>)}
-                                        </Route>
-                                        <Route path="/Portfolio">
-                                            {(User.data)?(<PortfolioPage/>):(<Redirect to='/Login'/>)}
-                                        </Route>
-                                        <Route path="/BankOptions">
-                                            {(User.data)?(<BankOptions/>):(<Redirect to='/Login'/>)}
-                                        </Route>
-                                        <Route path="/OTP/:emailId">
-                                            <OTPPage/>
-                                        </Route>
-                                        <Route path="/AboutUs">
-                                            <AboutUsPage/>
-                                        </Route>
-                                        <Route path="/test">
-                                            <Test/>
-                                        </Route>
-                                        <Route>
-                                            <NotFound/>
-                                        </Route>
-                                    </Switch>
-                            </div>
-                        </Layout>
-                    </div>
-                </div>
-            )}
-            </BrowserRouter>
-        </AppSocketContext.Provider>
+                )}
+                </BrowserRouter>
+            </AppSocketContext.Provider>
         </UserContext.Provider>
 
     )

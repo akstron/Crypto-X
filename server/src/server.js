@@ -31,6 +31,7 @@ const currentPrice = require('./utils/priceStats');
 
 const paymentGatewayRouter = require('./routers/paymentGateWayRouter');
 const prevDayData = require('./utils/prevDayData');
+const pushNotificationRouter = require('./routers/pushNotificationRouter');
 
 const publicDirectoryPath = path.join(__dirname, './public');
 
@@ -90,6 +91,7 @@ app.use(express.static(publicDirectoryPath));
 
 app.use(fetchCryptoDataRouter);
 app.use(paymentGatewayRouter);
+app.use(pushNotificationRouter);
 
 // when any client gets connected with server
 io.on('connection', (socket) =>{
