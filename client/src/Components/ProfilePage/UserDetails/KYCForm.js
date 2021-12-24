@@ -1,5 +1,6 @@
 import React,{useState} from 'react';
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button,message} from 'antd';
+import axios from 'axios'
 
 const KYCForm = () => {
 
@@ -9,7 +10,15 @@ const KYCForm = () => {
         console.log('Success:', values);
         setUpdating(true);
         //Call to server
-        // setUpdating(false);
+        const notificationRoute = process.env.REACT_APP_BACKEND +'/AddPancard';
+        axios.post(notificationRoute,{pancard:values.panNo}, {withCredentials: true}).then(res => {
+            message.success("Notification added !");
+            setUpdating(false);
+        }).catch(error => {
+            console.log(error);
+            message.error("Something went wrong !");
+            setUpdating(false);
+        })
     };
 
     const onFinishFailed = (errorInfo) => {

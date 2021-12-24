@@ -23,7 +23,7 @@ const isEmailAvailable = async (email) => {
 /* Sending OTP */
 const sendVerificationCode = async (email, code) => {
     const transport = nodemailer.createTransport({
-        service: 'gmail',
+        service: 'yahoo',
         auth: {
             user: process.env.EMAIL,
             pass: process.env.EMAIL_PASSWORD

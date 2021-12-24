@@ -20,6 +20,7 @@ const OrderCard = ({order}) => {
         const socketOrdersConnect=()=>{
             socket.on('sendOrderNotification',(order)=>{
                 console.log('order status... ', order);
+                setOrderProgress(Math.ceil((order.completed*100)/(order.quantity)));
             })
         }
         if(isComponentMounted){
