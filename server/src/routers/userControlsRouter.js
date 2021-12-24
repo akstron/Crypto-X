@@ -5,7 +5,7 @@
 const express = require('express');
 const router = express.Router();
 const {body} = require('express-validator');
-const { EditUser } = require('../middlewares/userControls'); 
+const { EditUser, AddPancard } = require('../middlewares/userControls'); 
 const { IsAuthenticated, IsVerified } = require('../middlewares/userAuth');
 const { validationHandler } = require('../middlewares/validationHandler');
 
@@ -17,5 +17,7 @@ router.post('/edit', IsAuthenticated, IsVerified,
     .withMessage('Password should contain letter, number and special character'),
     validationHandler,
 EditUser);
+
+router.post('/addPancard', IsAuthenticated, IsVerified, AddPancard);
 
 module.exports = router;

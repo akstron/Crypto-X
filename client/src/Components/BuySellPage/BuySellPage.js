@@ -6,7 +6,6 @@ import buyIcon from '../../Images/buy-logo.png'
 import CoinSummary from './CoinSummary'
 import CoinTable from './CoinTable';
 import OrderCard from './OrderCard';
-import {Loader} from '../../Components'
 
 import axios from 'axios';
 
@@ -79,30 +78,27 @@ const BuySellPage = (props) => {
     },[]);
 
     useEffect(()=>{
-      if(!coinsData.isFetching){
+      if(parameters.orderId!==null){
+        setOrderDetails({
+          orderId:parameters.orderId,
+          coinType:parameters.selectedCoin,
+          quantity:parameters.coinQuantity,
+          price:parameters.coinPrice,
+          orderType:parameters.orderType,
+          completed:parameters.completed,
+        })
+        setCurrent(2);
+      }else if(!coinsData.isFetching){
         if(parameters.selectedCoin!==null){
           const coin=coinsData.data.filter((coin)=>(coin.symbol===parameters.selectedCoin));
           if(coin.length>0) setSelectedCoin(coin[0]);
-          if(parameters.orderId!==null){
-            setOrderDetails({
-              orderId:parameters.orderId,
-              coinType:parameters.selectedCoin,
-              quantity:parameters.coinQuantity,
-              price:parameters.coinPrice,
-              orderType:parameters.orderType,
-              completed:parameters.completed,
-            })
-            setCurrent(2);
-          }else {
             setCurrent(1);
           }
         }
-      }
     },[parameters,coinsData])
 
   return (
     <>
-      {console.log(parameters)}
       <Title level={3} style={{margin:".5rem",padding:".5rem"}}><img className='login-image' alt='img' src={buyIcon} height={'35px'} /> Buy / Sell  Coins </Title>
       <hr/>
       <Steps current={current} style={{margin:".5rem"}}>
@@ -111,15 +107,7 @@ const BuySellPage = (props) => {
         ))}
       </Steps>
       <hr/>
-      {(coinsData.isFetching)?(
-        <>
-          <Loader/>
-        </>
-      ):(
-        <>
-          <div className="steps-content">{steps[current].content}</div>
-        </>
-      )}
+      <div className="steps-content">{steps[current].content}</div>
     </>
   );
 };
