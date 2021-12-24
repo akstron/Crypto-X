@@ -13,6 +13,36 @@ const checkEditPossible = (changes) => {
     'googleId' in changes));
 }
 
+module.exports.AddPancard = async(req, res) => {
+    const { pancard } = req.body;
+    const { user } = req;
+    
+    try{
+        if(!pancard){
+            return res.status(400).json({
+                status: false,
+                error: 'Provide pancard'
+            });
+        } 
+
+        user.isEligible = true;
+        user.pancard = pancard;
+        await user.save();
+    
+        return res.json({
+            status: true,
+            message: 'Pancard added successfully!'
+        });
+    }
+    catch(e){
+        console.log(e);
+        return res.status(500).json({
+            status: false,
+            error: 'Internal server error'
+        });
+    }
+}
+
 module.exports.EditUser = async (req, res) => {
     
     try{
