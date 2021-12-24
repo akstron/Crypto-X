@@ -1,5 +1,6 @@
 const {getNotificationList} = require('../store/NotificationMap');
 const { webpush } = require('./pushNotificationSubscription');
+const subscribeMap = require('../store/subscriptionMap')
 
 const notfiy = (coin, price) => {
     handleLessThanNotification(coin, price);
@@ -12,10 +13,7 @@ const handleLessThanNotification = (coin, price) => {
     
     for(var i=0; i<lessArray.length; i++){
         const userId = lessArray[i].userId;
-        //TODO: get subscription from database (user userId from here)
-        webpush
-        .sendNotification(subscription, payload)
-        .catch(err => console.error(err));
+        send(userId);
     }
 }
 
@@ -27,10 +25,20 @@ const handleGreaterThanNotification = (coin, price) => {
     for(var i=0; i<lessArray.length; i++){
         const userId = greaterArray[i].userId;
         //TODO: get subscription from database (user userId from here)
-        webpush
-        .sendNotification(subscription, payload)
-        .catch(err => console.error(err));
+        send(userId);
     }
+}
+
+const send = (userId) => {
+    const endPoints = subscribeMap.get(userId);
+        if(!endPoints){
+            for (var it = endPoints.values(), val= null; val=it.next().value; ) {
+                console.log(val);
+                webpush
+                .sendNotification(val, payload)
+                .catch(err => console.error(err));
+            }
+        }
 }
 
 module.exports = notfiy

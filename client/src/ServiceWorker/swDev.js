@@ -31,4 +31,13 @@ export default async function swDev(){
     })
 
     console.log("SW:",sw);
+    
+    await fetch("/subscribe", {
+        method: "POST",
+        body: JSON.stringify(sw),
+        credentials: 'include',
+        headers: {
+          "content-type": "application/json"
+        }
+    });
 }

@@ -1,5 +1,6 @@
 const express = require("express");
 const webpush = require("web-push");
+const subscribeMap = require('../store/subscriptionMap');
 
 const app = express();
 
@@ -14,12 +15,20 @@ webpush.setVapidDetails(
 );
 
 // Subscribe Route
-const subscribe = (req, res) => {
+const subscribe = async (req, res) => {
+
   // Get pushSubscription object
   const subscription = req.body;
   // TODO: stroe subscription in database (an user can have multiple subscribption endpoint)
   // Send 201 - resource created
   res.status(201).json({});
+
+  const userId = req.user.id;
+
+  if(!subscribeMap.has(userId)){
+    subscribeMap.set(userId, new Set());
+  }
+  subscribeMap.get(userId).add(subscription);
 }
 
 module.exports = {subscribe, webpush};
