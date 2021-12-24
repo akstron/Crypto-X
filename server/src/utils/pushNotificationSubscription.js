@@ -7,7 +7,7 @@ const app = express();
 const publicVapidKey = process.env.SERVICE_WORKER_PUBLIC_KEY;
 const privateVapidKey = process.env.SERVICE_WORKER_PRIVATE_KEY;
 
-console.log(webpush)
+//console.log(webpush)
 
 webpush.setVapidDetails(
   "mailto:test@test.com",
