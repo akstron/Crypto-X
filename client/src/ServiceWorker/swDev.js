@@ -38,6 +38,6 @@ export default async function swDev(){
         headers: {
         "content-type": "application/json"
         }
-    });
+    }).then((res)=>console.log(res));
     console.log("Push Sent...");
 }

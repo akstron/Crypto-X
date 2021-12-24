@@ -1,4 +1,5 @@
 let cacheData="appV1";
+
 this.addEventListener("install",(event)=>{
     event.waitUntil(
         caches.open(cacheData).then((cache)=>{
@@ -36,3 +37,12 @@ this.addEventListener("fetch",(event)=>{
         )
     }
 })
+
+this.addEventListener("push", e => {
+  const data = e.data.json();
+  console.log("Push Recieved...");
+  this.registration.showNotification(data.title, {
+    body: "Notified by Traversy Media!",
+    icon: "http://image.ibb.co/frYOFd/tmlogo.png"
+  });
+});
