@@ -18,10 +18,6 @@ const Navbar = () => {
     const [screenSize, setScreenSize] = useState(undefined);
     
     const User = useContext(UserContext);
-
-    const refreshPage=()=>{
-        window.location.reload(false);
-    }
  
     const logOut=async ()=>{
         console.log("Loging Out")
