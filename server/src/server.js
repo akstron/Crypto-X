@@ -13,13 +13,13 @@ const path = require('path');
 const http = require('http');
 const socketio = require('socket.io');
 const server = http.createServer(app);
-// const io = require('socket.io')(server, { 
-//       log: false
-//     , "close timeout": 60
-//     , "heartbeat timeout": 60
-//     , "heartbeat interval": 20
-// })
-const io = require('socket.io')(server);
+const io = require('socket.io')(server, { 
+      log: false
+    , "close timeout": 60
+    , "heartbeat timeout": 60
+    , "heartbeat interval": 20
+})
+// const io = require('socket.io')(server);
 
 const userAuthRouter = require('./routers/userAuthRouter');
 const userUtilityRouter = require('./routers/userControlsRouter');
@@ -109,6 +109,7 @@ io.on('connection', (socket) =>{
   console.log(socket.id);
 
   const userId = socket.handshake.query.userId;
+  console.log(typeof userId);
   console.log('userId... ', userId);
 
   if(userId){
@@ -121,7 +122,7 @@ io.on('connection', (socket) =>{
   // socket.handshake.session.socketId = socket.id;
   // socket.handshake.session.save();
 
-  console.log('While connecting..', socket.handshake.session);
+  // console.log('While connecting..', socket.handshake.session);
 
   // emitting current data of all coins
   currentData((market)=>{
@@ -139,10 +140,10 @@ io.on('connection', (socket) =>{
     // socket.request.session.save();
 
     
-    socket.handshake.session.socketId = null;
-    socket.handshake.session.save();
+    // socket.handshake.session.socketId = null;
+    // socket.handshake.session.save();
     
-    console.log('While disconnecting..', socket.handshake.session);
+    // console.log('While disconnecting..', socket.handshake.session);
 
     socket.disconnect();
     console.log('Disconnected...');
