@@ -18,10 +18,6 @@ const Navbar = () => {
     const [screenSize, setScreenSize] = useState(undefined);
     
     const User = useContext(UserContext);
-
-    const refreshPage=()=>{
-        window.location.reload(false);
-    }
  
     const logOut=async ()=>{
         console.log("Loging Out")
@@ -88,7 +84,7 @@ const Navbar = () => {
                                 <Menu.Item key="6" icon={<BankOutlined />}>
                                     <Link to='/BankOptions'>Payment Options</Link>
                                 </Menu.Item>
-                                <Menu.Item key="7" icon={<ShoppingOutlined />} onClick={refreshPage}>
+                                <Menu.Item key="7" icon={<ShoppingOutlined />}>
                                     <Link to='/BuySell'>BuySell</Link>
                                 </Menu.Item>
                             </SubMenu>
