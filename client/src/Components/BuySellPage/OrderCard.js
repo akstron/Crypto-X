@@ -28,6 +28,7 @@ const OrderCard = ({order}) => {
         }
         return () => {
             isComponentMounted = false;
+            socket.off('sendOrderNotification');
         }
     },[socket]);
 

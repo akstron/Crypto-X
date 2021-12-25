@@ -10,7 +10,7 @@ import swRegister from './ServiceWorker/swRegister'
 
 import io from 'socket.io-client'
 
-const socket=io(process.env.REACT_APP_BACKEND,{
+var socket=io(process.env.REACT_APP_BACKEND,{
     transports:['websocket','polling'],
     upgrade: false
 });
@@ -19,21 +19,12 @@ const socket=io(process.env.REACT_APP_BACKEND,{
 export const UserContext = createContext();
 export const AppSocketContext=createContext();
 
-const socketConnect=()=>{
-    // socket.on('currentData',market=>{
-    //     console.log(market);
-    // });
-    // socket.on("sendOrderNotification",order=>{
-    //     console.log(order);
-    // })
-}
-
-const socketConnectUtil = (user)=> {
-    const socket=io(process.env.REACT_APP_BACKEND,{
+const socketConnect= (user)=> {
+    socket=io(process.env.REACT_APP_BACKEND,{
         transports:['websocket','polling'],
         upgrade: false,
         query: {
-            userId: user.id
+            userId: user?.id
         }
     });
 }
@@ -53,6 +44,7 @@ const App = () => {
                     isFetching:false
                 });
                 swRegister();
+                socketConnect(user);
             }
         }).catch(error => {
             console.log(error);
@@ -60,7 +52,9 @@ const App = () => {
                 data:undefined,
                 isFetching:false
             });
+            socketConnect(undefined);
         })
+
     }
 
     useEffect(()=>{
