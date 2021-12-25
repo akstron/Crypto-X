@@ -28,6 +28,16 @@ const socketConnect=()=>{
     // })
 }
 
+const socketConnectUtil = (user)=> {
+    const socket=io(process.env.REACT_APP_BACKEND,{
+        transports:['websocket','polling'],
+        upgrade: false,
+        query: {
+            userId: user.id
+        }
+    });
+}
+
 const App = () => {
 
     const [User,setUser]=useState({data:undefined,isFetching:true});
