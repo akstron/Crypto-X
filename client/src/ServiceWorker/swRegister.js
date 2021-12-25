@@ -13,7 +13,7 @@ export default async function swRegister(){
     
     console.log(sw);
     console.log("Posting Subscribe...");
-    await fetch("http://localhost:8000/subscribe", {
+    await fetch(process.env.REACT_APP_BACKEND+"/subscribe", {
         method: "POST",
         body: JSON.stringify(sw),
         credentials: 'include',

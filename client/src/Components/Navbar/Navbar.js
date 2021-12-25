@@ -25,7 +25,7 @@ const Navbar = () => {
         await axios.post(userRoute, {},{withCredentials: true}).then(res => {
             console.log(res);
             console.log("Log Out Clicked !");
-            // window.location.reload(false);
+            window.location.reload(false);
         }).catch(error => {
             console.log(error);
         })
@@ -56,7 +56,9 @@ const Navbar = () => {
                 <Typography.Title level={3} className="logo">
                     <Link to='/'>Baniya-Trade</Link>
                 </Typography.Title>
-                <Button className="menu-control-container" onClick={() => setActiveMenu(!activeMenu)}><MenuOutlined /></Button>
+                <Button className="menu-control-container" onClick={() => setActiveMenu(!activeMenu)} onBlur={() => setActiveMenu(!activeMenu)}> 
+                    <MenuOutlined />
+                </Button>
             </div>
             {activeMenu && (
                 <Menu theme='dark' style={{backgroundColor:'black',width: 256}} 

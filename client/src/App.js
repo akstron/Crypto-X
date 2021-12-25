@@ -10,74 +10,72 @@ import swRegister from './ServiceWorker/swRegister'
 
 import io from 'socket.io-client'
 
-const socket=io(process.env.REACT_APP_BACKEND,{
-    transports:['websocket','polling'],
-    upgrade: false
-});
-
 // ToDo:: 1. add isError attribute to User useState
 export const UserContext = createContext();
 export const AppSocketContext=createContext();
 
-const socketConnect=()=>{
-    // socket.on('currentData',market=>{
-    //     console.log(market);
-    // });
-    // socket.on("sendOrderNotification",order=>{
-    //     console.log(order);
-    // })
-}
-
-const socketConnectUtil = (user)=> {
-    const socket=io(process.env.REACT_APP_BACKEND,{
-        transports:['websocket','polling'],
-        upgrade: false,
-        query: {
-            userId: user.id
-        }
-    });
-}
 
 const App = () => {
 
     const [User,setUser]=useState({data:undefined,isFetching:true});
-
-    const getUser=()=>{
-        const userRoute = process.env.REACT_APP_BACKEND + '/getuser';
-        
-        axios.get(userRoute, {withCredentials: true}).then(res => {
-            if(res['data']['status']){
-                const user=(res['data']['user']);
-                setUser({
-                    data:user,
-                    isFetching:false
-                });
-                swRegister();
-            }
-        }).catch(error => {
-            console.log(error);
-            setUser({
-                data:undefined,
-                isFetching:false
-            });
-        })
-    }
+    const [socket,setSocket]=useState(undefined);
 
     useEffect(()=>{
-        
         let isComponentMounted = true;    
+
+        const socketConnect= (user)=> {
+            console.log("User in Socket ::",user)
+            if(isComponentMounted) setSocket(io(process.env.REACT_APP_BACKEND,{
+                transports:['websocket','polling'],
+                upgrade: false,
+                query: {
+                    userId: user?._id
+                }
+            }));
+        }
+
+        const getUser=()=>{
+            const userRoute = process.env.REACT_APP_BACKEND + '/getuser';
+            
+            axios.get(userRoute, {withCredentials: true}).then(res => {
+                if(res['data']['status']){
+                    const user=(res['data']['user']);
+                    setUser({
+                        data:user,
+                        isFetching:false
+                    });
+                    swRegister();
+                    socketConnect(user);
+                }
+            }).catch(error => {
+                console.log(error);
+                setUser({
+                    data:undefined,
+                    isFetching:false
+                });
+                socketConnect(undefined);
+            })
+
+        }
+        
         if(isComponentMounted){
             getUser();
-            socketConnect();
         }
         return () => {
             isComponentMounted = false;
         }
     },[]);
 
+    useEffect(() => {
+        return () => {
+            if(socket) socket.emit('Disconnect');
+        }
+    }, [socket])
+
   return (
         <UserContext.Provider value={User}>
             <AppSocketContext.Provider value={socket}>
+                {console.log(process.env.REACT_APP_BACKEND)}
                 <BrowserRouter basename='/'>
                 {(User.isFetching)?(
                     <Loader/>

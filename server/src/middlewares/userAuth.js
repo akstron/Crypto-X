@@ -23,7 +23,7 @@ const isEmailAvailable = async (email) => {
 /* Sending OTP */
 const sendVerificationCode = async (email, code) => {
     const transport = nodemailer.createTransport({
-        service: 'gmail',
+        service: 'yahoo',
         auth: {
             user: process.env.EMAIL,
             pass: process.env.EMAIL_PASSWORD
@@ -118,7 +118,7 @@ module.exports.SignUp = async (req, res) => {
         }], {session});
         
         console.log('Before verification code');
-        await sendVerificationCode(email, vc[0].verificationCode);
+        // await sendVerificationCode(email, vc[0].verificationCode);
 
         console.log('After verification code');
 
