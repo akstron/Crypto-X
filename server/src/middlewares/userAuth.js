@@ -118,7 +118,7 @@ module.exports.SignUp = async (req, res) => {
         }], {session});
         
         console.log('Before verification code');
-        await sendVerificationCode(email, vc[0].verificationCode);
+        // await sendVerificationCode(email, vc[0].verificationCode);
 
         console.log('After verification code');
 

@@ -189,7 +189,12 @@ const sendOrderNotification = async (order) => {
     
     const io = require('../server');
     //console.log('io', io);
-    const socketId = getSocketId(order.userId);
+
+    console.log('In send order Notification!');
+    console.log(order.userId);
+    console.log(typeof order.userId);
+    const userIdInString = String(order.userId);
+    const socketId = getSocketId(userIdInString);
     console.log('socketId..-----  ', socketId);
     
     /* If no socket is found, function would throw error */
@@ -327,7 +332,7 @@ const createAndAddOrder = async (userId, coinType, price, quantity, orderType) =
         session.endSession();
 
         findMatchAndUpdate(coinType, price).then((res) => {
-            console.log(res);
+            console.log('Matching completed!');
         }).catch((e) => console.log(e));
 
         return order._id;
