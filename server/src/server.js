@@ -18,8 +18,7 @@ const io = require('socket.io')(server, {
     , "close timeout": 60
     , "heartbeat timeout": 60
     , "heartbeat interval": 20
-})
-// const io = require('socket.io')(server);
+});
 
 const userAuthRouter = require('./routers/userAuthRouter');
 const userUtilityRouter = require('./routers/userControlsRouter');
@@ -66,16 +65,7 @@ const sessionOptions = {
   }
 }
 
-// const sessionMiddleware = session(sessionOptions); 
-
-// io.use((socket, next) => {
-//   sessionMiddleware(socket.request, socket.request.res || {}, next);
-// });
-
-
 app.use(cors(corsOptions));
-// app.use(sessionMiddleware);
-
 const currentSession = session(sessionOptions);
 app.use(currentSession);
 
@@ -116,14 +106,6 @@ io.on('connection', (socket) =>{
     addSocketId(userId, socket.id);
   }
 
-  /* Add socketId to session store */
-  // socket.request.session.socketId = socket.id;
-  // socket.request.session.save();
-  // socket.handshake.session.socketId = socket.id;
-  // socket.handshake.session.save();
-
-  // console.log('While connecting..', socket.handshake.session);
-
   // emitting current data of all coins
   currentData((market)=>{
     socket.emit('currentData', market);
@@ -134,16 +116,6 @@ io.on('connection', (socket) =>{
   })
 
   socket.on('disconnect', ()=> {
-
-    /* Remove socket id from session store on disconnect */
-    // socket.request.session.socketId = null;
-    // socket.request.session.save();
-
-    
-    // socket.handshake.session.socketId = null;
-    // socket.handshake.session.save();
-    
-    // console.log('While disconnecting..', socket.handshake.session);
 
     socket.disconnect();
     console.log('Disconnected...');
