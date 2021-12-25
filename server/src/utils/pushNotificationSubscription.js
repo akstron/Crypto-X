@@ -7,7 +7,7 @@ const app = express();
 const publicVapidKey = process.env.SERVICE_WORKER_PUBLIC_KEY;
 const privateVapidKey = process.env.SERVICE_WORKER_PRIVATE_KEY;
 
-console.log(webpush)
+//console.log(webpush)
 
 webpush.setVapidDetails(
   "mailto:test@test.com",
@@ -25,10 +25,13 @@ const subscribe = async (req, res) => {
   // Send 201 - resource created
   res.status(201).json({});
 
-  // Create payload
-  const payload = JSON.stringify({ title: "I came from server !" });
-  // Pass object into sendNotification
-  webpush.sendNotification(subscription, payload).then(console.log("Notification Push !")).catch(err => console.error(err));
+  const userId = req.user.id;
+  if(!subscribeMap.has(userId)){
+    subscribeMap.set(userId, new Set());
+  }
+
+  const s= JSON.stringify(subscription);
+  subscribeMap.get(userId).add(s);
 
 }
 

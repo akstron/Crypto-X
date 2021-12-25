@@ -34,6 +34,7 @@ const currentPrice = require('./utils/priceStats');
 const paymentGatewayRouter = require('./routers/paymentGateWayRouter');
 const prevDayData = require('./utils/prevDayData');
 const pushNotificationRouter = require('./routers/pushNotificationRouter');
+const { addSocketId } = require('./store/SocketMap');
 
 const publicDirectoryPath = path.join(__dirname, './public');
 
@@ -107,11 +108,18 @@ io.on('connection', (socket) =>{
   console.log('New websocket connection');
   console.log(socket.id);
 
+  const userId = socket.handshake.query.userId;
+  console.log('userId... ', userId);
+
+  if(userId){
+    addSocketId(userId, socket.id);
+  }
+
   /* Add socketId to session store */
   // socket.request.session.socketId = socket.id;
   // socket.request.session.save();
-  socket.handshake.session.socketId = socket.id;
-  socket.handshake.session.save();
+  // socket.handshake.session.socketId = socket.id;
+  // socket.handshake.session.save();
 
   console.log('While connecting..', socket.handshake.session);
 

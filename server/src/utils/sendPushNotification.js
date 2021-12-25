@@ -13,7 +13,7 @@ const handleLessThanNotification = (coin, price) => {
         type: 'less'
     }
     const lessArray = getNotificationList(data);
-    const message = '${coin} reached at ${price}';
+    const message = coin + ' reached at ' + price;
     const payload = JSON.stringify({ title: "crypto-x" , body: message});
     
     for(var i=0; i<lessArray.length; i++){
@@ -32,7 +32,7 @@ const handleGreaterThanNotification = (coin, price) => {
     // if(coin === 'BTC'){
     //     console.log(greaterArray);
     // }
-    const message = '${coin} crossed ${price}';
+    const message = coin + ' crossed ' + price ;
     const payload = JSON.stringify({ title: "crypto-x" , body: message});
     
     for(var i=0; i<greaterArray.length; i++){
@@ -53,7 +53,7 @@ const send = (userId, payload) => {
                 console.log('val', val);
                 console.log('webpush.. ', webpush)
                 webpush
-                .sendNotification(val, payload)
+                .sendNotification(JSON.parse(val), payload)
                 .catch(err => console.error(err));
             }
         }
