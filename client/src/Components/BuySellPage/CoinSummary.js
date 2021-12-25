@@ -1,9 +1,13 @@
-import React from 'react'
-import { Card,Row,Col,Statistic,Form, InputNumber, Button,Radio} from 'antd';
+import React,{useState}from 'react'
+import { Card,Row,Col,Statistic,Form, InputNumber, Button,Radio,message} from 'antd';
 import millify from 'millify';
 import moment from 'moment';
 import LineChart from '../Utils/LineChart'
-const CoinSummary = ({coin,next,setOrderDetails}) => {
+import axios from 'axios';
+
+const CoinSummary = ({coin,setOrderDetails,next}) => {
+
+    const [ordering,setOrdering]=useState(false);
 
     const [form] = Form.useForm();
 
@@ -29,6 +33,31 @@ const CoinSummary = ({coin,next,setOrderDetails}) => {
         },
     };
     
+    const placeOrder=(orderDetails)=>{
+        setOrdering(true);
+        const orderRoute = process.env.REACT_APP_BACKEND +'/'+ orderDetails.category;
+        const order={
+            coinType:orderDetails.coinType,
+            price:orderDetails.price,
+            quantity:orderDetails.quantity,
+        }
+        axios.post(orderRoute,order, {withCredentials: true}).then(res => {
+            //console.log(res);
+            message.success("Order Placed !");
+            setOrdering(false);
+            const orderId=(res.data.orderId);
+            setOrderDetails({
+                ...orderDetails,
+                orderId:orderId,
+            })
+            next();
+        }).catch(error => {
+            console.log(error.response.data.error);
+            message.error(error.response.data.error)
+            setOrdering(false)
+        })
+    }
+
     const onFinish = values => {
         const orderDetails={
             coinType:coin.symbol,
@@ -36,9 +65,8 @@ const CoinSummary = ({coin,next,setOrderDetails}) => {
             price:values.price,
             category:values.category,
         };
-        console.log(orderDetails);
-        setOrderDetails(orderDetails);
-        next();
+        //console.log(orderDetails);
+        placeOrder(orderDetails);
     }
 
     const handleTotal = (_, values) => {
@@ -125,7 +153,7 @@ const CoinSummary = ({coin,next,setOrderDetails}) => {
                                     </Radio.Group>
                             </Form.Item>      
                             <Form.Item {...tailLayout}>
-                                <Button type="primary" htmlType="submit">
+                                <Button type="primary" htmlType="submit" loading={ordering}>
                                     Submit
                                 </Button>
                             </Form.Item>

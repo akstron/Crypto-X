@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react'
-import {Form,Select,InputNumber,Card,Button} from 'antd'
+import {Form,Select,InputNumber,Card,Button,message} from 'antd'
 import axios from 'axios'
 
 import notificationIcon from '../../../Images/NotifyMe/notificationsIcon.png'
@@ -9,6 +9,7 @@ const { Option } = Select;
 const ManageNotification = () => {
     
     const [cryptosList, setcryptosList] = useState({data:undefined,isFetching:true});
+	const [loading,setLoading]=useState(false);
 
 	const getCoinsDetailsAPI=(count)=>{
 		const options = {
@@ -42,7 +43,17 @@ const ManageNotification = () => {
     }, [])
 
 	const onFinish = (values) => {
+		setLoading(true);
 		console.log('Success:', values);
+		const notificationRoute = process.env.REACT_APP_BACKEND +'/storeNotification';
+        axios.post(notificationRoute,values, {withCredentials: true}).then(res => {
+            message.success("Notification added !");
+            setLoading(false);
+        }).catch(error => {
+            console.log(error);
+            message.error("Something went wrong !");
+            setLoading(false)
+        })
 	};
 
 	const onFinishFailed = (errorInfo) => {
@@ -96,7 +107,7 @@ const ManageNotification = () => {
                             optionFilterProp="children"
 							loading={cryptosList.isFetching}
 							filterOption={(input, option) => option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}>
-						{cryptosList?.data?.map((currency) => <Option value={currency.name}>{currency.name}</Option>)}
+						{cryptosList?.data?.map((currency) => <Option value={currency.symbol}>{currency.name}</Option>)}
 					</Select>
 				</Form.Item>
 
@@ -110,14 +121,14 @@ const ManageNotification = () => {
 					},
 					]}>
 					<Select default={'greaterThen'}>
-						<Option value={'lessThen'}>Less Then</Option>
-						<Option value={'greaterThen'}>Greater Then</Option>
+						<Option value={'less'}>Less Then</Option>
+						<Option value={'greater'}>Greater Then</Option>
 					</Select>
 				</Form.Item>
 
 				<Form.Item
-					label="Value"
-					name="value"
+					label="Price :"
+					name="price"
 					rules={[
 					{
 						required: true,
@@ -131,7 +142,7 @@ const ManageNotification = () => {
                         offset: 0,
                         span: 24,
                         }}>
-					<Button type="primary" htmlType="submit" style={{margin:"0.2rem"}}>
+					<Button type="primary" htmlType="submit" style={{margin:"0.2rem"}} loading={loading}>
 						Notify Me !
 					</Button>
 				</Form.Item>

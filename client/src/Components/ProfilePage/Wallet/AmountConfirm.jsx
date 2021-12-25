@@ -38,7 +38,7 @@ const AmountConfirm = () => {
 			amount,
 			currency: 'INR'
 		}
-		const order = await fetch('http://localhost:8000/createOrder', {
+		const order = await fetch(process.env.REACT_APP_BACKEND+'/createOrder', {
 			 method: 'POST',
 			 headers,
 			 credentials:'include',

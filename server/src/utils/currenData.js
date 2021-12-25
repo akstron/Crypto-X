@@ -15,8 +15,10 @@ const currentData = (callback) => {
         const response = {
             symbol,
             price
-        }     
-        //notify(symbol, price);
+        }
+        const len = symbol.length;
+        const symb = symbol.substring(0, len-4);     
+        notify(symb, price);
         //console.log(response);  
 
         callback(response); 

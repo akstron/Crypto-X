@@ -188,12 +188,12 @@ const updateOrderInDatabase = async (order, exchange, session) => {
 const sendOrderNotification = async (order) => {
     
     const io = require('../server');
-    console.log('io', io);
+    //console.log('io', io);
     const socketId = getSocketId(order.userId);
+    console.log('socketId..-----  ', socketId);
     
     /* If no socket is found, function would throw error */
     io.to(socketId).emit('sendOrderNotification', order);
-    console.log(io);
 }
 
 const orderUpdate = async (order, exchange, session) => {

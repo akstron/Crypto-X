@@ -4,6 +4,7 @@ const passport = require('passport');
 const session = require('express-session');
 const cors = require('cors');
 const app = express();
+const sharedsession = require("express-socket.io-session");
 
 require('./config/passport');
 require('./config/dbConnection');
@@ -12,12 +13,13 @@ const path = require('path');
 const http = require('http');
 const socketio = require('socket.io');
 const server = http.createServer(app);
-const io = require('socket.io')(server, { 
-      log: false
-    , "close timeout": 60
-    , "heartbeat timeout": 60
-    , "heartbeat interval": 20
-})
+// const io = require('socket.io')(server, { 
+//       log: false
+//     , "close timeout": 60
+//     , "heartbeat timeout": 60
+//     , "heartbeat interval": 20
+// })
+const io = require('socket.io')(server);
 
 const userAuthRouter = require('./routers/userAuthRouter');
 const userUtilityRouter = require('./routers/userControlsRouter');
@@ -31,6 +33,8 @@ const currentPrice = require('./utils/priceStats');
 
 const paymentGatewayRouter = require('./routers/paymentGateWayRouter');
 const prevDayData = require('./utils/prevDayData');
+const pushNotificationRouter = require('./routers/pushNotificationRouter');
+const { addSocketId } = require('./store/SocketMap');
 
 const publicDirectoryPath = path.join(__dirname, './public');
 
@@ -62,16 +66,18 @@ const sessionOptions = {
   }
 }
 
-const sessionMiddleware = session(sessionOptions); 
+// const sessionMiddleware = session(sessionOptions); 
 
-io.use((socket, next) => {
-  sessionMiddleware(socket.request, socket.request.res || {}, next);
-});
+// io.use((socket, next) => {
+//   sessionMiddleware(socket.request, socket.request.res || {}, next);
+// });
 
 
 app.use(cors(corsOptions));
-app.use(sessionMiddleware);
+// app.use(sessionMiddleware);
 
+const currentSession = session(sessionOptions);
+app.use(currentSession);
 
 
 /**
@@ -80,6 +86,11 @@ app.use(sessionMiddleware);
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+io.use(sharedsession(currentSession, {
+  autoSave: true
+}));
+
 app.use(express.json());
 
 app.use(userAuthRouter);
@@ -90,15 +101,27 @@ app.use(express.static(publicDirectoryPath));
 
 app.use(fetchCryptoDataRouter);
 app.use(paymentGatewayRouter);
+app.use(pushNotificationRouter);
 
 // when any client gets connected with server
 io.on('connection', (socket) =>{
   console.log('New websocket connection');
   console.log(socket.id);
 
+  const userId = socket.handshake.query.userId;
+  console.log('userId... ', userId);
+
+  if(userId){
+    addSocketId(userId, socket.id);
+  }
+
   /* Add socketId to session store */
-  socket.request.session.socketId = socket.id;
-  socket.request.session.save();
+  // socket.request.session.socketId = socket.id;
+  // socket.request.session.save();
+  // socket.handshake.session.socketId = socket.id;
+  // socket.handshake.session.save();
+
+  console.log('While connecting..', socket.handshake.session);
 
   // emitting current data of all coins
   currentData((market)=>{
@@ -112,8 +135,14 @@ io.on('connection', (socket) =>{
   socket.on('disconnect', ()=> {
 
     /* Remove socket id from session store on disconnect */
-    socket.request.session.sockedId = null;
-    socket.request.session.save();
+    // socket.request.session.socketId = null;
+    // socket.request.session.save();
+
+    
+    socket.handshake.session.socketId = null;
+    socket.handshake.session.save();
+    
+    console.log('While disconnecting..', socket.handshake.session);
 
     socket.disconnect();
     console.log('Disconnected...');

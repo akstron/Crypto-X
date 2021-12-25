@@ -7,8 +7,8 @@ const addNotification = ({coin, userId, price, type}) => {
             greaterArray: new Array()
         });
     }
-    
-    if(type == less){
+    console.log(notificationMap.has(coin))
+    if(type === 'less'){
         const lessArray = notificationMap.get(coin).lessArray;
         const index = floorIdx(lessArray, price);
         lessArray.splice(index+1, 0, {userId, price});
@@ -16,17 +16,19 @@ const addNotification = ({coin, userId, price, type}) => {
         const greaterArray = notificationMap.get(coin).greaterArray
         const index = floorIdx(greaterArray, price);
         greaterArray.splice(index+1, 0, {userId, price});
+        console.log(notificationMap.get(coin).greaterArray)
     }
 }
 
 const getNotificationList = ({coin, price, type}) => {
     if(!notificationMap.has(coin))
         return new Array()
-    if(type == less){
+    
+    if(type === 'less'){
         const lessArray = notificationMap.get(coin).lessArray;
         const index = ceilIdx(lessArray, price);
         const temp = new Array();
-        var count = arr.length-index;
+        var count = lessArray.length-index;
         while(count-->0){
             temp.push(lessArray.pop())
         }
@@ -35,7 +37,10 @@ const getNotificationList = ({coin, price, type}) => {
         const greaterArray = notificationMap.get(coin).greaterArray;
         const index = floorIdx(greaterArray, price);
         const temp = new Array()
-        var count = arr.length-index-1;
+        if(coin === 'BTC'){
+            console.log('----- ', greaterArray);
+        }
+        var count = greaterArray.length-index-1;
         while(count-->0){
             temp.push(greaterArray.pop())
         }

@@ -43,9 +43,9 @@ const CoinsStat =()=> {
     return (
         <>
             <Divider orientation="left">
-                <Title level={2} className='"heading'>
+                <Title level={3} className='"heading'>
                     <img src={ homeIcon} height={'40px'} alt='' style={{margin:'.5rem'}}/>
-                    Crypto Currencies Information
+                    Crypto Information
                 </Title>
             </Divider>
 

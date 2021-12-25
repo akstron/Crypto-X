@@ -16,10 +16,10 @@ const WalletCard = () => {
     const AddDummyCoin=()=>{
         const route = process.env.REACT_APP_BACKEND + '/addCoins';
         const coin={
-            "coinType" : "BTC",
+            "coinType" : "DOGE",
             "costPrice" : 10, 
             "sellPrice" : 10,
-            "quantity" : 3
+            "quantity" : 10
         }
         axios.post(route, coin, {withCredentials: true}).then(res => {
             console.log(res);

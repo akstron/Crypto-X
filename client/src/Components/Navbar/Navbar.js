@@ -18,6 +18,10 @@ const Navbar = () => {
     const [screenSize, setScreenSize] = useState(undefined);
     
     const User = useContext(UserContext);
+
+    const refreshPage=()=>{
+        window.location.reload(false);
+    }
  
     const logOut=async ()=>{
         console.log("Loging Out")
@@ -56,7 +60,9 @@ const Navbar = () => {
                 <Typography.Title level={3} className="logo">
                     <Link to='/'>Baniya-Trade</Link>
                 </Typography.Title>
-                <Button className="menu-control-container" onClick={() => setActiveMenu(!activeMenu)}><MenuOutlined /></Button>
+                <Button className="menu-control-container" onClick={() => setActiveMenu(!activeMenu)} onBlur={() => setActiveMenu(!activeMenu)}> 
+                    <MenuOutlined />
+                </Button>
             </div>
             {activeMenu && (
                 <Menu theme='dark' style={{backgroundColor:'black',width: 256}} 
@@ -82,7 +88,7 @@ const Navbar = () => {
                                 <Menu.Item key="6" icon={<BankOutlined />}>
                                     <Link to='/BankOptions'>Payment Options</Link>
                                 </Menu.Item>
-                                <Menu.Item key="7" icon={<ShoppingOutlined />}>
+                                <Menu.Item key="7" icon={<ShoppingOutlined />} onClick={refreshPage}>
                                     <Link to='/BuySell'>BuySell</Link>
                                 </Menu.Item>
                             </SubMenu>

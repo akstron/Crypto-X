@@ -1,4 +1,5 @@
 import React,{useEffect,useState} from 'react'
+import { Link } from 'react-router-dom';
 import {Card,Typography,Row,Col,Statistic,Progress} from 'antd';
 import { LoadingOutlined,ExclamationCircleOutlined } from '@ant-design/icons';
 import orderIcon from '../../../Images/orderIcon.png';
@@ -63,7 +64,7 @@ const OrdersCard = () => {
                         <>
                             {(orders?.data)?(
                                 <>
-                                    {(orders?.data?.length==0)?(
+                                    {(orders?.data?.length===0)?(
                                         <>
                                             <Col span={24}>
                                                 <ExclamationCircleOutlined />
@@ -76,22 +77,23 @@ const OrdersCard = () => {
                                         < div className="orders-list">
                                             {orders?.data.map((order,id)=>(
                                                 <>
-                                                    <Row span={24} >
-                                                        <Col xs={{span:24}} md={{span:6}}>
-                                                            <Statistic title="Coin" value={order.coinType} precision={2} />
-                                                        </Col>
-                                                        <Col xs={{span:24}} md={{span:9}}>
-                                                            <Statistic title="Quantity" value={order.quantity.$numberDecimal} precision={2} />
-                                                        </Col>
-                                                        <Col xs={{span:24}} md={{span:9}}>
-                                                            <Statistic title="Amount($)" value={(order.price.$numberDecimal)*(order.quantity.$numberDecimal)} precision={2} valueStyle={(order.orderType=="sell")?({color: 'red'}):({color: '#3f8600'})}/>
-                                                        </Col>
-                                                        <Col span={24}>
-                                                            <Progress percent={Math.ceil((order.completed.$numberDecimal*100)/(order.quantity.$numberDecimal))} size="small" />
-                                                        </Col>
-                                                    </Row>
-                                                    <hr style={{margin:"0.5rem"}}/>
-
+                                                    <Link to={`/BuySell?selectedCoin=${order.coinType}&orderId=${order._id}&orderType=${order.orderType}&coinPrice=${order.price.$numberDecimal}&coinQuantity=${order.quantity.$numberDecimal}&completed=${order.completed.$numberDecimal}`}>
+                                                        <Row span={24} key={id}>
+                                                            <Col xs={{span:24}} md={{span:6}}>
+                                                                <Statistic title="Coin" value={order.coinType} precision={2} />
+                                                            </Col>
+                                                            <Col xs={{span:24}} md={{span:9}}>
+                                                                <Statistic title="Quantity" value={order.quantity.$numberDecimal} precision={2} />
+                                                            </Col>
+                                                            <Col xs={{span:24}} md={{span:9}}>
+                                                                <Statistic title="Amount($)" value={(order.price.$numberDecimal)*(order.quantity.$numberDecimal)} precision={2} valueStyle={(order.orderType==='buy')?({color: 'red'}):({color: '#3f8600'})}/>
+                                                            </Col>
+                                                            <Col span={24}>
+                                                                <Progress percent={Math.ceil((order.completed.$numberDecimal*100)/(order.quantity.$numberDecimal))} size="small" />
+                                                            </Col>
+                                                        </Row>
+                                                        <hr style={{margin:"0.5rem"}}/>
+                                                    </Link>
                                                 </>
                                             ))}
                                         </div>

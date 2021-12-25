@@ -23,7 +23,7 @@ const isEmailAvailable = async (email) => {
 /* Sending OTP */
 const sendVerificationCode = async (email, code) => {
     const transport = nodemailer.createTransport({
-        service: 'gmail',
+        service: 'yahoo',
         auth: {
             user: process.env.EMAIL,
             pass: process.env.EMAIL_PASSWORD
@@ -205,7 +205,7 @@ module.exports.VerifyUser = async (req, res) => {
 module.exports.LogIn = (req, res, next) => {
     passport.authenticate('local', (error, user, info) => {
 
-        console.log('session below');
+        console.log('session below\n');
         console.log(req.session);
    
 
@@ -230,6 +230,8 @@ module.exports.LogIn = (req, res, next) => {
                     error
                }); 
             }
+
+            console.log(req.session);
 
           return res.status(202).json({
                 "user": req.user,
