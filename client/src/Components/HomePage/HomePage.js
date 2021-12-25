@@ -16,7 +16,7 @@ const HomePage = () => {
             <CoinsStat/>
             <Divider orientation="left">
                 <div className="home-heading-container">
-                    <Title level={2} className='home-title'>
+                    <Title level={3} className='home-title'>
                         <img src={ marketIcon} height={'40px'} alt='' style={{margin:'.5rem'}}/>
                         Top Cryptocurrencies
                     </Title>
@@ -28,7 +28,7 @@ const HomePage = () => {
             <MarketPage simplified/>
             <Divider orientation="left">
                 <div className="home-heading-container">
-                    <Title level={2} className='home-title'>
+                    <Title level={3} className='home-title'>
                         <img src={ newsIcon} height={'40px'} alt='' style={{margin:'.5rem'}}/>
                         Top Crypto News
                     </Title>
