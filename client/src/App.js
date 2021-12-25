@@ -10,21 +10,18 @@ import swRegister from './ServiceWorker/swRegister'
 
 import io from 'socket.io-client'
 
-var socket=io(process.env.REACT_APP_BACKEND,{
-    transports:['websocket','polling'],
-    upgrade: false
-});
-
+var socket=undefined;
 // ToDo:: 1. add isError attribute to User useState
 export const UserContext = createContext();
 export const AppSocketContext=createContext();
 
 const socketConnect= (user)=> {
+    console.log("User in Socket ::",user);
     socket=io(process.env.REACT_APP_BACKEND,{
         transports:['websocket','polling'],
         upgrade: false,
         query: {
-            userId: user?.id
+            userId: user?._id
         }
     });
 }
@@ -61,11 +58,11 @@ const App = () => {
         
         let isComponentMounted = true;    
         if(isComponentMounted){
-            getUser();
-            socketConnect();
+            getUser()
         }
         return () => {
             isComponentMounted = false;
+            if(socket) socket.emit("Disconnect");
         }
     },[]);
 
