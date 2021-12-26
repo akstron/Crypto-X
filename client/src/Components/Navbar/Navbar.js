@@ -45,7 +45,7 @@ const Navbar = () => {
             </div>
             <div>
                 {(activeMenu) && (
-                    <MenuPanel User={User} setActiveMenu={setActiveMenu}/>
+                    <MenuPanel User={User} setActiveMenu={setActiveMenu} screenSize={screenSize}/>
                 )}
             </div>
 

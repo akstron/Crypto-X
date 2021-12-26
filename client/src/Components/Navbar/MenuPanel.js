@@ -10,14 +10,15 @@ import axios from 'axios';
 const { SubMenu } = Menu;
 
 
-const MenuPanel =({User,setActiveMenu})=>{
+const MenuPanel =({User,setActiveMenu,screenSize})=>{
 
     const refreshPage=()=>{
         window.location.reload(false);
     }
 
     const handleClick=()=>{
-        setActiveMenu(false);
+        if(screenSize<800)
+            setActiveMenu(false);
     }
 
     const logOut=async ()=>{

@@ -12,6 +12,8 @@ const { TabPane } = Tabs;
 
 const BankOptions = () => {
 
+    const [loading,setLoading]=useState(false);
+
     const [bankAccount,setBankAccount]=useState({
         name:undefined,
         account_number:undefined,
@@ -41,8 +43,11 @@ const BankOptions = () => {
                 console.log(res.data);
             }
             getBankAccount();
+            setLoading(false);
         }).catch(error => {
             console.log(error);
+            setLoading(false);
+
         })
     }
 
@@ -54,18 +59,23 @@ const BankOptions = () => {
                 console.log(res.data);
             }
             getBankAccount();
+            setLoading(false);
         }).catch(error => {
             console.log(error);
+            setLoading(false);
+
         })
     }
 
     const submitBankAccount=(values)=>{
         console.log("Adding A/C :",values);
+        setLoading(true);
         addAccount(values.name,values.account,values.ifsc)
     }
 
     const submitUPI=(values)=>{
         console.log("Adding UPI :",values);
+        setLoading(true);
         addUPI(values.upiid);
     }
 
@@ -163,8 +173,8 @@ const BankOptions = () => {
                                                 <Form.Item name="ifsc" label="IFSC Code:" rules={[{ required: true }]}>
                                                     <Input />
                                                 </Form.Item>
-                                                <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                                                    <Button type="primary" htmlType="submit">
+                                                <Form.Item wrapperCol={{ offset: 0, span: 24 }}>
+                                                    <Button type="primary" htmlType="submit" loading={loading}>
                                                         Save Account
                                                     </Button>
                                                 </Form.Item>
@@ -178,8 +188,8 @@ const BankOptions = () => {
                                             <Form.Item name="upiid" label="UPI ID :" rules={[{ required: true }]}>
                                                 <Input />
                                             </Form.Item>
-                                            <Form.Item wrapperCol={{ offset: 0, span: 24 }}>
-                                                <Button type="primary" htmlType="submit">
+                                            <Form.Item wrapperCol={{ offset: 0, span: 24 }}  >
+                                                <Button type="primary" htmlType="submit" loading={loading}>
                                                     Save UPI
                                                 </Button>
                                             </Form.Item>
