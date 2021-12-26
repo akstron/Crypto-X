@@ -54,7 +54,6 @@ module.exports.Sell = async (req, res) => {
     const {price, quantity, coinType} = req.body;
     const { socketId } = req.session;
     addSocketId(user._id, socketId);
-    // console.log(req.session);
     console.log('socketId in sell: ', socketId);
 
     try{
@@ -68,9 +67,9 @@ module.exports.Sell = async (req, res) => {
     catch(e){
         console.log('error:', e);
 
-        return res.status(500).json({
+        return res.status(e.statusCode || 500).json({
             status: false,
-            error: e.message
+            error: e.msg || 'Intenal server error!'
         });
     }
 }
@@ -91,10 +90,11 @@ module.exports.Buy = async (req, res) => {
     }
     catch(e){
 
-        console.log('error:', e);
-        return res.status(500).json({
+        console.log('error:', e.msg);
+
+        return res.status(e.statusCode || 500).json({
             status: false,
-            error: e.message
+            error: e.msg || 'Intenal server error!'
         });
     }
 }

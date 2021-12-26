@@ -1,6 +1,6 @@
 # API Documentation
 
-## Authentication
+## Authentication Routes
 
 - **Register :** 
 
@@ -20,13 +20,13 @@
 
     - Using gmail: _GET_ /login/google
 
-- **Logout :**
+- **Logout :** _POST_ /logout
 
     > Request Body: {}
 
     > Reponse Body: {status: ture, message}, if successfull {status: false, error}, if failed
 
-- **Verify user email**
+- **Verify user email** _POST_ /verifyUser
 
     > Request Body: {email, verificationCode}
 
@@ -40,7 +40,7 @@
 ## Edit Routes
 
 - **Edit Details:** _POST_ /edit
-    > Request Body: {firstName (optional), lastName (optional), email (optional), password (optional)}
+    > Request Body: {firstName (optional), lastName (optional), password (optional)}
 
     > Response Body: {status: true, message}, if successfull {status: false, error}, if failed
 
@@ -60,16 +60,22 @@
 - **Buy coins:** _POST_ /buy
     > Request Body: {price (price per coin), quantity, coinType}
 
-    > Response Body: {status: true, message}, if successfull {status: false, error}, if failed
+    > Response Body: {status: true, orderId}, if successfull {status: false, error}, if failed
 
 - **Sell coins:** _POST_ /sell
     > Request Body: {price (price per coin), quantity, coinType}
 
-    > Response Body: {status: true, message}, if successfull {status: false, error}, if failed
+    > Response Body: {status: true, orderId}, if successfull {status: false, error}, if failed
 
 - **Get orders:** _GET_ /getOrders
     > Response Body: {status: true, orders}, if successfull {status: false, error}, if failed
 
 - **Get active orders:** _GET_ /getActiveOrders
     > Response Body: {status: true, orders}, if successfull {status: false, error}, if failed
+
+- **Get daily portfolio:** _GET_ /getDailyPortfolio
+    > Response Body: {status: true, portfolio}, if successfull {status: false, error}, if failed
+
+- **Get overall portfolio:** _GET_ /getOverallPortfolio
+    > Response Body: {status: true, portfolio}, if successfull {status: false, error}, if failed
 
