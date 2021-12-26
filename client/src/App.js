@@ -25,13 +25,24 @@ const App = () => {
 
         const socketConnect= (user)=> {
             console.log("User in Socket ::",user)
-            if(isComponentMounted) setSocket(io(process.env.REACT_APP_BACKEND,{
-                transports:['websocket','polling'],
-                upgrade: false,
-                query: {
-                    userId: user?._id
-                }
-            }));
+            if(isComponentMounted && user){
+                setSocket(io(process.env.REACT_APP_BACKEND,{
+                    transports:['websocket','polling'],
+                    upgrade: false,
+                    query: {
+                        userId: user?._id
+                    },
+                }))
+            }else{
+                console.log("User in Socket ::",user)
+                setSocket(io(process.env.REACT_APP_BACKEND,{
+                    transports:['websocket','polling'],
+                    upgrade: false,
+                    query: {
+                        userId: undefined
+                    },
+                }))
+            };
         }
 
         const getUser=()=>{
@@ -40,20 +51,23 @@ const App = () => {
             axios.get(userRoute, {withCredentials: true}).then(res => {
                 if(res['data']['status']){
                     const user=(res['data']['user']);
+                    socketConnect(user);
                     setUser({
                         data:user,
                         isFetching:false
                     });
                     swRegister();
-                    socketConnect(user);
+                }else{
+                    socketConnect(undefined);
                 }
             }).catch(error => {
                 console.log(error);
+                socketConnect(undefined);
                 setUser({
                     data:undefined,
                     isFetching:false
                 });
-                socketConnect(undefined);
+                console.log("reached 70")
             })
 
         }
@@ -75,7 +89,6 @@ const App = () => {
   return (
         <UserContext.Provider value={User}>
             <AppSocketContext.Provider value={socket}>
-                {console.log(process.env.REACT_APP_BACKEND)}
                 <BrowserRouter basename='/'>
                 {(User.isFetching)?(
                     <Loader/>
@@ -85,7 +98,8 @@ const App = () => {
                             <Navbar/>
                         </div>
                         <div className="main" >
-                            <Layout>
+                            {console.log("Socket in App.js",socket)}
+                            <Layout >
                                 <div className="routes">
                                         <Switch>
                                             <Route exact path="/">

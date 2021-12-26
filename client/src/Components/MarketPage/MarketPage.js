@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect,useContext} from 'react'
 import millify from 'millify';
 import { Link } from 'react-router-dom';
 import { Typography,Card,Row,Col,Input} from 'antd';
@@ -7,6 +7,8 @@ import {FallOutlined,RiseOutlined} from '@ant-design/icons';
 import Loader from '../Utils/Loader';
 import axios from 'axios';
 
+import { AppSocketContext } from '../../App';
+
 const {Title} =Typography
 
 const MarketPage = ({simplified}) => {
@@ -14,6 +16,8 @@ const MarketPage = ({simplified}) => {
     const [cryptosList, setcryptosList] = useState({data:undefined,isFetching:true});
     const [cryptos, setCryptos] = useState();
     const [searchTerm, setSearchTerm] = useState('');
+
+    const socket = useContext(AppSocketContext);
 
     useEffect(()=>{
         let isComponentMounted = true;
@@ -50,6 +54,25 @@ const MarketPage = ({simplified}) => {
         const filteredData = cryptosList?.data?.coins.filter((item) => item.name.toLowerCase().includes(searchTerm));
         setCryptos(filteredData);   
     }, [cryptosList,searchTerm])
+
+    useEffect(()=>{
+
+        let isComponentMounted = true;    
+
+        const socketOrdersConnect=()=>{
+            socket.on('currentData',(currentData)=>{
+                console.log('current Data ... ', currentData);
+            })
+        }
+        if(isComponentMounted){
+            socketOrdersConnect();
+        }
+        return () => {
+            isComponentMounted = false;
+            socket.off('currentData');
+        }
+
+    },[socket])
     
     return (
         <div>
