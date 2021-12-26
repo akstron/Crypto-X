@@ -7,7 +7,7 @@ const addNotification = ({coin, userId, price, type}) => {
             greaterArray: new Array()
         });
     }
-    console.log(notificationMap.has(coin))
+    //console.log(notificationMap.has(coin))
     if(type === 'less'){
         const lessArray = notificationMap.get(coin).lessArray;
         const index = floorIdx(lessArray, price);
@@ -16,7 +16,7 @@ const addNotification = ({coin, userId, price, type}) => {
         const greaterArray = notificationMap.get(coin).greaterArray
         const index = floorIdx(greaterArray, price);
         greaterArray.splice(index+1, 0, {userId, price});
-        console.log(notificationMap.get(coin).greaterArray)
+        //console.log(notificationMap.get(coin).greaterArray)
     }
 }
 
