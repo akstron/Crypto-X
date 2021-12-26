@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const User = require("../models/User");
 const Wallet = require("../models/Wallet");
 const Account = require('../models/Account');
+const {createContact} = require('../utils/payment');
 
 /**
  * LocalStrategy: Signup and login using email and password
@@ -60,11 +61,11 @@ passport.use(
 				var user = await User.findOne({googleId});
 
 				if(!user){
-					const accountArray = await Account.create([{}], {session});
-					const account = accountArray[0];
+
+					const accountId = mongoose.Types.ObjectId();
 
 					const walletArray = await Wallet.create([{
-						account: account._id
+						account: accountId
 					}], {session});
 
 					const wallet = walletArray[0];
@@ -79,6 +80,17 @@ passport.use(
 					}], {session});
 
 					user = userArray[0];
+							
+					/* Create contact call */
+					const response = await createContact(userArray[0]);
+					const contact_id = JSON.parse(response).id;
+					console.log('contact_id',contact_id);
+
+					const accountArray = await Account.create([{
+						_id: accountId,	
+						contact_id
+					}], {session});
+					const account = accountArray[0];
 				}
 
 				await session.commitTransaction();
