@@ -18,6 +18,4 @@ router.post('/edit', IsAuthenticated, IsVerified,
     validationHandler,
 EditUser);
 
-router.post('/addPancard', IsAuthenticated, IsVerified, AddPancard);
-
 module.exports = router;
