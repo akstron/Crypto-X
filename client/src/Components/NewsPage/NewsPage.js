@@ -54,7 +54,7 @@ const NewsPage = ({simplified}) => {
                 headers: {
                     'x-bingapis-sdk': 'true',
                     'x-rapidapi-host': 'bing-news-search1.p.rapidapi.com',
-                    'x-rapidapi-key': 'b5dcac0fdamsh6ce3cdcd6c0a205p1206bcjsn78e048e0a244'
+                    'x-rapidapi-key': '14b5938489msh3eb8430486cbe7bp188119jsn5c1543f17d53'
                 }
             };
             axios.request(options).then(function (response) {
