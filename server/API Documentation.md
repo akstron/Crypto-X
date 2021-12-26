@@ -20,13 +20,13 @@
 
     - Using gmail: _GET_ /login/google
 
-- **Logout :**
+- **Logout :** _POST_ /logout
 
     > Request Body: {}
 
     > Reponse Body: {status: ture, message}, if successfull {status: false, error}, if failed
 
-- **Verify user email**
+- **Verify user email** _POST_ /verifyUser
 
     > Request Body: {email, verificationCode}
 
