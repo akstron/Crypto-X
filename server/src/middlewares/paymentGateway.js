@@ -237,7 +237,7 @@ module.exports.Payout = async(req, res) => {
 		console.log(data)
 
 		// Check given amount is available or not
-		if(wallet.balance < data.amount){
+		if(parseFloat(wallet.balance) < parseFloat(data.amount)){
 			return res.status(400).json({
 				status: false,
 				error: 'Insufficient balance in wallet!'
@@ -247,7 +247,8 @@ module.exports.Payout = async(req, res) => {
 		const response = await createPayout(data);
 		console.log(response)
 		const payoutAmount = parseFloat(JSON.parse(response).amount)/100; 
-		wallet.balance = parseFloat(wallet.balance) - payoutAmount;
+		wallet.balance = parseFloat(parseFloat(wallet.balance) - payoutAmount);
+		console.log(wallet);
 		await wallet.save();
 
 		return res.json({
