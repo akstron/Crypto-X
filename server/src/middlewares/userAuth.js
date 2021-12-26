@@ -100,9 +100,8 @@ module.exports.SignUp = async (req, res) => {
             watchList: []
         }], {session});
 
-        /**
-         * CREATE CONTACT CALL
-         */
+        /* Create contact call */
+        
 		const response = await createContact(userArray[0]);
         const contact_id = JSON.parse(response).id;
         console.log('contact_id',contact_id);
