@@ -34,6 +34,7 @@ const paymentGatewayRouter = require('./routers/paymentGateWayRouter');
 const prevDayData = require('./utils/prevDayData');
 const pushNotificationRouter = require('./routers/pushNotificationRouter');
 const { addSocketId } = require('./store/SocketMap');
+const coinsArray = require('./store/CoinsList');
 
 const publicDirectoryPath = path.join(__dirname, './public');
 
@@ -108,6 +109,18 @@ io.on('connection', (socket) =>{
 
   // emitting current data of all coins
   currentData((market)=>{
+
+    for(var i=0; i<coinsArray.length; i++){
+
+      if(market.symbol === coinsArray[i]){
+        const len = coinsArray[i].length;
+        const key = 'coin_' + coinsArray[i].substring(0, len-4);
+        //console.log('key.. ', key);
+        //console.log('price.. ', market.price);
+        socket.emit(key, market.price)
+      }
+      
+    }
     socket.emit('currentData', market);
   })
 
