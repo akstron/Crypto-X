@@ -1,5 +1,5 @@
 import millify from 'millify';
-import { Card,Col} from 'antd';
+import { Card,Col,Button} from 'antd';
 import { Link } from 'react-router-dom';
 import { AppSocketContext } from '../../App';
 import React,{useEffect,useContext,useState} from 'react';
@@ -35,7 +35,7 @@ const CoinCard = ({currency,id}) => {
         <Col key={id} xs={24} sm={12} lg={6} className='crypto-card'>
             <Link to={`/crypto/${currency.id}`}>
                 <Card
-                    style={{borderRadius:"2rem"}}
+                    style={{borderRadius:"2rem",textAlign: "center"}}
                     title={`${currency.rank}. ${currency.name}`}
                     extra={<img className='crypto-image' alt='img' src={currency.iconUrl}/>}
                     hoverable
@@ -43,6 +43,16 @@ const CoinCard = ({currency,id}) => {
                     <p>Price : $ {livePrice}</p>
                     <p>Market Cap: {millify(currency.marketCap)}</p>
                     <p>DailyChange : {millify(currency.change)} % {(currency.change < 0)?(<FallOutlined style={{color: "red"}} />):(<RiseOutlined style={{color: "green"}} />)}</p>
+                    <Link to={`/BuySell?selectedCoin=${currency.symbol}`}>
+                        <Button type='success'>
+                            Trade
+                        </Button>
+                    </Link>
+                    
+                    <Button type='primary'>
+                        More
+                    </Button>
+
                 </Card>
             </Link>
         </Col>
