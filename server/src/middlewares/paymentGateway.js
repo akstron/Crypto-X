@@ -103,15 +103,16 @@ module.exports.AddAccount = async (req, res) => {
 		await fundAccountUsingBankAccount(account);
 		await account.save();
 
-		return res.json({
+		return res.status(500).json({
 			status: true,
 			message: 'Bank account have been successfully created'
 		})
 	}
 	catch(e){
+		console.log(e)
 		res.status(500).json({
 			status: true,
-			error: 'Something went wrong'
+			error: e
 		});
 	}
 
@@ -145,11 +146,7 @@ const fundAccountUsingBankAccount = async (account) => {
 		
 
 	}catch(error){
-		console.log(error);
-		res.status(400).json({
-			status: true,
-			error
-		});
+		throw error;
 	}
 }
 
@@ -201,9 +198,7 @@ const fundAccountUsingVPA = async(account) => {
 		return response;
 
 	}catch(error){
-		console.log(error);
-
-		return error;
+		throw error;
 	}
 }
 
@@ -293,6 +288,9 @@ const createFundAccountUsingBankAccount = async ({contact_id, name, ifsc, accoun
 	};
 
 	  const response = await doRequest(options);
+	  if(JSON.parse(response).error){
+		  throw new Error(JSON.parse(response).error.description);
+	  }
 	  return response
 }
 
@@ -321,8 +319,11 @@ const createFundAccountUsingVPA = async ({contact_id, UPI_ID, account_type}) => 
 		}
 	};
 
-	  const response = await doRequest(options);
-	  return response
+	const response = await doRequest(options);
+	if(JSON.parse(response).error){
+		throw new Error(JSON.parse(response).error.description);
+	}
+	return response
 }
 
 const createPayout = async(payoutInfo) => {
@@ -356,12 +357,11 @@ const createPayout = async(payoutInfo) => {
 	};
 
 	console.log(options)
-	try{
-		const response = await doRequest(options);
-		console.log(response)
-		return response
-	}catch(error){
-		return error
+	
+	const response = await doRequest(options);
+	if(JSON.parse(response).error){
+		throw new Error(JSON.parse(response).error.description);
 	}
+	return response
 	
 }

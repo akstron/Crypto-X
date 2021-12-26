@@ -19,7 +19,7 @@ const currentData = (callback) => {
         const len = symbol.length;
         const symb = symbol.substring(0, len-4);     
         notify(symb, price);
-        console.log(response);  
+        //console.log(response);  
 
         callback(response); 
       });
