@@ -2,21 +2,23 @@ import millify from 'millify';
 import { Card,Col} from 'antd';
 import { Link } from 'react-router-dom';
 import { AppSocketContext } from '../../App';
-import React,{useEffect,useContext} from 'react';
+import React,{useEffect,useContext,useState} from 'react';
 import {FallOutlined,RiseOutlined} from '@ant-design/icons';
 
 const CoinCard = ({currency,id}) => {
 
     const socket = useContext(AppSocketContext);
+    const [livePrice,setLivePrice]=useState(currency.price)
+
 
     useEffect(()=>{
 
         let isComponentMounted = true;    
 
         const socketOrdersConnect=()=>{
-            socket.on('currentData',(order)=>{
-                // console.log('current Data ... ', order);
-                
+            socket.on(`coin_${currency.symbol}`,(coin)=>{
+                console.log(`Live Data ${currency.symbol}:`,coin)
+                setLivePrice(coin)                
             })
         }
         if(isComponentMounted){
@@ -24,10 +26,10 @@ const CoinCard = ({currency,id}) => {
         }
         return () => {
             isComponentMounted = false;
-            socket.off('currentData');
+            socket.off(`coin_${currency.symbol}`);
         }
 
-    },[socket]);
+    },[socket,currency]);
 
     return (
         <Col key={id} xs={24} sm={12} lg={6} className='crypto-card'>
@@ -38,7 +40,7 @@ const CoinCard = ({currency,id}) => {
                     extra={<img className='crypto-image' alt='img' src={currency.iconUrl}/>}
                     hoverable
                 >
-                    <p>Price : $ {currency.price}}</p>
+                    <p>Price : $ {livePrice}</p>
                     <p>Market Cap: {millify(currency.marketCap)}</p>
                     <p>DailyChange : {millify(currency.change)} % {(currency.change < 0)?(<FallOutlined style={{color: "red"}} />):(<RiseOutlined style={{color: "green"}} />)}</p>
                 </Card>
