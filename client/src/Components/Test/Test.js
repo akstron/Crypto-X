@@ -1,11 +1,11 @@
 import React,{useState,useContext,useEffect} from 'react'
 import { AppSocketContext } from '../../App';
-// import { Line } from 'react-chartjs-2';
+import LivePlot from './LivePlot'
 
 const Test = () => {
 
     const socket = useContext(AppSocketContext);
-	const [coinPrice,setCoinPrice]=useState(0);
+	const [coinPrice,setCoinPrice]=useState({price:[],timeStamp:[]});
 
 	useEffect(()=>{
 
@@ -13,9 +13,15 @@ const Test = () => {
 
         const socketOrdersConnect=()=>{
             socket.on(`coin_BTC`,(coin)=>{
-				// console.log(coin)
-				setCoinPrice((oldPrices)=>{					
-					return oldPrices+1;
+				setCoinPrice((oldPrices)=>{
+					var newPrices=oldPrices;
+					if(newPrices.price.length>30){
+						newPrices.price.shift();
+						newPrices.timeStamp.shift();
+					}
+					newPrices.price.push(coin);
+					newPrices.timeStamp.push((new Date()).toString());
+					return newPrices;
 				})
             })
         }
@@ -28,10 +34,11 @@ const Test = () => {
         }
 
     },[socket]);
+
 	
 	return (
 		<>
-			{}
+			<LivePlot coinPrice={coinPrice}/>
 		</>
 	)
 }
