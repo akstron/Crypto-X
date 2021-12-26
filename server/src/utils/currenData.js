@@ -7,7 +7,7 @@ const binance = new Binance().options({
     APISECRET: '<secret>'
   });
 
-const coins = coinsArray;
+const coins = coinsArray
 
 const currentData = (callback) => {
     binance.websockets.trades(coins, (trades) => { 

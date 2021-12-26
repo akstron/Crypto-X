@@ -103,7 +103,7 @@ module.exports.AddAccount = async (req, res) => {
 		await fundAccountUsingBankAccount(account);
 		await account.save();
 
-		return res.status(500).json({
+		return res.json({
 			status: true,
 			message: 'Bank account have been successfully created'
 		})
@@ -205,7 +205,7 @@ const fundAccountUsingVPA = async(account) => {
 module.exports.Payout = async(req, res) => {
 	try{
 		const wallet = req.wallet;
-		console.log('2nd   ', wallet)
+		//console.log('2nd   ', wallet)
 
 		// NOT DONE YET!
 		//TODO: require fund_account_id (according to mode)
@@ -232,7 +232,7 @@ module.exports.Payout = async(req, res) => {
 		console.log(data)
 
 		// Check given amount is available or not
-		if(wallet.balance < data.amount){
+		if(parseFloat(wallet.balance) < parseFloat(data.amount)){
 			return res.status(400).json({
 				status: false,
 				error: 'Insufficient balance in wallet!'
@@ -242,7 +242,8 @@ module.exports.Payout = async(req, res) => {
 		const response = await createPayout(data);
 		console.log(response)
 		const payoutAmount = parseFloat(JSON.parse(response).amount)/100; 
-		wallet.balance = parseFloat(wallet.balance) - payoutAmount;
+		wallet.balance = parseFloat(parseFloat(wallet.balance) - payoutAmount);
+		console.log(wallet);
 		await wallet.save();
 
 		return res.json({
@@ -359,7 +360,8 @@ const createPayout = async(payoutInfo) => {
 	console.log(options)
 	
 	const response = await doRequest(options);
-	if(JSON.parse(response).error){
+	console.log(response)
+	if(JSON.parse(response).error.description){
 		throw new Error(JSON.parse(response).error.description);
 	}
 	return response

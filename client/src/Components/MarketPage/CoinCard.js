@@ -17,7 +17,7 @@ const CoinCard = ({currency,id}) => {
 
         const socketOrdersConnect=()=>{
             socket.on('currentData',(order)=>{
-                console.log('current Data ... ', order);
+                // console.log('current Data ... ', order);
                 
             })
         }

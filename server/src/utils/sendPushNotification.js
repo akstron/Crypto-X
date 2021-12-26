@@ -38,10 +38,10 @@ const handleGreaterThanNotification = (coin, price) => {
     for(var i=0; i<greaterArray.length; i++){
         const userId = greaterArray[i].userId;
         //TODO: get subscription from database (user userId from here)
-        console.log('userId.. ', userId);
+        //console.log('userId.. ', userId);
         send(userId, payload);
         
-        console.log('payload.. ', payload);
+        //console.log('payload.. ', payload);
     }
 }
 
@@ -50,8 +50,8 @@ const send = (userId, payload) => {
     console.log('endPoints ..  ', endPoints)
         if(endPoints){
             for (var it = endPoints.values(), val= null; val=it.next().value; ) {
-                console.log('val', val);
-                console.log('webpush.. ', webpush)
+                //console.log('val', val);
+                //console.log('webpush.. ', webpush)
                 webpush
                 .sendNotification(JSON.parse(val), payload)
                 .catch(err => console.error(err));
