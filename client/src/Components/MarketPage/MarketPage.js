@@ -2,8 +2,7 @@ import axios from 'axios';
 import CoinCard from "./CoinCard"
 import Loader from '../Utils/Loader';
 import { Typography,Row,Input} from 'antd';
-import { AppSocketContext } from '../../App';
-import React,{useState,useEffect,useContext} from 'react'
+import React,{useState,useEffect} from 'react'
 import marketIcon from '../../Images/main-logo.png'
 
 const {Title} =Typography
@@ -14,7 +13,6 @@ const MarketPage = ({simplified}) => {
     const [cryptos, setCryptos] = useState();
     const [searchTerm, setSearchTerm] = useState('');
 
-    const socket = useContext(AppSocketContext);
 
     useEffect(()=>{
         let isComponentMounted = true;
@@ -52,24 +50,7 @@ const MarketPage = ({simplified}) => {
         setCryptos(filteredData);   
     }, [cryptosList,searchTerm])
 
-    useEffect(()=>{
-
-        let isComponentMounted = true;    
-
-        const socketOrdersConnect=()=>{
-            socket.on('currentData',(order)=>{
-                console.log('current Data ... ', order);
-            })
-        }
-        if(isComponentMounted){
-            socketOrdersConnect();
-        }
-        return () => {
-            isComponentMounted = false;
-            socket.off('currentData');
-        }
-
-    },[socket])
+    
     
     return (
         <div>
