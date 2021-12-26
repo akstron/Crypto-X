@@ -35,6 +35,7 @@ const prevDayData = require('./utils/prevDayData');
 const pushNotificationRouter = require('./routers/pushNotificationRouter');
 const { addSocketId } = require('./store/SocketMap');
 const coinsArray = require('./store/CoinsList');
+const getINRVAlue = require('./utils/currencyConversion');
 
 const publicDirectoryPath = path.join(__dirname, './public');
 
@@ -117,11 +118,12 @@ io.on('connection', (socket) =>{
         const key = 'coin_' + coinsArray[i].substring(0, len-4);
         //console.log('key.. ', key);
         //console.log('price.. ', market.price);
-        socket.emit(key, market.price)
+        
+        socket.emit(key, getINRVAlue(market.price));
       }
       
     }
-    socket.emit('currentData', market);
+    //socket.emit('currentData', market);
   })
 
   prevDayData((response) => {
