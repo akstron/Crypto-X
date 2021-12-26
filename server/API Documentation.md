@@ -73,3 +73,9 @@
 - **Get active orders:** _GET_ /getActiveOrders
     > Response Body: {status: true, orders}, if successfull {status: false, error}, if failed
 
+- **Get daily portfolio:** _GET_ /getDailyPortfolio
+    > Response Body: {status: true, portfolio}, if successfull {status: false, error}, if failed
+
+- **Get overall portfolio:** _GET_ /getDailyPortfolio
+    > Response Body: {status: true, portfolio}, if successfull {status: false, error}, if failed
+
