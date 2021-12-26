@@ -1,6 +1,6 @@
 # API Documentation
 
-## Authentication
+## Authentication Routes
 
 - **Register :** 
 
@@ -40,7 +40,7 @@
 ## Edit Routes
 
 - **Edit Details:** _POST_ /edit
-    > Request Body: {firstName (optional), lastName (optional), email (optional), password (optional)}
+    > Request Body: {firstName (optional), lastName (optional), password (optional)}
 
     > Response Body: {status: true, message}, if successfull {status: false, error}, if failed
 
@@ -60,12 +60,12 @@
 - **Buy coins:** _POST_ /buy
     > Request Body: {price (price per coin), quantity, coinType}
 
-    > Response Body: {status: true, message}, if successfull {status: false, error}, if failed
+    > Response Body: {status: true, orderId}, if successfull {status: false, error}, if failed
 
 - **Sell coins:** _POST_ /sell
     > Request Body: {price (price per coin), quantity, coinType}
 
-    > Response Body: {status: true, message}, if successfull {status: false, error}, if failed
+    > Response Body: {status: true, orderId}, if successfull {status: false, error}, if failed
 
 - **Get orders:** _GET_ /getOrders
     > Response Body: {status: true, orders}, if successfull {status: false, error}, if failed

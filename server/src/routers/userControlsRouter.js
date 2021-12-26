@@ -5,7 +5,7 @@
 const express = require('express');
 const router = express.Router();
 const {body} = require('express-validator');
-const { EditUser, AddPancard } = require('../middlewares/userControls'); 
+const { EditUser } = require('../middlewares/userControls'); 
 const { IsAuthenticated, IsVerified } = require('../middlewares/userAuth');
 const { validationHandler } = require('../middlewares/validationHandler');
 

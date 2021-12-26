@@ -6,8 +6,9 @@ const express = require('express');
 const passport = require('passport');
 const {body} = require('express-validator');
 const router = express.Router();
-const {SignUp, VerifyUser, LogIn, LogOut, IsAuthenticated, GetUser} = require('../middlewares/userAuth');
+const {SignUp, VerifyUser, LogIn, LogOut, IsAuthenticated, GetUser, IsVerified} = require('../middlewares/userAuth');
 const {validationHandler} = require('../middlewares/validationHandler');
+const {AddPancard} = require('../middlewares/userControls');
 
 router.post('/signup', 
 [
