@@ -4,16 +4,12 @@
 
 const express = require('express');
 const { IsAuthenticated, IsVerified } = require('../middlewares/userAuth');
-const { DailyPortfolio, Transaction, Sell, Buy, GetActiveOrders, GetOrders} = require('../middlewares/userTrade');
+const { DailyPortfolio, Sell, Buy, GetActiveOrders, GetOrders, OverallPortfolio} = require('../middlewares/userTrade');
 const { PopulateWallet } = require('../middlewares/userWallet');
 const router = express.Router();
 
-/**
- * transaction router to be removed!
- */
-
-router.put('/transaction', IsAuthenticated, IsVerified, Transaction);
-router.get('/getPortfolio', IsAuthenticated, IsVerified, PopulateWallet, DailyPortfolio);
+router.get('/getDailyPortfolio', IsAuthenticated, IsVerified, PopulateWallet, DailyPortfolio);
+router.get('/getOverallPortfolio', IsAuthenticated, IsVerified, PopulateWallet, OverallPortfolio);
 router.post('/sell', IsAuthenticated, IsVerified, Sell);
 router.post('/buy', IsAuthenticated, IsVerified, Buy);
 router.get('/getActiveOrders', IsAuthenticated, IsVerified, PopulateWallet, GetActiveOrders);
