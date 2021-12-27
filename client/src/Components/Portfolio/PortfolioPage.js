@@ -75,7 +75,7 @@ const PortfolioPage = ({simplified}) => {
                                 <Row>
 
                                     <Col xs={{ span: 24 }} md={{ span: 12 }} xl={{ span: 6 }}><Statistic title="Total Investment (₹)" value={millify(portfolio.data.totalCostPrice)} /></Col>
-                                    <Col xs={{span:24}} md={{span:12}} xl={{span:6}}><Statistic title="Net Worth (₹)" value={millify(1256)}/></Col>
+                                    <Col xs={{span:24}} md={{span:12}} xl={{span:6}}><Statistic title="Net Worth (₹)" value={millify((portfolio.data.totalCostPrice*portfolio.data.totalPercentGrowt)/(100))}/></Col>
                                     <Col xs={{ span: 24 }} md={{ span: 12 }} xl={{ span: 6 }}><Statistic title="Total Sale (₹)" value={millify(portfolio.data.totalSellPrice)} /></Col>
                                     <Col xs={{ span: 24 }} md={{ span: 12 }} xl={{ span: 6 }}><Statistic title="Growth" value={portfolio.data.totalPercentGrowth} precision={2} valueStyle={(portfolio.data.totalPercentGrowth > 0) ? ({ color: '#3f8600' }) : ({ color: 'red' })} prefix={(portfolio.data.totalPercentGrowth > 0) ? (<ArrowUpOutlined />) : (<ArrowDownOutlined />)} suffix="%" /></Col>
                                     {(portfolio.data.coins.length>0)?
