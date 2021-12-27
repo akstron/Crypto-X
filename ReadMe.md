@@ -56,6 +56,15 @@ npm start
 - Show different cryptocurrencies detail
 - Add different cryptocurrencies to the watchlist and track value change in real-time
 - View price variation on a graph
+
+<p align="center">
+<img width="500" height="350" src="https://github.com/akstron/Crypto-X/blob/main/images/chart.jpeg" alt="Buy and sell page">
+</p>
+
+<p align="center">
+<img width="500" height="350" src="https://github.com/akstron/Crypto-X/blob/main/images/live.jpeg" alt="Buy and sell page">
+</p>
+
 - Ability to change the scale of the graph to a certain interval. (1 year, 1 month, 1 week, 1 day,1 hour, 15 min, etc)
 - Payment gateway integration to add funds to wallet
 - Withdraw funds from wallet (charge some fee on withdrawing)
