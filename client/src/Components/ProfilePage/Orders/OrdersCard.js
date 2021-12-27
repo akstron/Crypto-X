@@ -16,7 +16,6 @@ const OrdersCard = () => {
         const ordersRoute = process.env.REACT_APP_BACKEND + '/getorders';
         
         axios.get(ordersRoute, {withCredentials: true}).then(res => {
-            console.log(res['data']['orders']);
             
             if(res['data']['status']){
                 const orders=(res['data']['orders']);
