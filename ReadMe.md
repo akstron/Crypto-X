@@ -97,6 +97,14 @@ npm start
 
 <img align="left" width="40" height="40" src="https://img.icons8.com/dusk/64/000000/community-grants.png" alt="Resume application project app icon">
 
+## Video Link
+
+https://drive.google.com/drive/folders/1Iy7AyYjB6aUDTBID7i9BaD7FgvKDYAXo
+
+## Web app link
+
+https://crypto-trade-x.herokuapp.com/
+
 ## Contributers
 
 - [Aayush Kumar Shandilya](https://github.com/hey-aayush)
