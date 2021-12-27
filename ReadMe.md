@@ -80,13 +80,13 @@ npm start
 - Allow users to trade in cryptocurrencies
 
 <p align="center">
-<img align="center" width="500" height="250" src="https://github.com/akstron/Crypto-X/blob/main/images/buy_sell.jpeg" alt="Buy and sell page">
+<img align="center" width="600" height="350" src="https://github.com/akstron/Crypto-X/blob/main/images/buy_sell.jpeg" alt="Buy and sell page">
 </p>
 
 - Portfolio section to view current holdings.
 
 <p align="center">
-<img width="500" height="250" src="https://github.com/akstron/Crypto-X/blob/main/images/portfolio.jpeg" alt="Buy and sell page">
+<img width="600" height="350" src="https://github.com/akstron/Crypto-X/blob/main/images/portfolio.jpeg" alt="Buy and sell page">
 </p>
 
 - Calculate profit and loss in real-time
