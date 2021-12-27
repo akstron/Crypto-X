@@ -41,7 +41,8 @@ npm start
 - Antd and React-bootstrap
 - MongoDB and Mongoose
 - Socket
-- API (Like Binance,coingecko)
+- Web-push Notifications
+- API (Like Binance, Razorpay, Bing News Search)
 
 <img align="left" width="40" height="40" src="https://img.icons8.com/fluency/344/features-list.png" alt="Resume application project app icon">
 
@@ -60,12 +61,8 @@ npm start
 - Generate a daily report of the current portfolio
 - Send desktop notifications when cryptocurrency hits a particular value
 - Change graph plotting style. (Candle Sticks, Bars, Line, etc. )
-- Pan, zoom and drag the graph along the time and price axis
 - Users can place different types of orders like Good Till Triggered (GTT), stop loss, etc
 - Referral scheme to earn cryptocurrency
-- Feature to transfer cryptocurrency to a wallet using Public Address.
-- Create your own token which users can use to transact Cryptocurrency.
-- Rating System for Users.
 
 <img align="left" width="40" height="40" src="https://img.icons8.com/dusk/64/000000/community-grants.png" alt="Resume application project app icon">
 
