@@ -53,6 +53,10 @@ npm start
 <img align="center" width="600" height="350" src="https://github.com/akstron/Crypto-X/blob/main/images/home.jpeg" alt="Buy and sell page">
 </p>
 
+<p align="center">
+<img width="600" height="350" src="https://github.com/akstron/Crypto-X/blob/main/images/Profile.png" alt="Buy and sell page">
+</p>
+
 - Login/Signup and allow social logins using Google, etc
 
 <p align="center">
@@ -71,6 +75,10 @@ npm start
 
 - Ability to change the scale of the graph to a certain interval. (1 year, 1 month, 1 week, 1 day,1 hour, 15 min, etc)
 - Payment gateway integration to add funds to wallet
+
+<p align="center">
+<img width="600" height="350" src="https://github.com/akstron/Crypto-X/blob/main/images/PayIn.png" alt="Buy and sell page">
+</p>
 
 <p align="center">
 <img width="600" height="350" src="https://github.com/akstron/Crypto-X/blob/main/images/BankingOptions.png" alt="Buy and sell page">
@@ -92,7 +100,12 @@ npm start
 - Calculate profit and loss in real-time
 - Generate a daily report of the current portfolio
 - Send desktop notifications when cryptocurrency hits a particular value
-- Users can place different types of orders like Good Till Triggered (GTT), stop loss, etc
+
+<p align="center">
+<img width="600" height="350" src="https://github.com/akstron/Crypto-X/blob/main/images/Notification.png" alt="Buy and sell page">
+</p>
+
+- Users can place different types of orders like Good Till Triggered (GTT), etc
 - Referral scheme to earn cryptocurrency
 
 ## Video Link
