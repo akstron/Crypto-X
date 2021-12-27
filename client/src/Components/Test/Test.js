@@ -1,11 +1,9 @@
 import React from 'react'
-import OfflinePage from '../../Components/OfflinePage/OfflinePage'
-const Test = () => {
 
+const Test = () => {
+	
 	return (
-		<>
-			<OfflinePage/>
-		</>
+        <></>
 	)
 }
 

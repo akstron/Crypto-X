@@ -109,9 +109,10 @@ module.exports.AddAccount = async (req, res) => {
 		})
 	}
 	catch(e){
+		console.log(e)
 		res.status(500).json({
 			status: true,
-			error: 'Something went wrong'
+			error: e
 		});
 	}
 
@@ -145,11 +146,7 @@ const fundAccountUsingBankAccount = async (account) => {
 		
 
 	}catch(error){
-		console.log(error);
-		res.status(400).json({
-			status: true,
-			error
-		});
+		throw error;
 	}
 }
 
@@ -201,16 +198,14 @@ const fundAccountUsingVPA = async(account) => {
 		return response;
 
 	}catch(error){
-		console.log(error);
-
-		return error;
+		throw error;
 	}
 }
 
 module.exports.Payout = async(req, res) => {
 	try{
 		const wallet = req.wallet;
-		console.log('2nd   ', wallet)
+		//console.log('2nd   ', wallet)
 
 		// NOT DONE YET!
 		//TODO: require fund_account_id (according to mode)
@@ -237,7 +232,7 @@ module.exports.Payout = async(req, res) => {
 		console.log(data)
 
 		// Check given amount is available or not
-		if(wallet.balance < data.amount){
+		if(parseFloat(wallet.balance) < parseFloat(data.amount)){
 			return res.status(400).json({
 				status: false,
 				error: 'Insufficient balance in wallet!'
@@ -247,7 +242,8 @@ module.exports.Payout = async(req, res) => {
 		const response = await createPayout(data);
 		console.log(response)
 		const payoutAmount = parseFloat(JSON.parse(response).amount)/100; 
-		wallet.balance = parseFloat(wallet.balance) - payoutAmount;
+		wallet.balance = parseFloat(parseFloat(wallet.balance) - payoutAmount);
+		console.log(wallet);
 		await wallet.save();
 
 		return res.json({
@@ -293,6 +289,9 @@ const createFundAccountUsingBankAccount = async ({contact_id, name, ifsc, accoun
 	};
 
 	  const response = await doRequest(options);
+	  if(JSON.parse(response).error){
+		  throw new Error(JSON.parse(response).error.description);
+	  }
 	  return response
 }
 
@@ -321,8 +320,11 @@ const createFundAccountUsingVPA = async ({contact_id, UPI_ID, account_type}) => 
 		}
 	};
 
-	  const response = await doRequest(options);
-	  return response
+	const response = await doRequest(options);
+	if(JSON.parse(response).error){
+		throw new Error(JSON.parse(response).error.description);
+	}
+	return response
 }
 
 const createPayout = async(payoutInfo) => {
@@ -356,12 +358,12 @@ const createPayout = async(payoutInfo) => {
 	};
 
 	console.log(options)
-	try{
-		const response = await doRequest(options);
-		console.log(response)
-		return response
-	}catch(error){
-		return error
+	
+	const response = await doRequest(options);
+	console.log(response)
+	if(JSON.parse(response).error.description){
+		throw new Error(JSON.parse(response).error.description);
 	}
+	return response
 	
 }

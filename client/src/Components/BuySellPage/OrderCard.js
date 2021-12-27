@@ -34,8 +34,8 @@ const OrderCard = ({order}) => {
 
     return (
         <div>
-            <Card
-                style={{margin:"1rem auto",width:"fit-content",padding:"1rem"}}>
+            {/* <Card
+                style={{margin:"1rem auto",width:"fit-content",padding:"1rem"}}> */}
                 <Result
                     icon={<SmileOutlined />}
                     style={{textAlign:"center"}}
@@ -72,7 +72,7 @@ const OrderCard = ({order}) => {
                         )}
                         <Link to='/profile'><Button type="primary">Go to Orders</Button></Link>
                 </Result>
-            </Card>
+            {/* </Card> */}
         </div>
     )
 }
