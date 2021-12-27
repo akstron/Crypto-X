@@ -10,6 +10,7 @@ const razorpay = new Razorpay({
 	key_secret: process.env.KEY_SECRET
 });
 
+// create order for payment middleware
 module.exports.CreateOrder = async(req, res) => {
 	const body = req.body
 	const amount = body.amount
@@ -25,7 +26,7 @@ module.exports.CreateOrder = async(req, res) => {
 		const wallet = req.wallet;
 		const order = await razorpay.orders.create(options)
 		console.log(order)
-		payOrderMap.set(order.id, wallet);
+		payOrderMap.set(order.id, wallet);     
 		
 		return res.json({
 			id: order.id,
@@ -43,6 +44,7 @@ module.exports.CreateOrder = async(req, res) => {
 	}
 }
 
+// payment verification 
 module.exports.Verification = async(req, res) => {
 	console.log(req.body.payload.payment.entity)
 
@@ -91,6 +93,7 @@ const doRequest = (options) => {
 	});
 }
 
+// middlware for adding account information
 module.exports.AddAccount = async (req, res) => {
 	const account = req.account;
 
@@ -118,6 +121,7 @@ module.exports.AddAccount = async (req, res) => {
 
 }
 
+// utility function for creating fund_account_id for bank_account
 const fundAccountUsingBankAccount = async (account) => {
 
 	try{
@@ -150,6 +154,7 @@ const fundAccountUsingBankAccount = async (account) => {
 	}
 }
 
+// middleware for adding UPI information
 module.exports.AddUPI = async(req, res) => {
 	const account = req.account;
 	const {UPI_id} = req.body;
@@ -177,6 +182,7 @@ module.exports.AddUPI = async(req, res) => {
 	}
 }
 
+// utility function for creating fund_account_id for vpa(upi)
 const fundAccountUsingVPA = async(account) => {
 	try{
 
@@ -202,6 +208,7 @@ const fundAccountUsingVPA = async(account) => {
 	}
 }
 
+// middleware for payout
 module.exports.Payout = async(req, res) => {
 	try{
 		const wallet = req.wallet;
@@ -261,6 +268,7 @@ module.exports.Payout = async(req, res) => {
 	}
 }
 
+// utility function for creating fund account (bank_account)
 const createFundAccountUsingBankAccount = async ({contact_id, name, ifsc, account_number, account_type}) => {
 	
 	const headers = {
@@ -295,6 +303,7 @@ const createFundAccountUsingBankAccount = async ({contact_id, name, ifsc, accoun
 	  return response
 }
 
+// utility function for creating fund account (vpa)
 const createFundAccountUsingVPA = async ({contact_id, UPI_ID, account_type}) => {
 	
 	const headers = {
@@ -327,6 +336,7 @@ const createFundAccountUsingVPA = async ({contact_id, UPI_ID, account_type}) => 
 	return response
 }
 
+// utility function for payout
 const createPayout = async(payoutInfo) => {
 	
 	const {fund_account_id, amount, currency, mode, purpose, reference_id} = payoutInfo;

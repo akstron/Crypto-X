@@ -6,6 +6,8 @@ const notfiy = (coin, price) => {
     handleLessThanNotification(coin, price);
     handleGreaterThanNotification(coin, price);
 }
+
+// function for handling notifications of less than or equal to price of a coin
 const handleLessThanNotification = (coin, price) => {
     const data = {
         coin,
@@ -22,6 +24,7 @@ const handleLessThanNotification = (coin, price) => {
     }
 }
 
+// function for handling notifications of greater than or equal to price of a coin
 const handleGreaterThanNotification = (coin, price) => {
     const data = {
         coin,
@@ -29,29 +32,21 @@ const handleGreaterThanNotification = (coin, price) => {
         type: 'greater'
     }
     const greaterArray = getNotificationList(data);
-    // if(coin === 'BTC'){
-    //     console.log(greaterArray);
-    // }
     const message = coin + ' crossed ' + price ;
     const payload = JSON.stringify({ title: "crypto-x" , body: message});
     
     for(var i=0; i<greaterArray.length; i++){
         const userId = greaterArray[i].userId;
-        //TODO: get subscription from database (user userId from here)
-        //console.log('userId.. ', userId);
         send(userId, payload);
-        
-        //console.log('payload.. ', payload);
     }
 }
 
+// function for sending web push notifications to a given user
 const send = (userId, payload) => {
     const endPoints = subscribeMap.get(userId);
     console.log('endPoints ..  ', endPoints)
         if(endPoints){
             for (var it = endPoints.values(), val= null; val=it.next().value; ) {
-                //console.log('val', val);
-                //console.log('webpush.. ', webpush)
                 webpush
                 .sendNotification(JSON.parse(val), payload)
                 .catch(err => console.error(err));

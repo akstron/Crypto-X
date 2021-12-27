@@ -1,5 +1,10 @@
 const notificationMap = new Map();
 
+/*
+    function for adding notification in notification Map for 
+    a coin so that each notification remains in a sorted order
+    according to price
+*/
 const addNotification = ({coin, userId, price, type}) => {
     if(!notificationMap.has(coin)){
         notificationMap.set(coin, {
@@ -7,7 +12,6 @@ const addNotification = ({coin, userId, price, type}) => {
             greaterArray: new Array()
         });
     }
-    //console.log(notificationMap.has(coin))
     if(type === 'less'){
         const lessArray = notificationMap.get(coin).lessArray;
         const index = floorIdx(lessArray, price);
@@ -16,10 +20,13 @@ const addNotification = ({coin, userId, price, type}) => {
         const greaterArray = notificationMap.get(coin).greaterArray
         const index = floorIdx(greaterArray, price);
         greaterArray.splice(index+1, 0, {userId, price});
-        //console.log(notificationMap.get(coin).greaterArray)
     }
 }
 
+/*
+    function for getting list of users which
+    we have to send notification
+*/
 const getNotificationList = ({coin, price, type}) => {
     if(!notificationMap.has(coin))
         return new Array()
@@ -49,6 +56,7 @@ const getNotificationList = ({coin, price, type}) => {
     }
 }
 
+// floor function
 const floorIdx = (arr, target) => {
     var l = 0, r = arr.length-1, ans = -1;
     while(l<=r){
@@ -63,6 +71,7 @@ const floorIdx = (arr, target) => {
     return ans;
 }
 
+// ceil function
 const ceilIdx = (arr, target) => {
     var l = 0, r = arr.length-1, ans = arr.length;
     while(l<=r){

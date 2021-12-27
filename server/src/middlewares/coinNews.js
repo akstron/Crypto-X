@@ -1,6 +1,7 @@
 require('dotenv').config();
 const axios = require('axios');
 
+// latest crypto news middleware
 module.exports.getCryptoNews = (req, res) => {
     const {coin, count} = req.body;
     const options = {

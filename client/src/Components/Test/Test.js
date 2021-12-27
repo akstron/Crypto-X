@@ -15,19 +15,22 @@ const Test = () => {
         let isComponentMounted = true;    
 
         const socketOrdersConnect=()=>{
-            socket.on(`coin_BTC`,(coin)=>{
-				console.log(coin);
-                // setCoinPrice((oldPrices)=>{
-				// 	var newPrices=oldPrices;
-				// 	if(newPrices.price.length>30){
-				// 		newPrices.price.shift();
-				// 		newPrices.timeStamp.shift();
-				// 	}
-				// 	newPrices.price.push(coin);
-				// 	newPrices.timeStamp.push((new Date()).toString());
-				// 	return newPrices;
-				// })
-            })
+            
+                socket.on(`coin_BTC`,(coin)=>{
+                    console.log('coin Price... ', coin);
+                    setCoinPrice((oldPrices)=>{
+                    	var newPrices=oldPrices;
+                    	if(newPrices.price.length>30){
+                    		newPrices.price.shift();
+                    		newPrices.timeStamp.shift();
+                    	}
+                    	newPrices.price.push(coin);
+                    	newPrices.timeStamp.push((new Date()).toString());
+                    	return newPrices;
+                    })
+                })
+            
+            
         }
         if(isComponentMounted){
             socketOrdersConnect();
