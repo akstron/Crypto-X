@@ -61,7 +61,6 @@ npm start
 </p>
 
 - Show different cryptocurrencies detail
-- Add different cryptocurrencies to the watchlist and track value change in real-time
 - View price variation on a graph
 
 <p align="center">
