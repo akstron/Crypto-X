@@ -37,7 +37,20 @@ const NewsPage = ({simplified}) => {
                 console.error(error);
             });
         }
-        if(isComponentMounted) getCoinsDetailsAPI(100);
+        const getCoinNews=(count)=>{
+            const route = process.env.REACT_APP_BACKEND + '/getCryptoNews';
+            axios.post(route, {count:count}).then(res => {
+                if(res['data']['status']){
+                    console.log(res['data']);
+                }
+            }).catch(error => {
+                console.log(error);
+            })
+        }
+        if(isComponentMounted){
+            getCoinsDetailsAPI(100);
+            getCoinNews(100);
+        }
         return (() => {
             isComponentMounted = false;
         })
