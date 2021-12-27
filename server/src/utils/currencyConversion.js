@@ -1,7 +1,7 @@
 const axios = require("axios").default;
 
 var usdToInrValue;
-const interval = 60 * 1000;   //1 minute
+const interval = 5 * 60 * 1000;   //5 minutes
 
 const options = {
     method: 'GET',
@@ -14,6 +14,7 @@ axios.request(options).then(function (response) {
     console.error(error);
 });
 
+// used to get the latest value of usd in INR after each 5 minute
 setInterval(()=>{
     axios.request(options).then(function (response) {
         usdToInrValue = response.data.data.INR;
@@ -22,6 +23,7 @@ setInterval(()=>{
     });
 }, interval)
 
+// function to convert the price(USD)) to price(INR)
 const getINRVAlue = (price) => {
     return price*usdToInrValue;
 }

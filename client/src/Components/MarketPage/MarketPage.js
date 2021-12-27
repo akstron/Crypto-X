@@ -16,26 +16,23 @@ const MarketPage = ({simplified}) => {
     useEffect(()=>{
         let isComponentMounted = true;
 
-        const getCoinsDetailsAPI=(count)=>{
-            const options = {
-                method: 'GET',
-                url: 'https://coinranking1.p.rapidapi.com/coins?limit='+count,
-                headers: {
-                    'x-rapidapi-host': 'coinranking1.p.rapidapi.com',
-                    'x-rapidapi-key': 'b5dcac0fdamsh6ce3cdcd6c0a205p1206bcjsn78e048e0a244'
+        const getCoinsDetails=(count)=>{
+            const route = process.env.REACT_APP_BACKEND + '/getCoinDetails';
+            axios.post(route, {count:count}).then(res => {
+                if(res['data']){
+                    setcryptosList({
+                        data:res.data,
+                        isFetching:false,
+                    });
                 }
-            };
-
-            axios.request(options).then(function (response) {
-                setcryptosList({
-                    data:response.data.data,
-                    isFetching:false,
-                });
-            }).catch(function (error) {
-                console.error(error);
-            });
+            }).catch(error => {
+                console.log(error);
+            })
         }
-        if(isComponentMounted) getCoinsDetailsAPI(count);
+
+        if(isComponentMounted){
+            getCoinsDetails(count)
+        }
 
         return (() => {
             isComponentMounted = false;

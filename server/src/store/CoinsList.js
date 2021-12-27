@@ -1,7 +1,6 @@
 const coinsArray = [
     'BTCUSDT',
     'ETHUSDT',
-    'HEXUSDT',
     'BNBUSDT',
     'USDTUSDT',
     'SOLUSDT',

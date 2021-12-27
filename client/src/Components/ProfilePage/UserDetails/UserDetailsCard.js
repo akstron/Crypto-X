@@ -11,7 +11,6 @@ const {Text} = Typography;
 const UserDetailsCard = ({User}) => {
     return (
         <div>
-            {console.log(User)}
             <Card 
                 style={{width: "fit-content",
                         margin:"2rem auto",

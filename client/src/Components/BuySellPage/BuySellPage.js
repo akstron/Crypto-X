@@ -52,26 +52,25 @@ const BuySellPage = (props) => {
 
   useEffect(()=>{
         let isComponentMounted = true;
-        const getCoinsDetailsAPI=(count)=>{
-            const options = {
-                method: 'GET',
-                url: 'https://coinranking1.p.rapidapi.com/coins?limit='+count,
-                headers: {
-                    'x-rapidapi-host': 'coinranking1.p.rapidapi.com',
-                    'x-rapidapi-key': 'b5dcac0fdamsh6ce3cdcd6c0a205p1206bcjsn78e048e0a244'
-                }
-            };
 
-            axios.request(options).then(function (response) {
-                setCoinsData({
-                    data:response.data.data.coins,
-                    isFetching:false,
-                });
-            }).catch(function (error) {
-                console.error(error);
-            });
+        const getCoinsDetails=(count)=>{
+            const route = process.env.REACT_APP_BACKEND + '/getCoinDetails';
+            axios.post(route, {count:count}).then(res => {
+              console.log(res);  
+              if(res['data']){
+                    setCoinsData({
+                        data:res.data.coins,
+                        isFetching:false,
+                    });
+                }
+            }).catch(error => {
+                console.log(error);
+            })
         }
-        if(isComponentMounted) getCoinsDetailsAPI(100);
+
+        if(isComponentMounted) {
+          getCoinsDetails(100);
+        }
         return (() => {
             isComponentMounted = false;
         })

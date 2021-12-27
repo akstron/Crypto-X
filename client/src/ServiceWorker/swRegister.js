@@ -11,8 +11,6 @@ export default async function swRegister(){
         })
     })
     
-    console.log(sw);
-    console.log("Posting Subscribe...");
     await fetch(process.env.REACT_APP_BACKEND+"/subscribe", {
         method: "POST",
         body: JSON.stringify(sw),
@@ -20,6 +18,5 @@ export default async function swRegister(){
         headers: {
         "content-type": "application/json"
         }
-    }).then((res)=>console.log(res));
-    console.log("Subscription Sent...");
+    });
 }

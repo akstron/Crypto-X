@@ -18,26 +18,24 @@ const NewsPage = ({simplified}) => {
     useEffect(() => {
 
         let isComponentMounted = true;
-        const getCoinsDetailsAPI=(count)=>{
-            const options = {
-                method: 'GET',
-                url: 'https://coinranking1.p.rapidapi.com/coins?limit='+count,
-                headers: {
-                    'x-rapidapi-host': 'coinranking1.p.rapidapi.com',
-                    'x-rapidapi-key': 'b5dcac0fdamsh6ce3cdcd6c0a205p1206bcjsn78e048e0a244'
+    
+        const getCoinsDetails=(count)=>{
+            const route = process.env.REACT_APP_BACKEND + '/getCoinDetails';
+            axios.post(route, {count:count}).then(res => {
+                if(res['data']){
+                    setcryptosList({
+                        data:res.data.coins,
+                        isFetching:false,
+                    });
                 }
-            };
-
-            axios.request(options).then(function (response) {
-                setcryptosList({
-                    data:response.data.data.coins,
-                    isFetching:false,
-                });
-            }).catch(function (error) {
-                console.error(error);
-            });
+            }).catch(error => {
+                console.log(error);
+            })
         }
-        if(isComponentMounted) getCoinsDetailsAPI(100);
+
+        if(isComponentMounted){
+            getCoinsDetails(100);
+        }
         return (() => {
             isComponentMounted = false;
         })
@@ -46,28 +44,22 @@ const NewsPage = ({simplified}) => {
 
     useEffect(()=>{
         let isComponentMounted = true;
-        const cryptoNews=(coin,count)=>{
-            var options = {
-                method: 'GET',
-                url: 'https://bing-news-search1.p.rapidapi.com/news/search',
-                params: {q: coin, freshness: 'Day', textFormat: 'Raw', safeSearch: 'Off',count:count},
-                headers: {
-                    'x-bingapis-sdk': 'true',
-                    'x-rapidapi-host': 'bing-news-search1.p.rapidapi.com',
-                    'x-rapidapi-key': '14b5938489msh3eb8430486cbe7bp188119jsn5c1543f17d53'
+        
+        const getCoinNews=(newsCategory,count)=>{
+            const route = process.env.REACT_APP_BACKEND + '/getCryptoNews';
+            axios.post(route, {coin:newsCategory,count:count}).then(res => {
+                if(res['data']){
+                    setCryptoNews({
+                        data:(res.data),
+                        isFetching:false,
+                    })
                 }
-            };
-            axios.request(options).then(function (response) {
-                setCryptoNews({
-                    data:(response.data),
-                    isFetching:false,
-                })
-            }).catch(function (error) {
-                console.error(error);
-            });
+            }).catch(error => {
+                console.log(error);
+            })
         }
         if(isComponentMounted){
-            cryptoNews(newsCategory,count)
+            getCoinNews(newsCategory,count)
         }
     },[newsCategory,count])
 

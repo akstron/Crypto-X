@@ -12,6 +12,7 @@ const doRequest = (options) => {
 	});
 }
 
+// middleware for create contact id in razorypay
 module.exports.createContact = async (user) => {
 
 	const headers = {
