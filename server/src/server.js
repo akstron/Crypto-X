@@ -37,8 +37,6 @@ const { addSocketId } = require('./store/SocketMap');
 const coinsArray = require('./store/CoinsList');
 const getINRVAlue = require('./utils/currencyConversion');
 
-const publicDirectoryPath = path.join(__dirname, './public');
-
 const sessionStore = require('connect-mongo').create({
     mongoUrl: process.env.MONGO_DB_URI
 });
@@ -89,8 +87,6 @@ app.use(userAuthRouter);
 app.use(userUtilityRouter);
 app.use(userTradeRouter);
 
-app.use(express.static(publicDirectoryPath));
-
 app.use(fetchCryptoDataRouter);
 app.use(paymentGatewayRouter);
 app.use(pushNotificationRouter);
@@ -119,11 +115,12 @@ io.on('connection', (socket) =>{
         //console.log('key.. ', key);
         //console.log('price.. ', market.price);
         
-        socket.emit(key, getINRVAlue(market.price));
+          socket.emit(key, market.price);
+        
+        
       }
       
     }
-    //socket.emit('currentData', market);
   })
 
   prevDayData((response) => {

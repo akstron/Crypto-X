@@ -73,6 +73,7 @@ const PortfolioPage = ({simplified}) => {
                                 <>Something Went Wrong !</>
                             ):(
                                 <Row>
+
                                     <Col xs={{ span: 24 }} md={{ span: 12 }} xl={{ span: 6 }}><Statistic title="Total Investment (₹)" value={millify(portfolio.data.totalCostPrice)} /></Col>
                                     <Col xs={{span:24}} md={{span:12}} xl={{span:6}}><Statistic title="Net Worth (₹)" value={millify(1256)}/></Col>
                                     <Col xs={{ span: 24 }} md={{ span: 12 }} xl={{ span: 6 }}><Statistic title="Total Sale (₹)" value={millify(portfolio.data.totalSellPrice)} /></Col>

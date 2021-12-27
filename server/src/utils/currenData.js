@@ -11,6 +11,7 @@ const binance = new Binance().options({
 const coins = coinsArray
 
 const currentData = (callback) => {
+  // binance websocket for getting latest price of each crypto
     binance.websockets.trades(coins, (trades) => { 
         let {s:symbol, p:price} = trades;
         const response = {
@@ -18,9 +19,9 @@ const currentData = (callback) => {
             price : getINRVAlue(price)
         }
         const len = symbol.length;
-        const symb = symbol.substring(0, len-4);     
+        const symb = symbol.substring(0, len-4);    
+        // notify function for sending the push notification 
         notify(symb, price);
-       // console.log(response);  
 
         callback(response); 
       });
