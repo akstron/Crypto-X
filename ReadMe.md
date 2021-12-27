@@ -49,15 +49,15 @@ npm start
 ## Features
 
 <p align="center">
-<img align="center" width="500" height="250" src="https://github.com/akstron/Crypto-X/blob/main/images/home.jpeg" alt="Buy and sell page">
+<img align="center" width="600" height="350" src="https://github.com/akstron/Crypto-X/blob/main/images/home.jpeg" alt="Buy and sell page">
 </p>
 
 - Login/Signup and allow social logins using Google, etc
 
 <p align="center">
-<img width="250" height="150" src="https://github.com/akstron/Crypto-X/blob/main/images/SignUp.png" alt="Sign Up page">
+<img width="300" height="175" src="https://github.com/akstron/Crypto-X/blob/main/images/SignUp.png" alt="Sign Up page">
 
-<img width="250" height="150" src="https://github.com/akstron/Crypto-X/blob/main/images/loginPage.png" alt="Login page">
+<img width="300" height="175" src="https://github.com/akstron/Crypto-X/blob/main/images/loginPage.png" alt="Login page">
 </p>
 
 - Show different cryptocurrencies detail
@@ -65,15 +65,15 @@ npm start
 - View price variation on a graph
 
 <p align="center">
-<img width="250" height="180" src="https://github.com/akstron/Crypto-X/blob/main/images/chart.jpeg" alt="Buy and sell page">
-<img width="250" height="180" src="https://github.com/akstron/Crypto-X/blob/main/images/live.jpeg" alt="Buy and sell page">
+<img width="300" height="175" src="https://github.com/akstron/Crypto-X/blob/main/images/chart.jpeg" alt="Buy and sell page">
+<img width="300" height="175" src="https://github.com/akstron/Crypto-X/blob/main/images/live.jpeg" alt="Buy and sell page">
 </p>
 
 - Ability to change the scale of the graph to a certain interval. (1 year, 1 month, 1 week, 1 day,1 hour, 15 min, etc)
 - Payment gateway integration to add funds to wallet
 
 <p align="center">
-<img width="600" height="400" src="https://github.com/akstron/Crypto-X/blob/main/images/BankingOptions.png" alt="Buy and sell page">
+<img width="600" height="350" src="https://github.com/akstron/Crypto-X/blob/main/images/BankingOptions.png" alt="Buy and sell page">
 </p>
 
 - Withdraw funds from wallet (charge some fee on withdrawing)
