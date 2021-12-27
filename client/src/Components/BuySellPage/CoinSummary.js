@@ -2,7 +2,6 @@ import React,{useState}from 'react'
 import { Card,Row,Col,Statistic,Form, InputNumber, Button,Radio,message} from 'antd';
 import millify from 'millify';
 import moment from 'moment';
-import LineChart from '../Utils/LineChart'
 import StatsPlot from "../MarketPage/CoinPlot/StatsPlot"
 import axios from 'axios';
 
@@ -11,13 +10,6 @@ const CoinSummary = ({coin,setOrderDetails,next}) => {
     const [ordering,setOrdering]=useState(false);
 
     const [form] = Form.useForm();
-
-    const coinHistory={
-        data:{
-            change:coin.change,
-            history:coin.history.map((price,id)=>({price:price,timestamp:new Date(new Date().getTime() - (id * 60 * 60 * 1000)).getTime()})),
-        }
-    }
 
     const layout = {
         labelCol: {
@@ -66,7 +58,6 @@ const CoinSummary = ({coin,setOrderDetails,next}) => {
             price:values.price,
             category:values.category,
         };
-        //console.log(orderDetails);
         placeOrder(orderDetails);
     }
 

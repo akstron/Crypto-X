@@ -40,8 +40,6 @@ this.addEventListener("fetch",(event)=>{
 
 this.addEventListener("push", e => {
   const data = e.data.json();
-  console.log("Push Recieved...");
-  console.log(data.body);
   this.registration.showNotification(data.title, {
     body: data.body,
     icon: "./logo512.png"

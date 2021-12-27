@@ -23,7 +23,6 @@ const CryptoDetails = () => {
                 }
             };
             axios.request(options).then(function (response) {
-                console.log(response.data);
                 setcoinDetails({
                     details:response.data.data.coin,
                     isFetching:false,

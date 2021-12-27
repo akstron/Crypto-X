@@ -31,6 +31,7 @@ const MarketPage = ({simplified}) => {
                     data:response.data.data,
                     isFetching:false,
                 });
+                console.log(response.data.data);
             }).catch(function (error) {
                 console.error(error);
             });

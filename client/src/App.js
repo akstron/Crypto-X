@@ -24,7 +24,6 @@ const App = () => {
         let isComponentMounted = true;    
 
         const socketConnect= (user)=> {
-            console.log("User in Socket ::",user)
             if(isComponentMounted && user){
                 setSocket(io(process.env.REACT_APP_BACKEND,{
                     transports:['websocket','polling'],
@@ -98,7 +97,6 @@ const App = () => {
                             <Navbar/>
                         </div>
                         <div className="main" >
-                            {console.log("Socket in App.js",socket)}
                             <Layout >
                                 <div className="routes">
                                         <Switch>

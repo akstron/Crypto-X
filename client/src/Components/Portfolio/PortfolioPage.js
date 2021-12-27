@@ -25,7 +25,6 @@ const PortfolioPage = ({simplified}) => {
         const portfolioRoute = process.env.REACT_APP_BACKEND + '/getOverallPortfolio';
 
         axios.get(portfolioRoute, { withCredentials: true }).then(res => {
-            console.log(res['data']);
 
             if (res['data']['portfolio']) {
                 setPortfolio({
