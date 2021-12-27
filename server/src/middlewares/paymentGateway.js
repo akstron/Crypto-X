@@ -4,6 +4,7 @@ const Razorpay = require('razorpay')
 const request = require('request');
 const { response } = require('express');
 const payOrderMap = require('../store/PaymentOrderMap');
+const { getSocketId } = require('../store/SocketMap');
 
 const razorpay = new Razorpay({
 	key_id: process.env.KEY_ID,
@@ -26,7 +27,10 @@ module.exports.CreateOrder = async(req, res) => {
 		const wallet = req.wallet;
 		const order = await razorpay.orders.create(options)
 		console.log(order)
-		payOrderMap.set(order.id, wallet);     
+		payOrderMap.set(order.id, {
+			wallet,
+			userId: req.user.id
+		});     
 		
 		return res.json({
 			status: true,
@@ -64,11 +68,22 @@ module.exports.Verification = async(req, res) => {
 		const orderId = req.body.payload.payment.entity.order_id;
 		/* Add money to wallet */
 		if(payOrderMap.has(orderId)){
-			const wallet = payOrderMap.get(orderId);
+			const wallet = payOrderMap.get(orderId).wallet;
 			const amount = req.body.payload.payment.entity.amount/100;
 			wallet.balance = parseFloat(wallet.balance) + amount;
 			await wallet.save();
-			payOrderMap.delete(orderId);
+
+			const io = require('../server');
+			const userId = payOrderMap.get(orderId).userId;
+			
+			const socketId = getSocketId(userId);
+			if(io && socketId){
+				// sending new wallet balance to the user through socketId
+				io.to(socketId).emit('paymentStatus', wallet.balance);
+			}
+
+			payOrderMap.delete(orderId); //this orderId is successfully processed so deleting it
+				
 		}
 		
 
