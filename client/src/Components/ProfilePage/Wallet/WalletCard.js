@@ -1,17 +1,21 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect,useContext} from 'react'
 import {Card,Typography,Row,Col,Statistic,Popover,Button} from 'antd';
 import { PlusCircleOutlined,MinusCircleOutlined,LoadingOutlined,ExclamationCircleOutlined } from '@ant-design/icons';
 import walletIcon from '../../../Images/wallet.png'
 import AmountConfirm from './AmountConfirm.jsx'
 import PayoutConfirm from './PayoutConfirm.jsx'
 import CoinEntry from './CoinEntry'
-import axios from 'axios';
+import axios from 'axios'; 
+import { AppSocketContext } from '../../../App';
+
+
 //Fetch Coin Quantity also !!
 const {Text} = Typography;
 
 const WalletCard = () => {
 
     const [wallet,setWallet] = useState({data:undefined,isFetching:true});
+    const socket = useContext(AppSocketContext);
 
     const AddDummyCoin=()=>{
         const route = process.env.REACT_APP_BACKEND + '/addCoins';
@@ -53,6 +57,26 @@ const WalletCard = () => {
         // AddDummyCoin();
         getWalletDetails();
     },[])
+
+    useEffect(()=>{
+
+        let isComponentMounted = true;    
+
+        const socketOrdersConnect=()=>{
+            socket.on(`paymentStatus`,(wallet)=>{
+                console.log(wallet);
+                getWalletDetails();
+            })
+        }
+        if(isComponentMounted){
+            socketOrdersConnect();
+        }
+        return () => {
+            isComponentMounted = false;
+            socket.off(`paymentStatus`);
+        }
+
+    },[socket]);
 
     return (
         <div>
