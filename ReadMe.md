@@ -71,6 +71,11 @@ npm start
 
 - Ability to change the scale of the graph to a certain interval. (1 year, 1 month, 1 week, 1 day,1 hour, 15 min, etc)
 - Payment gateway integration to add funds to wallet
+
+<p align="center">
+<img width="250" height="180" src="https://github.com/akstron/Crypto-X/blob/main/images/BankingOptions.png" alt="Buy and sell page">
+</p>
+
 - Withdraw funds from wallet (charge some fee on withdrawing)
 - Allow users to trade in cryptocurrencies
 
