@@ -30,7 +30,7 @@ const Test = () => {
             })
         }
         if(isComponentMounted){
-            // socketOrdersConnect();
+            socketOrdersConnect();
         }
         return () => {
             isComponentMounted = false;
