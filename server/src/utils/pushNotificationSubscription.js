@@ -18,9 +18,6 @@ const subscribe = async (req, res) => {
 
   // Get pushSubscription object
   const subscription = req.body;
-  
-  // Send 201 - resource created
-  res.status(201).json({});
 
   const userId = req.user.id;
 

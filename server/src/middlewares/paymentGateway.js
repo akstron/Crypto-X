@@ -79,7 +79,7 @@ module.exports.Verification = async(req, res) => {
 			const socketId = getSocketId(userId);
 			if(io && socketId){
 				// sending new wallet balance to the user through socketId
-				io.to(socketId).emit('paymentStatus', wallet.balance);
+				io.to(socketId).emit('paymentStatus', wallet);
 			}
 
 			payOrderMap.delete(orderId); //this orderId is successfully processed so deleting it

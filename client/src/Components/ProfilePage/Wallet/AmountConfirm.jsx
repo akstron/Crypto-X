@@ -57,7 +57,7 @@ const AmountConfirm = () => {
 			amount: order.amount.toString(),
 			order_id: order.id,
 			name: 'crypto-x',
-			description: 'money added in wallet',
+			description: 'Add money in wallet',
 			handler: function (response) {
 				alert(response.razorpay_payment_id)
 				alert(response.razorpay_order_id)

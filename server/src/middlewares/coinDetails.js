@@ -15,7 +15,8 @@ module.exports.getCoinDetails = (req, res) => {
     };
 
     axios.request(options).then(function (response) {
-        res.status(200).send(response.data.data);
+        //console.log(response.data.data);
+        res.send(response.data.data);
     }).catch(function (error) {
         console.error(error);
         res.status(500).json({
