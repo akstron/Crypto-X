@@ -42,7 +42,8 @@ npm start
 - MongoDB and Mongoose
 - Socket
 - Web-push Notifications
-- API (Like Binance, Razorpay, Bing News Search)
+- Serviceworker
+- API (Like Binance, Razorpay, Bing News Search, Coin Ranking)
 
 <img align="left" width="40" height="40" src="https://img.icons8.com/fluency/344/features-list.png" alt="Resume application project app icon">
 
