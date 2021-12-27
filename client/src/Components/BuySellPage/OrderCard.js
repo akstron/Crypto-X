@@ -1,5 +1,5 @@
 import React,{useEffect,useState,useContext} from 'react'
-import { Result, Button,Card ,Row,Col,Statistic,Typography,Progress} from 'antd';
+import { Result, Button,Row,Col,Statistic,Typography,Progress} from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
 import { Link } from "react-router-dom";
 
@@ -38,7 +38,7 @@ const OrderCard = ({order}) => {
                 style={{margin:"1rem auto",width:"fit-content",padding:"1rem"}}> */}
                 <Result
                     icon={<SmileOutlined />}
-                    style={{textAlign:"center"}}
+                    style={{textAlign:"center",margin:"1rem auto",width:"fit-content"}}
                     title="Great, hold tight while we find a match !">
                         {(order.isFetching || !order.orderId)?(<></>):(
                             <>

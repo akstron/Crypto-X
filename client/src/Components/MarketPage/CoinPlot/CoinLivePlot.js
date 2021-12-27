@@ -18,7 +18,7 @@ const CoinLivePlot = ({coinSymbol}) => {
         let isComponentMounted = true;    
 
         const socketOrdersConnect=()=>{
-            socket.on(`coin_${coinSymbol}`,(coin)=>{
+            socket.on(`coin_${coinSymbol.replace('*', '')}`,(coin)=>{
                 setCoinPrice((oldPrices)=>{
                     var newPrices=oldPrices;
                     if(newPrices.price.length>30){
