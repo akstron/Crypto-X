@@ -73,7 +73,7 @@ npm start
 - Payment gateway integration to add funds to wallet
 
 <p align="center">
-<img width="500" height="250" src="https://github.com/akstron/Crypto-X/blob/main/images/BankingOptions.png" alt="Buy and sell page">
+<img width="500" height="350" src="https://github.com/akstron/Crypto-X/blob/main/images/BankingOptions.png" alt="Buy and sell page">
 </p>
 
 - Withdraw funds from wallet (charge some fee on withdrawing)
