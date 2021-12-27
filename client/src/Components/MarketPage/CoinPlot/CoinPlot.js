@@ -27,7 +27,6 @@ const CoinPlot = ({coinId,coinDetails}) => {
             };
 
             axios.request(options).then(function (response) {
-                console.log(response.data);
                 setPriceData({
                     priceHistory:response.data,
                     isFetching:false,

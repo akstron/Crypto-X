@@ -1,6 +1,7 @@
-import React,{useState} from 'react';
+import React,{useState,useContext} from 'react';
 import { Form, InputNumber , Button } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons';
+import { UserContext } from "../../../App.js";
 
 function loadScript(src) {
 	return new Promise((resolve) => {
@@ -19,8 +20,9 @@ function loadScript(src) {
 const _DEV_ = document.domain === 'localhost'
 
 const AmountConfirm = () => {
+    const User = useContext(UserContext);
 
-	const [name, setName] = useState('Saurabh')
+	// const [name, setName] = useState(User.firstName) 
     const [paying,setPaying]=useState(false);
 
     async function displayRazorpay(amount) {
@@ -57,15 +59,16 @@ const AmountConfirm = () => {
 			amount: order.amount.toString(),
 			order_id: order.id,
 			name: 'crypto-x',
-			description: 'money added in wallet',
+			description: 'Add money in wallet',
+			image:"https://cdn-icons-png.flaticon.com/512/3874/3874387.png",
 			handler: function (response) {
 				alert(response.razorpay_payment_id)
 				alert(response.razorpay_order_id)
 				alert(response.razorpay_signature)
 			},
 			prefill: {
-				name,
-				email: 'abcd@gmail.com',
+				name: User?.data?.firstName,
+				email: User?.data?.email,
 			}
 		}
 		const paymentObject = new window.Razorpay(options)

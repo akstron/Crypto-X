@@ -10,36 +10,27 @@ const ManageNotification = () => {
     
     const [cryptosList, setcryptosList] = useState({data:undefined,isFetching:true});
 	const [loading,setLoading]=useState(false);
-
-	const getCoinsDetailsAPI=(count)=>{
-		const options = {
-			method: 'GET',
-			url: 'https://coinranking1.p.rapidapi.com/coins?limit='+count,
-			headers: {
-				'x-rapidapi-host': 'coinranking1.p.rapidapi.com',
-				'x-rapidapi-key': 'b5dcac0fdamsh6ce3cdcd6c0a205p1206bcjsn78e048e0a244'
-			}
-		};
-
-		axios.request(options).then(function (response) {
+	
+	const getCoinsDetails=(count)=>{
+		const route = process.env.REACT_APP_BACKEND + '/getCoinDetails';
+		axios.post(route, {count:count}).then(res => {
 			const options={
-				data:response.data.data.coins,
+				data:res?.data?.coins,
 				isFetching:false,
-			}
-			console.log(options)
+			};
 			setcryptosList(options);
-		}).catch(function (error) {
-			console.error(error);
+
+		}).catch(error => {
+			console.log(error);
 			setcryptosList({
 				data:undefined,
 				isFetching:false,
 			});
-		});
+		})
 	}
-	
 
     useEffect(() => {
-        getCoinsDetailsAPI(50);
+        getCoinsDetails(50);
     }, [])
 
 	const onFinish = (values) => {

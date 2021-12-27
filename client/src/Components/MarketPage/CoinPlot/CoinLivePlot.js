@@ -6,11 +6,11 @@ import { Line } from 'react-chartjs-2';
 
 const { Title } = Typography;
 
-const CoinLivePlot = ({coinSymbol}) => {
+const CoinLivePlot = ({coinSymbol,coinCurrentPrice}) => {
 
     const socket = useContext(AppSocketContext);
 	const [coinPrice,setCoinPrice]=useState({price:[],timeStamp:[]});
-    const [currentPrice,setCurrentPrice]=useState(0);
+    const [currentPrice,setCurrentPrice]=useState(coinCurrentPrice);
     var ChartRef=undefined
 
 	useEffect(()=>{
@@ -21,7 +21,7 @@ const CoinLivePlot = ({coinSymbol}) => {
             socket.on(`coin_${coinSymbol.replace('*', '')}`,(coin)=>{
                 setCoinPrice((oldPrices)=>{
                     var newPrices=oldPrices;
-                    if(newPrices.price.length>30){
+                    if(newPrices.price.length>60){
                         newPrices.price.shift();
                         newPrices.timeStamp.shift();
                     }
@@ -51,12 +51,19 @@ const CoinLivePlot = ({coinSymbol}) => {
                     <Title level={2} className="chart-title">Live Price Chart </Title>
                     <Col className="price-container">
                         {/* <Title level={5} className="price-change">Change: {coinHistory?.data?.change}%</Title> */}
-                        <Title level={5} className="current-price">Current {coinSymbol} Price: $ {currentPrice}</Title>
+                        <Title level={5} className="current-price">Current {coinSymbol} Price: ₹ {currentPrice}</Title>
                     </Col>
                 </Row>
-                <Line
-                    ref={(reference)=>{ChartRef=reference}} 
-                    data={returnData(coinPrice)} options={returnOption(coinPrice)}/>
+                {(coinPrice.price.length>0)?(
+                    <Line
+                        ref={(reference)=>{ChartRef=reference}} 
+                        data={returnData(coinPrice)} options={returnOption(coinPrice)}/>        
+                ):(
+                    <>
+                        This Live Update of this Coin is Currently not Supported.
+                    </>
+                )}
+                
 
             </div>
 		</>

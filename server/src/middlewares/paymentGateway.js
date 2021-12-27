@@ -4,12 +4,14 @@ const Razorpay = require('razorpay')
 const request = require('request');
 const { response } = require('express');
 const payOrderMap = require('../store/PaymentOrderMap');
+const { getSocketId } = require('../store/SocketMap');
 
 const razorpay = new Razorpay({
 	key_id: process.env.KEY_ID,
 	key_secret: process.env.KEY_SECRET
 });
 
+// create order for payment middleware
 module.exports.CreateOrder = async(req, res) => {
 	const body = req.body
 	const amount = body.amount
@@ -25,9 +27,13 @@ module.exports.CreateOrder = async(req, res) => {
 		const wallet = req.wallet;
 		const order = await razorpay.orders.create(options)
 		console.log(order)
-		payOrderMap.set(order.id, wallet);
+		payOrderMap.set(order.id, {
+			wallet,
+			userId: req.user.id
+		});     
 		
 		return res.json({
+			status: true,
 			id: order.id,
 			currency: order.currency,
 			amount: order.amount
@@ -36,13 +42,14 @@ module.exports.CreateOrder = async(req, res) => {
 	} catch (error) {
 		console.log(error);
 
-		return res.status(400).json({
+		return res.status(500).json({
 			status: false, 
 			error
 		});
 	}
 }
 
+// payment verification 
 module.exports.Verification = async(req, res) => {
 	console.log(req.body.payload.payment.entity)
 
@@ -61,11 +68,22 @@ module.exports.Verification = async(req, res) => {
 		const orderId = req.body.payload.payment.entity.order_id;
 		/* Add money to wallet */
 		if(payOrderMap.has(orderId)){
-			const wallet = payOrderMap.get(orderId);
+			const wallet = payOrderMap.get(orderId).wallet;
 			const amount = req.body.payload.payment.entity.amount/100;
 			wallet.balance = parseFloat(wallet.balance) + amount;
 			await wallet.save();
-			payOrderMap.delete(orderId);
+
+			const io = require('../server');
+			const userId = payOrderMap.get(orderId).userId;
+			
+			const socketId = getSocketId(userId);
+			if(io && socketId){
+				// sending new wallet balance to the user through socketId
+				io.to(socketId).emit('paymentStatus', wallet);
+			}
+
+			payOrderMap.delete(orderId); //this orderId is successfully processed so deleting it
+				
 		}
 		
 
@@ -91,6 +109,7 @@ const doRequest = (options) => {
 	});
 }
 
+// middlware for adding account information
 module.exports.AddAccount = async (req, res) => {
 	const account = req.account;
 
@@ -111,13 +130,14 @@ module.exports.AddAccount = async (req, res) => {
 	catch(e){
 		console.log(e)
 		res.status(500).json({
-			status: true,
+			status: false,
 			error: e
 		});
 	}
 
 }
 
+// utility function for creating fund_account_id for bank_account
 const fundAccountUsingBankAccount = async (account) => {
 
 	try{
@@ -150,6 +170,7 @@ const fundAccountUsingBankAccount = async (account) => {
 	}
 }
 
+// middleware for adding UPI information
 module.exports.AddUPI = async(req, res) => {
 	const account = req.account;
 	const {UPI_id} = req.body;
@@ -177,6 +198,7 @@ module.exports.AddUPI = async(req, res) => {
 	}
 }
 
+// utility function for creating fund_account_id for vpa(upi)
 const fundAccountUsingVPA = async(account) => {
 	try{
 
@@ -202,6 +224,7 @@ const fundAccountUsingVPA = async(account) => {
 	}
 }
 
+// middleware for payout
 module.exports.Payout = async(req, res) => {
 	try{
 		const wallet = req.wallet;
@@ -261,6 +284,7 @@ module.exports.Payout = async(req, res) => {
 	}
 }
 
+// utility function for creating fund account (bank_account)
 const createFundAccountUsingBankAccount = async ({contact_id, name, ifsc, account_number, account_type}) => {
 	
 	const headers = {
@@ -295,6 +319,7 @@ const createFundAccountUsingBankAccount = async ({contact_id, name, ifsc, accoun
 	  return response
 }
 
+// utility function for creating fund account (vpa)
 const createFundAccountUsingVPA = async ({contact_id, UPI_ID, account_type}) => {
 	
 	const headers = {
@@ -327,6 +352,7 @@ const createFundAccountUsingVPA = async ({contact_id, UPI_ID, account_type}) => 
 	return response
 }
 
+// utility function for payout
 const createPayout = async(payoutInfo) => {
 	
 	const {fund_account_id, amount, currency, mode, purpose, reference_id} = payoutInfo;
