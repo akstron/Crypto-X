@@ -112,12 +112,7 @@ io.on('connection', (socket) =>{
       if(market.symbol === coinsArray[i]){
         const len = coinsArray[i].length;
         const key = 'coin_' + coinsArray[i].substring(0, len-4);
-        //console.log('key.. ', key);
-        //console.log('price.. ', market.price);
-        
           socket.emit(key, market.price);
-        
-        
       }
       
     }

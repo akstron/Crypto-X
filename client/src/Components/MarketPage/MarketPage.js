@@ -36,11 +36,13 @@ const MarketPage = ({simplified}) => {
             });
         }
 
+        
         const getCoinsDetails=(count)=>{
             const route = process.env.REACT_APP_BACKEND + '/getCoinDetails';
             axios.post(route, {count:count}).then(res => {
+                console.log(res);
                 if(res['data']['status']){
-                    console.log(res['data']);
+                   
                 }
             }).catch(error => {
                 console.log(error);

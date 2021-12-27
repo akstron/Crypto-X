@@ -15,7 +15,7 @@ module.exports.getCryptoNews = (req, res) => {
         }
     };
     axios.request(options).then(function (response) {
-        res.status(200).send(response.data);
+        res.send(response.data);
     }).catch(function (error) {
         console.error(error);
         res.status(500).json({
