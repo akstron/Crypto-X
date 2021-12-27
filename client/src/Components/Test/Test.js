@@ -16,16 +16,17 @@ const Test = () => {
 
         const socketOrdersConnect=()=>{
             socket.on(`coin_BTC`,(coin)=>{
-				setCoinPrice((oldPrices)=>{
-					var newPrices=oldPrices;
-					if(newPrices.price.length>30){
-						newPrices.price.shift();
-						newPrices.timeStamp.shift();
-					}
-					newPrices.price.push(coin);
-					newPrices.timeStamp.push((new Date()).toString());
-					return newPrices;
-				})
+				console.log(coin);
+                // setCoinPrice((oldPrices)=>{
+				// 	var newPrices=oldPrices;
+				// 	if(newPrices.price.length>30){
+				// 		newPrices.price.shift();
+				// 		newPrices.timeStamp.shift();
+				// 	}
+				// 	newPrices.price.push(coin);
+				// 	newPrices.timeStamp.push((new Date()).toString());
+				// 	return newPrices;
+				// })
             })
         }
         if(isComponentMounted){
