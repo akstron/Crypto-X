@@ -53,6 +53,13 @@ npm start
 </p>
 
 - Login/Signup and allow social logins using Google, etc
+
+<p align="center">
+<img  src="https://github.com/akstron/Crypto-X/blob/main/images/SignUp.png" alt="Sign Up page">
+
+<img src="https://github.com/akstron/Crypto-X/blob/main/images/loginPage.png" alt="Login page">
+</p>
+
 - Show different cryptocurrencies detail
 - Add different cryptocurrencies to the watchlist and track value change in real-time
 - View price variation on a graph
@@ -74,7 +81,6 @@ npm start
 - Calculate profit and loss in real-time
 - Generate a daily report of the current portfolio
 - Send desktop notifications when cryptocurrency hits a particular value
-- Change graph plotting style. (Candle Sticks, Bars, Line, etc. )
 - Users can place different types of orders like Good Till Triggered (GTT), stop loss, etc
 - Referral scheme to earn cryptocurrency
 
