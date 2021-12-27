@@ -16,11 +16,14 @@ const addNotification = ({coin, userId, price, type}) => {
         const lessArray = notificationMap.get(coin).lessArray;
         const index = floorIdx(lessArray, price);
         lessArray.splice(index+1, 0, {userId, price});
-    }else{
+        return true;
+    }else if(type == 'greater'){
         const greaterArray = notificationMap.get(coin).greaterArray
         const index = floorIdx(greaterArray, price);
         greaterArray.splice(index+1, 0, {userId, price});
+        return true;
     }
+    return false;
 }
 
 /*
@@ -44,9 +47,6 @@ const getNotificationList = ({coin, price, type}) => {
         const greaterArray = notificationMap.get(coin).greaterArray;
         const index = floorIdx(greaterArray, price);
         const temp = new Array()
-        if(coin === 'BTC'){
-            console.log('----- ', greaterArray);
-        }
         var count = greaterArray.length-index-1;
         while(count-->0){
             temp.push(greaterArray.pop())

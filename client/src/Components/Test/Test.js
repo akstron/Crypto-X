@@ -2,45 +2,45 @@ import React from 'react'
 
 const Test = () => {
 
-    const socket = useContext(AppSocketContext);
-	const [coinPrice,setCoinPrice]=useState({price:[],timeStamp:[]});
+    // const socket = useContext(AppSocketContext);
+	// const [coinPrice,setCoinPrice]=useState({price:[],timeStamp:[]});
 
-	useEffect(()=>{
+	// useEffect(()=>{
 
-        let isComponentMounted = true;    
+    //     let isComponentMounted = true;    
 
-        const socketOrdersConnect=()=>{
+    //     const socketOrdersConnect=()=>{
             
-                socket.on(`coin_BTC`,(coin)=>{
-                    console.log('coin Price... ', coin);
-                    setCoinPrice((oldPrices)=>{
-                    	var newPrices=oldPrices;
-                    	if(newPrices.price.length>30){
-                    		newPrices.price.shift();
-                    		newPrices.timeStamp.shift();
-                    	}
-                    	newPrices.price.push(coin);
-                    	newPrices.timeStamp.push((new Date()).toString());
-                    	return newPrices;
-                    })
-                })
+    //             socket.on(`coin_BTC`,(coin)=>{
+    //                 console.log('coin Price... ', coin);
+    //                 setCoinPrice((oldPrices)=>{
+    //                 	var newPrices=oldPrices;
+    //                 	if(newPrices.price.length>30){
+    //                 		newPrices.price.shift();
+    //                 		newPrices.timeStamp.shift();
+    //                 	}
+    //                 	newPrices.price.push(coin);
+    //                 	newPrices.timeStamp.push((new Date()).toString());
+    //                 	return newPrices;
+    //                 })
+    //             })
             
             
-        }
-        if(isComponentMounted){
-            socketOrdersConnect();
-        }
-        return () => {
-            isComponentMounted = false;
-            socket.off(`coin_BTC`);
-        }
+    //     }
+    //     if(isComponentMounted){
+    //         socketOrdersConnect();
+    //     }
+    //     return () => {
+    //         isComponentMounted = false;
+    //         socket.off(`coin_BTC`);
+    //     }
 
-    },[socket]);
+    // },[socket]);
 
 	
-	return (
-        <></>
-	)
+	// return (
+    //     <></>
+	// )
 }
 
 export default Test

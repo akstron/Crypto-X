@@ -3,6 +3,7 @@ const { webpush } = require('./pushNotificationSubscription');
 const subscribeMap = require('../store/subscriptionMap')
 
 const notfiy = (coin, price) => {
+    if(!coin || !price) return;
     handleLessThanNotification(coin, price);
     handleGreaterThanNotification(coin, price);
 }

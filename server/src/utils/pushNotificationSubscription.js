@@ -31,6 +31,12 @@ const subscribe = async (req, res) => {
   const s= JSON.stringify(subscription);
   subscribeMap.get(userId).add(s);             // store endpoint for the user
 
+  if(subscribeMap.get(userId).has(s)){
+    return res.status(201).json({})
+  }else{
+    return res.status(500).json({})
+  }
+
 }
 
 module.exports = {subscribe, webpush};

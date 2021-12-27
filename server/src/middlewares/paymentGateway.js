@@ -29,6 +29,7 @@ module.exports.CreateOrder = async(req, res) => {
 		payOrderMap.set(order.id, wallet);     
 		
 		return res.json({
+			status: true,
 			id: order.id,
 			currency: order.currency,
 			amount: order.amount
@@ -37,7 +38,7 @@ module.exports.CreateOrder = async(req, res) => {
 	} catch (error) {
 		console.log(error);
 
-		return res.status(400).json({
+		return res.status(500).json({
 			status: false, 
 			error
 		});
@@ -114,7 +115,7 @@ module.exports.AddAccount = async (req, res) => {
 	catch(e){
 		console.log(e)
 		res.status(500).json({
-			status: true,
+			status: false,
 			error: e
 		});
 	}
