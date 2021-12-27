@@ -17,7 +17,6 @@ const CoinCard = ({currency,id}) => {
 
         const socketOrdersConnect=()=>{
             socket.on(`coin_${currency.symbol}`,(coin)=>{
-                console.log(`Live Data ${currency.symbol}:`,coin)
                 setLivePrice(coin)                
             })
         }

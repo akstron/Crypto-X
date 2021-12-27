@@ -8,7 +8,7 @@ import marketIcon from '../../Images/main-logo.png'
 const {Title} =Typography
 
 const MarketPage = ({simplified}) => {
-    const count = simplified?5:10;
+    const count = simplified?5:25;
     const [cryptosList, setcryptosList] = useState({data:undefined,isFetching:true});
     const [cryptos, setCryptos] = useState();
     const [searchTerm, setSearchTerm] = useState('');
