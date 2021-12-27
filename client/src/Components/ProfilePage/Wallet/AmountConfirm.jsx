@@ -60,6 +60,7 @@ const AmountConfirm = () => {
 			order_id: order.id,
 			name: 'crypto-x',
 			description: 'Add money in wallet',
+			image:"https://cdn-icons-png.flaticon.com/512/3874/3874387.png",
 			handler: function (response) {
 				alert(response.razorpay_payment_id)
 				alert(response.razorpay_order_id)
