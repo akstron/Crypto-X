@@ -44,6 +44,6 @@ this.addEventListener("push", e => {
   console.log(data.body);
   this.registration.showNotification(data.title, {
     body: data.body,
-    icon: "http://image.ibb.co/frYOFd/tmlogo.png"
+    icon: "./logo512.png"
   });
 });
