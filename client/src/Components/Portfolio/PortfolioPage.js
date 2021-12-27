@@ -22,10 +22,9 @@ const PortfolioPage = ({simplified}) => {
     const [portfolio, setPortfolio] = useState({ data: undefined, isFetching: true });
 
     const getPortfolio = () => {
-        const portfolioRoute = process.env.REACT_APP_BACKEND + '/getPortfolio';
+        const portfolioRoute = process.env.REACT_APP_BACKEND + '/getOverallPortfolio';
 
         axios.get(portfolioRoute, { withCredentials: true }).then(res => {
-            console.log(res['data']);
 
             if (res['data']['portfolio']) {
                 setPortfolio({
@@ -74,9 +73,10 @@ const PortfolioPage = ({simplified}) => {
                                 <>Something Went Wrong !</>
                             ):(
                                 <Row>
-                                    <Col xs={{ span: 24 }} md={{ span: 12 }} xl={{ span: 6 }}><Statistic title="Total Investment ($)" value={millify(portfolio.data.totalCostPrice)} /></Col>
-                                    <Col xs={{span:24}} md={{span:12}} xl={{span:6}}><Statistic title="Net Worth ($)" value={millify(1256)}/></Col>
-                                    <Col xs={{ span: 24 }} md={{ span: 12 }} xl={{ span: 6 }}><Statistic title="Total Sale ($)" value={millify(portfolio.data.totalSellPrice)} /></Col>
+
+                                    <Col xs={{ span: 24 }} md={{ span: 12 }} xl={{ span: 6 }}><Statistic title="Total Investment (₹)" value={millify(portfolio.data.totalCostPrice)} /></Col>
+                                    <Col xs={{span:24}} md={{span:12}} xl={{span:6}}><Statistic title="Net Worth (₹)" value={millify(1256)}/></Col>
+                                    <Col xs={{ span: 24 }} md={{ span: 12 }} xl={{ span: 6 }}><Statistic title="Total Sale (₹)" value={millify(portfolio.data.totalSellPrice)} /></Col>
                                     <Col xs={{ span: 24 }} md={{ span: 12 }} xl={{ span: 6 }}><Statistic title="Growth" value={portfolio.data.totalPercentGrowth} precision={2} valueStyle={(portfolio.data.totalPercentGrowth > 0) ? ({ color: '#3f8600' }) : ({ color: 'red' })} prefix={(portfolio.data.totalPercentGrowth > 0) ? (<ArrowUpOutlined />) : (<ArrowDownOutlined />)} suffix="%" /></Col>
                                     {(portfolio.data.coins.length>0)?
                                         (<>
@@ -113,7 +113,7 @@ const PortfolioPage = ({simplified}) => {
                             </>
                         ) : (
                             <>
-                            {(portfolio.data.coins.length>0)?
+                            {(portfolio.data?.coins.length>0)?
                                 (<>
                                     <PortfolioCard coinGrowth={portfolio.data.coins} />
                                 </>)

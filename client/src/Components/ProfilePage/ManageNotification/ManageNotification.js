@@ -121,8 +121,8 @@ const ManageNotification = () => {
 					},
 					]}>
 					<Select default={'greaterThen'}>
-						<Option value={'less'}>Less Then</Option>
-						<Option value={'greater'}>Greater Then</Option>
+						<Option value={'less'}>Less Than</Option>
+						<Option value={'greater'}>Greater Than</Option>
 					</Select>
 				</Form.Item>
 

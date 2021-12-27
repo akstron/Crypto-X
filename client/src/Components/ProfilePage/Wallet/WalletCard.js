@@ -81,7 +81,7 @@ const WalletCard = () => {
                             ):(
                                 <>
                                      {(wallet?.data)?(
-                                        <Statistic title="Account Balance ($)" value={wallet?.data?.balance?.$numberDecimal} precision={2} />
+                                        <Statistic title="Account Balance (₹)" value={wallet?.data?.balance?.$numberDecimal} precision={2} />
                                      ):(
                                         <>
                                             Not Verified !
@@ -92,12 +92,12 @@ const WalletCard = () => {
                         </Col>
                         <Col xs={{span:24}} md={{span:12}}>
                             {/* Add Loading Atrribute */} 
-                            <Popover content={<AmountConfirm/>} title={<strong>💰 Enter Amount</strong>} trigger="click">
+                            <Popover content={<AmountConfirm />} title={<strong>💰 Enter Amount</strong>} trigger="click">
                                 <Button> <PlusCircleOutlined style={{margin:"0rem"}}/>Add</Button>
                             </Popover>
                         </Col>
                         <Col xs={{span:24}} md={{span:12}}>
-                            <Popover content={<PayoutConfirm/>} title={<strong>💰 Select Bank Account </strong>} trigger="click">
+                            <Popover content={<PayoutConfirm fetchBalance={getWalletDetails}/>} title={<strong>💰 Select Bank Account </strong>} trigger="click">
                                 <Button> <MinusCircleOutlined style={{margin:"0rem"}}/>Withdraw</Button>
                             </Popover>
                         </Col>

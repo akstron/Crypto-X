@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const { Option } = Select;
 
-const PayoutConfirm = () => {
+const PayoutConfirm = ({fetchBalance}) => {
 
     const [bankAccount,setBankAccount]=useState({
         name:undefined,
@@ -68,13 +68,12 @@ const PayoutConfirm = () => {
         axios.post(payoutRoute,payoutReq,{withCredentials: true}).then(res => {
             console.log(res.data);
             setPaying(false);
-            message.success("Withdrawal  successfull")
-
+            message.success("Withdrawal  successfull ")
+            fetchBalance();
         }).catch(error => {
             console.log(error);
             setPaying(false);
             message.error(error.toString());
-
         })
     }
 

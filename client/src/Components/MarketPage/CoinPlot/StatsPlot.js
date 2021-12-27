@@ -13,7 +13,7 @@ const StatsPlot = ({coinId,coinDetails}) => {
                     <CoinPlot coinId={coinId} coinDetails={coinDetails}/>
                 </TabPane>
                 <TabPane tab="Live Data" key="2">
-                    <CoinLivePlot coinSymbol={coinDetails.symbol}/>
+                    <CoinLivePlot coinSymbol={coinDetails.symbol} coinCurrentPrice={coinDetails.price}/>
                 </TabPane>
             </Tabs>
         </Card>

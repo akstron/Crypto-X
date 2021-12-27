@@ -1,6 +1,5 @@
 export function determineAppServerKey(){
     const publicVapidKey ="BK98XHGx5T0BI5AChax_SD0WOw495hr2tMU286nWNQWTgEi2OTlswzSWsSfXl-Kf0lscLmq6coyMhaYILBL2uZE";
-    console.log("publicVapidKey: ",publicVapidKey);
     return urlBase64ToUint8Array(publicVapidKey);
 }
 
