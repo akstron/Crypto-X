@@ -48,7 +48,9 @@ npm start
 
 ## Features
 
+<p align="center">
 <img align="center" width="500" height="250" src="https://github.com/akstron/Crypto-X/blob/main/images/home.jpeg" alt="Buy and sell page">
+</p>
 
 - Login/Signup and allow social logins using Google, etc
 - Show different cryptocurrencies detail
@@ -59,11 +61,15 @@ npm start
 - Withdraw funds from wallet (charge some fee on withdrawing)
 - Allow users to trade in cryptocurrencies
 
+<p align="center">
 <img align="center" width="500" height="250" src="https://github.com/akstron/Crypto-X/blob/main/images/buy_sell.jpeg" alt="Buy and sell page">
+</p>
 
 - Portfolio section to view current holdings.
 
-<img align="center" width="500" height="250" src="https://github.com/akstron/Crypto-X/blob/main/images/portfolio.jpeg" alt="Buy and sell page">
+<p align="center">
+<img width="500" height="250" src="https://github.com/akstron/Crypto-X/blob/main/images/portfolio.jpeg" alt="Buy and sell page">
+</p>
 
 - Calculate profit and loss in real-time
 - Generate a daily report of the current portfolio
@@ -76,7 +82,10 @@ npm start
 
 ## Contributers
 
+<p align="center">
+
 <img align="center" width="1000" height="500" src="https://github.com/akstron/Crypto-X/blob/main/images/about_us.jpeg" alt="Team members">
+</p>
 
 - [Aayush Kumar Shandilya](https://github.com/hey-aayush)
 - [Alok Kumar Singh](https://github.com/akstron)
