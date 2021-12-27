@@ -31,18 +31,34 @@ const MarketPage = ({simplified}) => {
                     data:response.data.data,
                     isFetching:false,
                 });
-                console.log(response.data.data);
             }).catch(function (error) {
                 console.error(error);
             });
         }
-        if(isComponentMounted) getCoinsDetailsAPI(count);
+
+        const getCoinsDetails=(count)=>{
+            const route = process.env.REACT_APP_BACKEND + '/getCoinDetails';
+            axios.post(route, {count:count}).then(res => {
+                if(res['data']['status']){
+                    console.log(res['data']);
+                }
+            }).catch(error => {
+                console.log(error);
+            })
+        }
+
+        if(isComponentMounted){
+            getCoinsDetailsAPI(count);
+            getCoinsDetails(count)
+        }
 
         return (() => {
             isComponentMounted = false;
         })
 
     },[count]);
+
+
 
     useEffect(() => {
         setCryptos(cryptosList?.data?.coins);
