@@ -95,8 +95,6 @@ npm start
 - Users can place different types of orders like Good Till Triggered (GTT), stop loss, etc
 - Referral scheme to earn cryptocurrency
 
-<img align="left" width="40" height="40" src="https://img.icons8.com/dusk/64/000000/community-grants.png" alt="Resume application project app icon">
-
 ## Video Link
 
 https://drive.google.com/drive/folders/1Iy7AyYjB6aUDTBID7i9BaD7FgvKDYAXo
@@ -105,6 +103,7 @@ https://drive.google.com/drive/folders/1Iy7AyYjB6aUDTBID7i9BaD7FgvKDYAXo
 
 https://crypto-trade-x.herokuapp.com/
 
+<img align="left" width="40" height="40" src="https://img.icons8.com/dusk/64/000000/community-grants.png" alt="Resume application project app icon">
 ## Contributers
 
 - [Aayush Kumar Shandilya](https://github.com/hey-aayush)
