@@ -1,5 +1,6 @@
 const { addNotification } = require("../store/NotificationMap");
 
+// middleware for storing the information of a notification
 module.exports.storeNotification = (req, res) => {
     const {coin, price, type} = req.body;
     const userId = req.user.id;
@@ -11,6 +12,11 @@ module.exports.storeNotification = (req, res) => {
         type
     }
     //console.log('storeNotification userId .. ', data);
-    addNotification(data);
-    return res.status(200).json({});
+    const response = addNotification(data);
+    if(response){
+        return res.status(200).json({});
+    }else{
+        return res.status(500).json({});
+    }
+    
 }
