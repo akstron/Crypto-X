@@ -66,7 +66,6 @@ const App = () => {
                     data:undefined,
                     isFetching:false
                 });
-                console.log("reached 70")
             })
 
         }
