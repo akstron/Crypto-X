@@ -22,7 +22,7 @@ const currentData = (callback) => {
         const len = symbol.length;
         const symb = symbol.substring(0, len-4);    
         // notify function for sending the push notification 
-        console.log(response);
+        // console.log(response);
         notify(symb, INRPrice);
 
         callback(response); 
