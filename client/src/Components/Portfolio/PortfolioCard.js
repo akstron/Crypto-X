@@ -20,10 +20,10 @@ const PortfolioCard = ({coinGrowth}) => {
                                     hoverable
                                 >
                                 <Row>
-                                    <Col span={12}><Statistic title="Total Investment ($)" value={millify(coin.costPrice)}/></Col>
-                                    {/* <Col span={12}><Statistic title="Net Worth ($)" value={millify(1256)}/></Col> */}
-                                    <Col span={12}><Statistic title="Quantity ($)" value={millify(coin.quantity)}/></Col>
-                                    <Col span={12}><Statistic title="Total Sale ($)" value={millify(coin.sellPrice)}/></Col>
+                                    <Col span={12}><Statistic title="Total Investment (₹)" value={millify(coin.costPrice)}/></Col>
+                                    {/* <Col span={12}><Statistic title="Net Worth (₹)" value={millify(1256)}/></Col> */}
+                                    <Col span={12}><Statistic title="Quantity " value={millify(coin.quantity)}/></Col>
+                                    <Col span={12}><Statistic title="Total Sale (₹)" value={millify(coin.sellPrice)}/></Col>
                                     <Col span={12}><Statistic title="Growth" value={coin.percentGrowth} precision={2} valueStyle={(coin.percentGrowth>0)?({ color: '#3f8600' }):({color: 'red'})} prefix={(coin.percentGrowth>0)?(<ArrowUpOutlined/>):(<ArrowDownOutlined/>)} suffix="%"/></Col>
                                 </Row>  
                                 </Card>                      
