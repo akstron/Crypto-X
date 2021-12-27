@@ -46,7 +46,9 @@ npm start
 
 <img align="left" width="40" height="40" src="https://img.icons8.com/fluency/344/features-list.png" alt="Resume application project app icon">
 
-## Features (Proposed)
+## Features
+
+<img align="center" width="500" height="250" src="https://github.com/akstron/Crypto-X/blob/main/images/home.jpeg" alt="Buy and sell page">
 
 - Login/Signup and allow social logins using Google, etc
 - Show different cryptocurrencies detail
@@ -56,7 +58,13 @@ npm start
 - Payment gateway integration to add funds to wallet
 - Withdraw funds from wallet (charge some fee on withdrawing)
 - Allow users to trade in cryptocurrencies
+
+<img align="center" width="500" height="250" src="https://github.com/akstron/Crypto-X/blob/main/images/buy_sell.jpeg" alt="Buy and sell page">
+
 - Portfolio section to view current holdings.
+
+<img align="center" width="500" height="250" src="https://github.com/akstron/Crypto-X/blob/main/images/portfolio.jpeg" alt="Buy and sell page">
+
 - Calculate profit and loss in real-time
 - Generate a daily report of the current portfolio
 - Send desktop notifications when cryptocurrency hits a particular value
@@ -67,6 +75,8 @@ npm start
 <img align="left" width="40" height="40" src="https://img.icons8.com/dusk/64/000000/community-grants.png" alt="Resume application project app icon">
 
 ## Contributers
+
+<img align="center" width="1000" height="500" src="https://github.com/akstron/Crypto-X/blob/main/images/about_us.jpeg" alt="Team members">
 
 - [Aayush Kumar Shandilya](https://github.com/hey-aayush)
 - [Alok Kumar Singh](https://github.com/akstron)
