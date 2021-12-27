@@ -17,7 +17,7 @@ const getInvestment=(portfolio)=>(portfolio.data.coins.map((coin,id)=>(coin.cost
 const getCoinsSale=(portfolio)=>(portfolio.data.coins.map((coin,id)=>(coin.sellPrice)))
 
 // 3 Case : not verified,no balance,no coins
-const Test = () => {
+const PortfolioPage = ({simplified}) => {
 
     const [portfolio, setPortfolio] = useState({ data: undefined, isFetching: true });
 
@@ -49,12 +49,13 @@ const Test = () => {
     return (
         <div>
             <div className="portfolio-div">
-                <div className="portfolio-heading-div">
+                {!simplified && 
+                (<div className="portfolio-heading-div">
                     <Title level={2}>
                         <img src={portfolioIcon} alt='ImgIcon' height={'50px'} style={{ margin: '0rem .8rem ' }} />
                         Porfolio
                     </Title>
-                </div>
+                </div>)}
                 <div className="portfolio-stats" style={{ textAlign: "center" }}>
                     <Divider orientation="right">
                         <Title level={4}>
@@ -74,33 +75,60 @@ const Test = () => {
                                 <Col xs={{span:24}} md={{span:12}} xl={{span:6}}><Statistic title="Net Worth ($)" value={millify(1256)}/></Col>
                                 <Col xs={{ span: 24 }} md={{ span: 12 }} xl={{ span: 6 }}><Statistic title="Total Sale ($)" value={millify(portfolio.data.totalSellPrice)} /></Col>
                                 <Col xs={{ span: 24 }} md={{ span: 12 }} xl={{ span: 6 }}><Statistic title="Growth" value={portfolio.data.totalPercentGrowth} precision={2} valueStyle={(portfolio.data.totalPercentGrowth > 0) ? ({ color: '#3f8600' }) : ({ color: 'red' })} prefix={(portfolio.data.totalPercentGrowth > 0) ? (<ArrowUpOutlined />) : (<ArrowDownOutlined />)} suffix="%" /></Col>
-                                <Col xs={{ span: 24 }} md={{ span: 12 }}><PieDonut Heading="Investment" CoinsName={getCoinsName(portfolio)} CoinsData={getInvestment(portfolio)} /></Col>
-                                <Col xs={{ span: 24 }} md={{ span: 12 }}><PieDonut Heading="Sales" CoinsName={getCoinsName(portfolio)} CoinsData={getCoinsSale(portfolio)} /></Col>
-                            </Row>
+                                {(portfolio.data.coins.length>0)?
+                                    (<>
+                                        <Col xs={{ span: 24 }} md={{ span: 12 }}><PieDonut Heading="Investment" CoinsName={getCoinsName(portfolio)} CoinsData={getInvestment(portfolio)} /></Col>
+                                        <Col xs={{ span: 24 }} md={{ span: 12 }}><PieDonut Heading="Sales" CoinsName={getCoinsName(portfolio)} CoinsData={getCoinsSale(portfolio)} /></Col>
+                                    </>)
+                                    :(<>
+                                        <Col span={24}>
+                                            <ExclamationCircleOutlined />
+                                        </Col>
+                                        <Col span={24}>
+                                            No Coins in Wallet.
+                                        </Col>
+                                    </>)}
+                                </Row>
                         </>
                     )}
 
                 </div>
-                <div className="portfolio-coins" style={{ textAlign: "center" }}>
+                {!simplified && (
+                    <div className="portfolio-coins" style={{ textAlign: "center" }}>
 
-                    <Divider orientation="left">
-                        <Title level={4}>
-                            <img src={coinIcon} alt='ImgIcon' height={'40px'} style={{ margin: '0rem .8rem ' }} />
-                            Coins Performance
-                        </Title>
-                    </Divider>
-                    {(portfolio.isFetching) ? (
-                        <>
-                            <LoadingOutlined style={{ margin: "2rem auto", fontSize: "xxx-large" }} />
-                        </>
-                    ) : (
-                        <PortfolioCard coinGrowth={portfolio.data.coins} />
-                    )}
-                    <Divider />
-                </div>
+                        <Divider orientation="left">
+                            <Title level={4}>
+                                <img src={coinIcon} alt='ImgIcon' height={'40px'} style={{ margin: '0rem .8rem ' }} />
+                                Coins Performance
+                            </Title>
+                        </Divider>
+                        {(portfolio.isFetching) ? (
+                            <>
+                                <LoadingOutlined style={{ margin: "2rem auto", fontSize: "xxx-large" }} />
+                            </>
+                        ) : (
+                            <>
+                            {(portfolio.data.coins.length>0)?
+                                (<>
+                                    <PortfolioCard coinGrowth={portfolio.data.coins} />
+                                </>)
+                                :(<>
+                                        <Col span={24}>
+                                            <ExclamationCircleOutlined />
+                                        </Col>
+                                        <Col span={24}>
+                                            No Coins in Wallet.
+                                        </Col>
+                                </>)}
+                            </>
+                        )}
+                        <Divider />
+                    </div>
+                )}
+                
             </div>
         </div>
     )
 }
 
-export default Test
+export default PortfolioPage

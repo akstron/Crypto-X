@@ -1,6 +1,9 @@
 import React,{useState,useContext,useEffect} from 'react'
 import { AppSocketContext } from '../../App';
 import LivePlot from './LivePlot'
+import { Row, Typography } from 'antd';
+
+const { Title } = Typography;
 
 const Test = () => {
 
@@ -26,7 +29,7 @@ const Test = () => {
             })
         }
         if(isComponentMounted){
-            socketOrdersConnect();
+            // socketOrdersConnect();
         }
         return () => {
             isComponentMounted = false;
@@ -38,6 +41,9 @@ const Test = () => {
 	
 	return (
 		<>
+            <Row className="chart-header">
+                <Title level={2} className="chart-title">Live Price Chart </Title>
+            </Row>
 			<LivePlot coinPrice={coinPrice}/>
 		</>
 	)

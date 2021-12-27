@@ -99,6 +99,14 @@ const BankOptions = () => {
                 };
                 console.log(bankAc);
                 setBankAccount(bankAc);
+            }else{
+                setBankAccount({
+                    name:undefined,
+                    account_number:undefined,
+                    ifsc:undefined,
+                    upiId:undefined,
+                    isFetching:false
+                })
             }
         }).catch(error => {
             console.log(error);
