@@ -55,9 +55,9 @@ npm start
 - Login/Signup and allow social logins using Google, etc
 
 <p align="center">
-<img  src="https://github.com/akstron/Crypto-X/blob/main/images/SignUp.png" alt="Sign Up page">
+<img width="250" height="150" src="https://github.com/akstron/Crypto-X/blob/main/images/SignUp.png" alt="Sign Up page">
 
-<img src="https://github.com/akstron/Crypto-X/blob/main/images/loginPage.png" alt="Login page">
+<img width="250" height="150" src="https://github.com/akstron/Crypto-X/blob/main/images/loginPage.png" alt="Login page">
 </p>
 
 - Show different cryptocurrencies detail
@@ -65,11 +65,8 @@ npm start
 - View price variation on a graph
 
 <p align="center">
-<img width="500" height="350" src="https://github.com/akstron/Crypto-X/blob/main/images/chart.jpeg" alt="Buy and sell page">
-</p>
-
-<p align="center">
-<img width="500" height="350" src="https://github.com/akstron/Crypto-X/blob/main/images/live.jpeg" alt="Buy and sell page">
+<img width="250" height="180" src="https://github.com/akstron/Crypto-X/blob/main/images/chart.jpeg" alt="Buy and sell page">
+<img width="250" height="180" src="https://github.com/akstron/Crypto-X/blob/main/images/live.jpeg" alt="Buy and sell page">
 </p>
 
 - Ability to change the scale of the graph to a certain interval. (1 year, 1 month, 1 week, 1 day,1 hour, 15 min, etc)
@@ -96,11 +93,6 @@ npm start
 <img align="left" width="40" height="40" src="https://img.icons8.com/dusk/64/000000/community-grants.png" alt="Resume application project app icon">
 
 ## Contributers
-
-<p align="center">
-
-<img align="center" width="1000" height="500" src="https://github.com/akstron/Crypto-X/blob/main/images/about_us.jpeg" alt="Team members">
-</p>
 
 - [Aayush Kumar Shandilya](https://github.com/hey-aayush)
 - [Alok Kumar Singh](https://github.com/akstron)
