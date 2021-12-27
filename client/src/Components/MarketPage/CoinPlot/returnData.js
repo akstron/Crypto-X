@@ -1,11 +1,4 @@
-import React from 'react'
-import { Line } from 'react-chartjs-2';
-import { Col,Row, Typography } from 'antd';
-
-const { Title } = Typography;
-
-const LivePlot = ({coinPrice}) => {
-
+export const returnData=(coinPrice)=>{
     const data = {
         labels: coinPrice.timeStamp,
         datasets: [
@@ -19,6 +12,10 @@ const LivePlot = ({coinPrice}) => {
         ],
     };
 
+    return data;
+}
+
+export const returnOption=(coinPrice)=>{
     const options = {
         animation:false,
         plugins: {
@@ -48,28 +45,20 @@ const LivePlot = ({coinPrice}) => {
             grid:{
                 display:false
             }
-        }
         },
+     
+        yAxes: [
+            {
+                ticks: {
+                    beginAtZero: true,
+                },
+            },
+        ],
+    },  
         pointRadius: 2,
         pointHoverRadius: 1,
         responsive: true,
         maintainAspectRatio:true,
     };
-    
-
-
-    return (
-        <div>
-            <Row className="chart-header">
-                <Title level={2} className="chart-title">Live Price Chart </Title>
-                <Col className="price-container">
-                    {/* <Title level={5} className="price-change">Change: {coinHistory?.data?.change}%</Title> */}
-                    <Title level={5} className="current-price">Current BTC Price: $ {coinPrice.currentPrice}</Title>
-                </Col>
-            </Row>
-            <Line data={data} options={options}/>
-        </div>
-    )
+    return options;
 }
-
-export default LivePlot
