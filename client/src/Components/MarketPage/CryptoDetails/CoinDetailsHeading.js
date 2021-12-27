@@ -1,5 +1,6 @@
 import React from 'react'
-import { Col, Typography } from 'antd';
+import { Col, Typography,Button} from 'antd';
+import { Link } from 'react-router-dom';
 
 const { Title } = Typography;
 
@@ -10,6 +11,11 @@ const CoinDetailsHeading = ({coinDetails}) => {
                 {coinDetails?.name} ({coinDetails?.slug}) Details
             </Title>
             <p>{coinDetails?.name} live price in US Dollar (USD). View value statistics, market cap and supply.</p>
+            <Link to={`/BuySell?selectedCoin=${coinDetails?.symbol}`}>
+                <Button type='success'>
+                    Trade
+                </Button>
+            </Link>
         </Col>
     )
 }

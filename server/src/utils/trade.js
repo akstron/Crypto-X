@@ -48,23 +48,27 @@ const addOrderInDatabase = async (order, session) => {
 
     const user = await User.findById(order.userId).session(session);
     if(!user){
-        throw new Error('No user found!!');
+        throw ({
+            statusCode: 401,
+            msg: 'No user found!!'
+        });
     }
 
     const wallet = await Wallet.findById(user.wallet).session(session);
     if(!wallet){
-        throw new Error('No wallet found!');
+        throw ({
+            statusCode: 401,
+            msg: 'No wallet found!!'
+        });
     }
 
     if(order.orderType === 'buy'){
-
-        /**
-         * TODO : change status code according to this
-         */
-    
-        const totalMoneySpent = order.price * order.quantity;
-        if(totalMoneySpent > wallet.balance){
-            throw new Error('Insufficient amount in wallet');
+        const totalMoneySpent = parseFloat(order.price) * parseFloat(order.quantity);
+        if(totalMoneySpent > parseFloat(wallet.balance)){
+            throw ({
+                statusCode: 400, 
+                msg: 'Insufficient balance in wallet'
+            });
         }
 
         wallet.balance = parseFloat(wallet.balance) - totalMoneySpent;
@@ -78,15 +82,24 @@ const addOrderInDatabase = async (order, session) => {
         const coin = getCoinFromWallet(order.coinType, wallet);
 
         if(!coin){
-            throw new Error('Insufficient coins in wallet!!');
+            throw ({
+                statusCode: 400, 
+                msg: 'Insufficient coins in wallet'
+            });
         }
 
         if(coin.quantity === 0){
-            throw new Error('No coins available');
+            throw ({
+                statusCode: 400, 
+                msg: 'Insufficient coins in wallet'
+            });
         }
 
         if(coin.quantity < order.quantity){
-            throw new Error('Insufficient coins in wallet');
+            throw ({
+                statusCode: 400, 
+                msg: 'Insufficient coins in wallet'
+            });
         }
 
         /**
@@ -309,7 +322,10 @@ const findMatchAndUpdate = async (coinType, price) => {
 
 const createAndAddOrder = async (userId, coinType, price, quantity, orderType) => {
     if(!userId || !coinType || !price || !quantity || !orderType){
-        throw new Error('Null values not accepted!');
+        throw ({
+            statusCode: 400,
+            msg: 'Provide all data value!'
+        });
     }
 
     /**
@@ -333,7 +349,7 @@ const createAndAddOrder = async (userId, coinType, price, quantity, orderType) =
 
         findMatchAndUpdate(coinType, price).then((res) => {
             console.log('Matching completed!');
-        }).catch((e) => console.log(e));
+        }).catch((e) => console.log('e:', e));
 
         return order._id;
     }
@@ -343,7 +359,7 @@ const createAndAddOrder = async (userId, coinType, price, quantity, orderType) =
         await session.abortTransaction();
         session.endSession();
 
-        throw new Error(e.message);
+        throw e;
     }
 }
 

@@ -6,8 +6,9 @@ const express = require('express');
 const passport = require('passport');
 const {body} = require('express-validator');
 const router = express.Router();
-const {SignUp, VerifyUser, LogIn, LogOut, IsAuthenticated, IsVerified, GetUser} = require('../middlewares/userAuth');
+const {SignUp, VerifyUser, LogIn, LogOut, IsAuthenticated, GetUser, IsVerified} = require('../middlewares/userAuth');
 const {validationHandler} = require('../middlewares/validationHandler');
+const {AddPancard} = require('../middlewares/userControls');
 
 router.post('/signup', 
 [
@@ -20,7 +21,6 @@ router.post('/signup',
 ],
 validationHandler,
 SignUp);
-
 router.post('/verifyUser', VerifyUser);
 router.post('/login', LogIn);
 router.post('/logout', IsAuthenticated, LogOut);
@@ -29,5 +29,7 @@ router.get('/getUser', IsAuthenticated, GetUser);
 router.get('/login/google/callback', passport.authenticate('google', {failureRedirect: process.env.REACT_APP_FRONTEND+'/login'}), (req, res) => {
     res.redirect(process.env.REACT_APP_FRONTEND);
 });
+router.post('/addPancard', IsAuthenticated, IsVerified, AddPancard);
+
 
 module.exports = router;

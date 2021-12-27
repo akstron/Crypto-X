@@ -5,8 +5,11 @@ const binance = new Binance().options({
     APISECRET: '<secret>'
 });
 
-const getCurrentPrice = async (coin) => {
-    return await binance.prices(coin)
+const getCurrentPrice = async (coinSymbol) => {
+    
+    const trade = coinSymbol + 'USDT';
+    const result = await binance.prices(trade);
+    return result[trade];
 }
 
-module.exports = getCurrentPrice;
+module.exports = { getCurrentPrice };

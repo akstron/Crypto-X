@@ -3,6 +3,7 @@ import { Card,Row,Col,Statistic,Form, InputNumber, Button,Radio,message} from 'a
 import millify from 'millify';
 import moment from 'moment';
 import LineChart from '../Utils/LineChart'
+import StatsPlot from "../MarketPage/CoinPlot/StatsPlot"
 import axios from 'axios';
 
 const CoinSummary = ({coin,setOrderDetails,next}) => {
@@ -96,9 +97,7 @@ const CoinSummary = ({coin,setOrderDetails,next}) => {
                                     <Col span={8}><Statistic title="Listed" value={moment(coin?.listedAt*1000).startOf('ss').fromNow()}/></Col>
                                 </Row> 
                         </Card>
-                        <Card>
-                            <LineChart coinHistory={coinHistory} currentPrice={coin.price} coinName={coin.name}/>
-                        </Card>
+                        <StatsPlot coinId={coin.id} coinDetails={coin}/>
                 </Col>
                 <Col  xs={{span:24}} md={{span:12}}>
                     <Card
